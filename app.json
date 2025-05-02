@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "signa",
-    "slug": "signa",
+    "name": "ensenas",
+    "slug": "ensenas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.polvosmagicos.ensenas"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "62cfe78c-67f1-4397-af0b-a2bea4a7c425"
+      }
+    },
+    "owner": "polvosmagicos"
   }
 }
