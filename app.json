@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.polvosmagicos.ensenas"
+      "package": "com.polvosmagicos.ensenas",
     },
     "web": {
       "bundler": "metro",
