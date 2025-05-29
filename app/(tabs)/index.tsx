@@ -1,68 +1,127 @@
-import { LayoutStyles } from "@/components/LayoutStyle";
-import { Button, StyleSheet, View } from "react-native";
-import { Text } from "react-native";
-import { Image } from "expo-image";
+import React from 'react';
 import {
-  collection,
-  query,
-  getDocs,
-  getFirestore,
-} from "@react-native-firebase/firestore";
-import { useEffect, useState } from "react";
-import { getStorage } from "@react-native-firebase/storage";
-import { useRouter } from "expo-router";
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+} from 'react-native';
+import styles from '../../assets/styles/HomeScreen.styles';
 
-export default function HomeScreen() {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const router = useRouter();
-
-    // temporary function to handle navigation to the welcome screen
-    const handleWelcome = async () => {
-      router.replace("/welcome");
-    };
-  useEffect(() => {
-    const fetchData = async () => {
-      // Firestore get document query
-      const db = getFirestore();
-      const q = query(collection(db, "test"));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-      });
-
-      // Storage get resource query
-      const storage = getStorage();
-      const ref = storage.ref("/libro-minedu/portada-libro-minedu.png");
-      const url = await ref.getDownloadURL();
-      console.log(url);
-      setImageUrl(url);
-    };
-    fetchData();
-  }, []);
-
-  return (
-    <View style={LayoutStyles.container}>
-      <Text style={LayoutStyles.Title__text}>Lecciones</Text>
-      {imageUrl && (
-        <Image
-          source={{ uri: imageUrl }}
-          contentFit="cover"
-          style={{ width: 200, height: 200 }}
-        />
-      )}
-      {/* temporary button to access welcome screen */}
-      <Button title="Welcome" onPress={handleWelcome}/>
-    </View>
-  );
+interface LearningModule {
+  id: string;
+  title: string;
+  subtitle: string;
+  badges: string[];
+  isBookmarked: boolean;
 }
 
-const styles = StyleSheet.create({
-  HomeScreen__Container: {
-    flex: 1,
-    backgroundColor: "#3d3d3d",
-    width: "100%",
-    height: "100%",
-    padding: 20,
+const learningModules: LearningModule[] = [
+  {
+    id: '1',
+    title: 'Números y operaciones',
+    subtitle: 'Aritmética básica y otros conceptos',
+    badges: ['Badge', 'Badge'],
+    isBookmarked: false,
   },
-});
+  {
+    id: '2',
+    title: 'Alfabeto completo',
+    subtitle: 'Letras y vocales y otros conceptos',
+    badges: ['Badge', 'Badge'],
+    isBookmarked: false,
+  },
+  {
+    id: '3',
+    title: 'Saludos y Presentaciones',
+    subtitle: 'Descripción breve',
+    badges: ['Badge', 'Badge'],
+    isBookmarked: false,
+  },
+  {
+    id: '4',
+    title: 'Familias y Relaciones',
+    subtitle: 'Parentezcos y lazos',
+    badges: ['Badge', 'Badge'],
+    isBookmarked: false,
+  },
+];
+
+export default function HomeScreen() {
+  const handleModulePress = (moduleId: string) => {
+    console.log('Módulo seleccionado:', moduleId);
+  };
+
+  const handleBookmarkPress = (moduleId: string) => {
+    console.log('Bookmark toggled for:', moduleId);
+  };
+
+  const renderLearningModule = (module: LearningModule) => (
+    <TouchableOpacity
+      key={module.id}
+      style={styles.moduleCard}
+      onPress={() => handleModulePress(module.id)}
+    >
+      <View style={styles.illustrationSection}>
+        <Image
+          source={require('../../assets/images/book.png')} // reemplaza con tus imágenes
+          style={styles.illustrationImage}
+        />
+      </View>
+
+      <View style={styles.contentSection}>
+        <View style={styles.moduleInfo}>
+          <View style={styles.badgesContainer}>
+            {module.badges.map((badge, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.badge,
+                  index === 0 ? styles.badgeLight : styles.badgeDark
+                ]}
+              >
+                <Text style={index === 0 ? styles.badgeLightText : styles.badgeDarkText}>
+                  {badge}
+                </Text>
+              </View>
+            ))}
+          </View>
+          <Text style={styles.moduleTitle}>{module.title}</Text>
+          <Text style={styles.moduleSubtitle}>{module.subtitle}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.bookmarkButton}
+          onPress={() => handleBookmarkPress(module.id)}
+        >
+          <View style={styles.bookmarkIcon}>
+            <Text style={styles.bookmarkText}>📖</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.levelContainer}>
+          <Text style={styles.levelIcon}>💎</Text>
+          <Text style={styles.levelText}>Nv. 30</Text>
+        </View>
+        <View style={styles.streakContainer}>
+          <Text style={styles.streakIcon}>🔥</Text>
+          <Text style={styles.streakText}>7</Text>
+        </View>
+      </View>
+
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <Text style={styles.sectionTitle}>APRENDIZAJE</Text>
+        <View style={styles.modulesContainer}>
+          {learningModules.map(renderLearningModule)}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

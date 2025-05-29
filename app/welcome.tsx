@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { styles } from '../styles/WelcomeScreen.styles';
+import { styles } from '../assets/styles/WelcomeScreen.styles';
 
 export default function WelcomeScreen() {
   const [selectedOption, setSelectedOption] = useState<'beginner' | 'experienced' | null>(null);
