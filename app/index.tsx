@@ -1,21 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
+  const [user, setUser] = useState<null | object | undefined>(undefined); // undefined means loading
+
   useEffect(() => {
     const checkAuth = async () => {
-      // TODO: Replace with real auth logic
-      const user = ""; // Simulate no user logged in
-      if (user) {
-        router.replace("/(tabs)");
-      }else {
-        router.replace("/login");
-      }
+      // Simulate async auth logic
+      const fetchedUser = null;
+      setUser(fetchedUser);
     };
 
     checkAuth();
   }, []);
+
+  useEffect(() => {
+    if (user === undefined) return;
+
+    if (user) {
+      router.replace("/(tabs)");
+    } else {
+      router.replace("/login");
+    }
+  }, [user]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

@@ -1,41 +1,45 @@
-import { View, Text, Button, StyleSheet, TouchableOpacity, Touchable, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Touchable,
+  TextInput,
+} from "react-native";
 import { useRouter } from "expo-router";
-
+import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
+import { useState } from "react";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const [isInProgress, setIsInProgress] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleLogin = async () => {
     // TODO: Replace with real authentication logic
     // On success:
-    router.replace("/(tabs)");
+    router.replace("/welcome");
   };
 
   return (
     <View style={styles.container}>
-      <View style={{alignSelf: 'flex-start'}}>
+      <View style={{ alignSelf: "flex-start" }}>
         <Text>Inicio de sesion</Text>
       </View>
-      <Text style={{alignSelf: 'flex-start'}}>Bienvenido a signa </Text>
-      <Text style={{color:main_color, fontWeight:'bold', fontSize:18}}>Ingresa tu direccion email</Text>
+      <Text style={{ alignSelf: "flex-start" }}>Bienvenido a signa </Text>
+      <Text style={{ color: main_color, fontWeight: "bold", fontSize: 18 }}>
+        Ingresa tu direccion email
+      </Text>
       <View style={styles.field}>
         <Text>Username</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your username"
-        />
+        <TextInput style={styles.input} placeholder="Enter your username" />
       </View>
-
-
       <View style={styles.field}>
         <Text>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your password"
-        />
+        <TextInput style={styles.input} placeholder="Enter your password" />
       </View>
-      
-      <TouchableOpacity  style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={{ color: "white" }}>Iniciar Sesion</Text>
       </TouchableOpacity>
     </View>
@@ -45,8 +49,7 @@ export default function LoginScreen() {
 const main_color = "#6b7df2"; // Main color for the app
 
 const styles = StyleSheet.create({
-  
-  container:{
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -73,5 +76,5 @@ const styles = StyleSheet.create({
   field: {
     width: "100%",
     gap: 10,
-  }
-})
+  },
+});

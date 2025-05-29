@@ -1,37 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-} from 'react-native';
-import { styles } from '../assets/styles/WelcomeScreen.styles';
+} from "react-native";
+import { styles } from "../assets/styles/WelcomeScreen.styles";
+import { router } from "expo-router";
 
 export default function WelcomeScreen() {
-  const [selectedOption, setSelectedOption] = useState<'beginner' | 'experienced' | null>(null);
+  const [selectedOption, setSelectedOption] = useState<
+    "beginner" | "experienced" | null
+  >(null);
 
-  const handleOptionSelect = (option: 'beginner' | 'experienced') => {
+  const handleOptionSelect = (option: "beginner" | "experienced") => {
     setSelectedOption(option);
   };
 
   const handleContinue = () => {
     if (selectedOption) {
-      console.log('Opción seleccionada:', selectedOption);
+      console.log("Opción seleccionada:", selectedOption);
+      router.replace("/(tabs)");
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.content}>
           <View style={styles.optionsContainer}>
             <TouchableOpacity
               style={[
                 styles.optionCard,
-                selectedOption === 'beginner' && styles.selectedCard,
+                selectedOption === "beginner" && styles.selectedCard,
               ]}
-              onPress={() => handleOptionSelect('beginner')}
+              onPress={() => handleOptionSelect("beginner")}
             >
               <View style={styles.iconContainer}>
                 <View style={styles.plantIcon}>
@@ -49,9 +56,9 @@ export default function WelcomeScreen() {
             <TouchableOpacity
               style={[
                 styles.optionCard,
-                selectedOption === 'experienced' && styles.selectedCard,
+                selectedOption === "experienced" && styles.selectedCard,
               ]}
-              onPress={() => handleOptionSelect('experienced')}
+              onPress={() => handleOptionSelect("experienced")}
             >
               <View style={styles.iconContainer}>
                 <View style={styles.targetIcon}>
