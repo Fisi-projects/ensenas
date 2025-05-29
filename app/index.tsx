@@ -6,10 +6,10 @@ export default function Index() {
   useEffect(() => {
     const checkAuth = async () => {
       // TODO: Replace with real auth logic
-      const user = "true";
+      const user = ""; // Simulate no user logged in
       if (user) {
         router.replace("/(tabs)");
-      } else {
+      }else {
         router.replace("/login");
       }
     };
