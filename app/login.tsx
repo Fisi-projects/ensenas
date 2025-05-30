@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   Touchable,
   TextInput,
+  Image,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useState } from "react";
 
 export default function LoginScreen() {
@@ -24,24 +24,33 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={{ alignSelf: "flex-start" }}>
-        <Text>Inicio de sesion</Text>
+      <View style={{ alignSelf: "flex-start", marginTop: 10 }}>
+      <Text style={{ fontSize: 28, fontWeight: "bold" }}>Inicio de sesión</Text>
+      <Text style={{ fontSize: 20 }}>Bienvenido a Signa</Text>
       </View>
-      <Text style={{ alignSelf: "flex-start" }}>Bienvenido a signa </Text>
-      <Text style={{ color: main_color, fontWeight: "bold", fontSize: 18 }}>
-        Ingresa tu direccion email
-      </Text>
+      <Image
+        source={require("../assets/images/ensenas-logo.png")}
+        style={{ width: 200, height: 200, marginBottom: 20 }}
+      />
       <View style={styles.field}>
-        <Text>Username</Text>
-        <TextInput style={styles.input} placeholder="Enter your username" />
+        <Text>Correo electrónico</Text>
+        <TextInput style={styles.input} placeholder="Ingresa tu correo electrónico" />
       </View>
       <View style={styles.field}>
-        <Text>Password</Text>
-        <TextInput style={styles.input} placeholder="Enter your password" />
+        <Text>Contraseña</Text>
+        <TextInput secureTextEntry={true} style={styles.input} placeholder="Ingresa tu contraseña" />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={{ color: "white" }}>Iniciar Sesion</Text>
       </TouchableOpacity>
+        <Text>
+        ¿No tienes cuenta?{" "}
+        <Text
+          style={{ color: main_color, textDecorationLine: "underline" }}
+        >
+          Registrate
+        </Text>
+      </Text>
     </View>
   );
 }
