@@ -10,8 +10,12 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 
 export default function LoginScreen() {
+  const {t} = useTranslation();
+  
   const router = useRouter();
   const [isInProgress, setIsInProgress] = useState(false);
   const [email, setEmail] = useState("");
@@ -28,6 +32,11 @@ export default function LoginScreen() {
       <Text style={{ fontSize: 28, fontWeight: "bold" }}>Inicio de sesión</Text>
       <Text style={{ fontSize: 20 }}>Bienvenido a Signa</Text>
       </View>
+
+      <Text style={{ color: "gray", marginBottom: 20 }}>
+        {t("welcome")}
+      </Text>
+      
       <Image
         source={require("../assets/images/ensenas-logo.png")}
         style={{ width: 200, height: 200, marginBottom: 20 }}
