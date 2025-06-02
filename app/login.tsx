@@ -32,16 +32,11 @@ export default function LoginScreen() {
       <Text style={{ fontSize: 28, fontWeight: "bold" }}>Inicio de sesión</Text>
       <Text style={{ fontSize: 20 }}>Bienvenido a Signa</Text>
       </View>
-
-      <Text style={{ color: "gray", marginBottom: 20 }}>
-        {t("welcome")}
-      </Text>
-      
       <Image
         source={require("../assets/images/ensenas-logo.png")}
         style={{ width: 200, height: 200, marginBottom: 20 }}
       />
-      <View style={styles.field}>
+      <View style={styles.field} >
         <Text>Correo electrónico</Text>
         <TextInput style={styles.input} placeholder="Ingresa tu correo electrónico" />
       </View>
@@ -49,6 +44,7 @@ export default function LoginScreen() {
         <Text>Contraseña</Text>
         <TextInput secureTextEntry={true} style={styles.input} placeholder="Ingresa tu contraseña" />
       </View>
+
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={{ color: "white" }}>Iniciar Sesion</Text>
       </TouchableOpacity>
@@ -57,6 +53,7 @@ export default function LoginScreen() {
         <Text
           style={{ color: main_color, textDecorationLine: "underline" }}
         >
+          
           Registrate
         </Text>
       </Text>
