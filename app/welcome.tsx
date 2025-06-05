@@ -54,11 +54,13 @@ export default function WelcomeScreen() {
               </View>
             </TouchableOpacity>
 
+
             <TouchableOpacity
               style={[
                 styles.optionCard,
                 selectedOption === "experienced" && styles.selectedCard,
               ]}
+              className="bg-third"
               onPress={() => handleOptionSelect("experienced")}
             >
               <View style={styles.iconContainer}>
@@ -73,6 +75,8 @@ export default function WelcomeScreen() {
                 </Text>
               </View>
             </TouchableOpacity>
+
+
           </View>
         </View>
       </ScrollView>

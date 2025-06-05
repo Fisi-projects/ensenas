@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   plantIcon: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: '50%',
     backgroundColor: '#E8F5E8',
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,7 +74,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 24,
     paddingTop: 8,
-
   },
   continueButton: {
     backgroundColor: '#E91E63',
