@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import styles from '../../assets/styles/HomeScreen.styles';
 
 interface LearningModule {
@@ -49,8 +50,19 @@ const learningModules: LearningModule[] = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   const handleModulePress = (moduleId: string) => {
-    console.log('Módulo seleccionado:', moduleId);
+    const module = learningModules.find(m => m.id === moduleId);
+    if (module) {
+      router.push({
+        pathname: '/module-lessons',
+        params: {
+          title: module.title,
+          subtitle: module.subtitle
+        }
+      });
+    }
   };
 
   const handleBookmarkPress = (moduleId: string) => {
