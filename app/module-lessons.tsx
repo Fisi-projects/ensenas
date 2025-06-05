@@ -60,17 +60,19 @@ export default function ModuleLessonsScreen() {
            style={[
              cardBg,
              cardShadow,
-             { borderRadius: 16, flexDirection: 'row', alignItems: 'center', padding: 16, marginBottom: 16 },
+             { borderRadius: 16, flexDirection: 'row', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 16, marginBottom: 16 },
            ]}
          >
-           <View style={[{ width: 40, height: 40, borderRadius: 8, marginRight: 16 }, iconBg]} />
-           <View style={{ flex: 1 }}>
+           <View style={[{ width: 40, height: 40, borderRadius: 8, marginRight: 16, justifyContent: 'center', alignItems: 'center' }, iconBg]} />
+           <View style={{ flex: 1, justifyContent: 'center' }}>
              <Text style={[{ fontWeight: 'bold', fontSize: 16 }, mainText]}>{lesson.title}</Text>
              <Text style={[{ fontSize: 13 }, secondaryText]}>{lesson.subtitle}</Text>
            </View>
-           <TouchableOpacity style={[playBtnBg, { borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }]}>
-             <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
-           </TouchableOpacity>
+           <View style={{ justifyContent: 'center', alignItems: 'center', height: 40 }}>
+             <TouchableOpacity style={[playBtnBg, { borderRadius: 50, width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }]}> 
+               <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
+             </TouchableOpacity>
+           </View>
          </View>
        ))}
      </ScrollView>
