@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, StatusBar } from "react-native";
 import { useRouter } from "expo-router";
 import "../i18n/i18n"
 
@@ -28,9 +28,11 @@ export default function Index() {
   }, [user]);
 
   return (
+    <>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <ActivityIndicator size="large" />
       <Text>Checking authentication...</Text>
     </View>
+    </>
   );
 }

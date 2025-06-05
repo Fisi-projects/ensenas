@@ -70,7 +70,7 @@ export default function HomeScreen() {
         />
       </View>
 
-      <View style={styles.contentSection}>
+      <View style={styles.contentSection} className='bg-third'>
         <View style={styles.moduleInfo}>
           <View style={styles.badgesContainer}>
             {module.badges.map((badge, index) => (
@@ -87,8 +87,8 @@ export default function HomeScreen() {
               </View>
             ))}
           </View>
-          <Text style={styles.moduleTitle}>{module.title}</Text>
-          <Text style={styles.moduleSubtitle}>{module.subtitle}</Text>
+          <Text style={styles.moduleTitle} className='text-secondary'>{module.title}</Text>
+          <Text style={styles.moduleSubtitle} className='text-fourth'>{module.subtitle}</Text>
         </View>
 
         <TouchableOpacity
@@ -104,11 +104,11 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={styles.container} className='bg-primary'>
+      <View style={styles.header} className='bg-third'>
         <View style={styles.levelContainer}>
           <Text style={styles.levelIcon}>💎</Text>
-          <Text style={styles.levelText}>Nv. 30</Text>
+          <Text style={styles.levelText} className='text-secondary'>Nv. 30</Text>
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakIcon}>🔥</Text>
@@ -117,7 +117,7 @@ export default function HomeScreen() {
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.sectionTitle}>APRENDIZAJE</Text>
+        <Text style={styles.sectionTitle} className='text-secondary'>APRENDIZAJE</Text>
         <View style={styles.modulesContainer}>
           {learningModules.map(renderLearningModule)}
         </View>

@@ -8,8 +8,14 @@ module.exports = {
   presets: [require("nativewind/preset")],
   darkMode: 'class', // Enable dark mode support
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        third: 'var(--color-third)',
+        fourth: 'var(--color-fourth)'
+      }
+    },
   },
   plugins: [],
 }
-

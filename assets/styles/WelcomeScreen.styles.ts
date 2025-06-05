@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
   },
   content: {
     flex: 1,
@@ -15,7 +14,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   optionCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
@@ -65,7 +63,6 @@ export const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#2C3E50',
     marginBottom: 4,
   },
   optionSubtitle: {
@@ -77,7 +74,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 24,
     paddingTop: 8,
-    backgroundColor: '#F8F9FA',
+
   },
   continueButton: {
     backgroundColor: '#E91E63',

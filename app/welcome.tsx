@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="bg-primary" style={styles.container}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
@@ -38,6 +38,7 @@ export default function WelcomeScreen() {
                 styles.optionCard,
                 selectedOption === "beginner" && styles.selectedCard,
               ]}
+              className="bg-third"
               onPress={() => handleOptionSelect("beginner")}
             >
               <View style={styles.iconContainer}>
@@ -46,7 +47,7 @@ export default function WelcomeScreen() {
                 </View>
               </View>
               <View style={styles.textContainer}>
-                <Text style={styles.optionTitle}>Desde el inicio</Text>
+                <Text className="text-secondary" style={styles.optionTitle}>Desde el inicio</Text>
                 <Text style={styles.optionSubtitle}>
                   Aprenda paso a paso desde lo básico. ¡Vamos a tu ritmo!
                 </Text>
@@ -66,7 +67,7 @@ export default function WelcomeScreen() {
                 </View>
               </View>
               <View style={styles.textContainer}>
-                <Text style={styles.optionTitle}>Tengo experiencia</Text>
+                <Text className="text-secondary" style={styles.optionTitle}>Tengo experiencia</Text>
                 <Text style={styles.optionSubtitle}>
                   Haz un examen corto y continúa desde tu nivel real.
                 </Text>

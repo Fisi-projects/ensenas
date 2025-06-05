@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FA',
+    /* backgroundColor: '#F5F7FA', */
   },
   header: {
     flexDirection: 'row',
@@ -11,9 +11,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+      borderColor: 'rgba(137, 137, 137, 0.2)',
+
   },
   levelContainer: {
     flexDirection: 'row',
@@ -26,7 +26,6 @@ export default StyleSheet.create({
   levelText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#374151',
   },
   streakContainer: {
     flexDirection: 'row',
@@ -48,7 +47,6 @@ export default StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#6B7280',
     letterSpacing: 1,
     marginTop: 24,
     marginBottom: 16,
@@ -57,7 +55,6 @@ export default StyleSheet.create({
     paddingBottom: 20,
   },
   moduleCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     marginBottom: 16,
     flexDirection: 'row',
@@ -84,10 +81,10 @@ export default StyleSheet.create({
     paddingVertical: 18,
     paddingLeft: 16,
     paddingRight: 12,
-    backgroundColor: '#FFFFFF',
   },
   moduleInfo: {
     flex: 1,
+    
   },
   badgesContainer: {
     flexDirection: 'row',
@@ -120,12 +117,10 @@ export default StyleSheet.create({
   moduleTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F2937',
     marginBottom: 4,
   },
   moduleSubtitle: {
     fontSize: 13,
-    color: '#6B7280',
     lineHeight: 18,
   },
   bookmarkButton: {
