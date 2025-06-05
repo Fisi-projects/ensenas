@@ -43,5 +43,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "62cfe78c-67f1-4397-af0b-a2bea4a7c425",
     },
   },
-  owner: config.owner ?? "polvosmagicos",
+  owner: config.owner ?? "ensenas",
 });

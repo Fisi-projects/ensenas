@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.polvosmagicos.ensenas",
+      "package": "com.polvosmagicos.ensenas"
     },
     "web": {
       "bundler": "metro",
@@ -46,6 +46,6 @@
         "projectId": "62cfe78c-67f1-4397-af0b-a2bea4a7c425"
       }
     },
-    "owner": "polvosmagicos"
+    "owner": "ensenas"
   }
 }
