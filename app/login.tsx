@@ -32,8 +32,8 @@ export default function LoginScreen() {
   return (
     <View style={styles.container} className="bg-primary">
       <View style={{ alignSelf: "flex-start", marginTop: 10 }}>
-        <Text style={{ fontSize: 28, fontWeight: "bold" }} className="text-secondary" >Inicio de sesión</Text>
-        <Text style={{ fontSize: 20 }} className="text-fourth">Bienvenido a Signa</Text>
+      <Text style={{ fontSize: 28, fontWeight: "bold" }} className="text-secondary" >Inicio de sesión</Text>
+      <Text style={{ fontSize: 20 }} className="text-fourth">Bienvenido a Signa</Text>
       </View>
       <Image
         source={require("../assets/images/ensenas-logo.png")}
@@ -43,7 +43,7 @@ export default function LoginScreen() {
         <Text className="text-secondary">Correo electrónico</Text>
         <TextInput placeholderTextColor={colorScheme ==='dark'?'#898989':'#425466'} style={styles.input} placeholder="Ingresa tu correo electrónico" />
       </View>
-      <View style={styles.field}>/
+      <View style={styles.field}>
         <Text className="text-secondary">Contraseña</Text>
         <TextInput placeholderTextColor={colorScheme ==='dark'?'#898989':'#425466'} secureTextEntry={true} style={styles.input} placeholder="Ingresa tu contraseña" />
       </View>
@@ -57,7 +57,6 @@ export default function LoginScreen() {
         <Text
           style={{ color: main_color, textDecorationLine: "underline" }}
         >
-          
           Registrate
         </Text>
     </View>
