@@ -35,13 +35,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   experiments: config.experiments ?? {
     typedRoutes: true,
   },
-  extra: config.extra ?? {
+  extra: {
     router: {
       origin: false,
     },
     eas: {
       projectId: "62cfe78c-67f1-4397-af0b-a2bea4a7c425",
     },
+    webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
   },
   owner: config.owner ?? "ensenas",
 });
