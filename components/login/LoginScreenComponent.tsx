@@ -14,17 +14,19 @@ import {
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Theme } from "@/components/ScreenLayout";
 import { useColorScheme } from "nativewind";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 interface LoginScreenProps {
   mode?: "login" | "register";
 }
 
+
 export default function LoginScreenComponent({
   mode = "login",
 }: LoginScreenProps) {
   const { t } = useTranslation();
+
   const { colorScheme } = useColorScheme();
   const router = useRouter();
   const [isInProgress, setIsInProgress] = useState(false);
@@ -131,6 +133,7 @@ export default function LoginScreenComponent({
           {isInProgress ? "Cargando..." : "Iniciar Sesión"}
         </Text>
       </TouchableOpacity>
+      <GoogleSignInButton />
 
       {mode === "login" && (
         <>
