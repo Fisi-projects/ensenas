@@ -32,7 +32,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!initializing) {
-      router.replace(user ? "/(tabs)" : "/auth");
+      router.replace(user ? "/(tabs)/home" : "/auth");
     }
   }, [user, initializing, router]);
 

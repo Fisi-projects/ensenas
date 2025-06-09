@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import styles from '../../assets/styles/HomeScreen.styles';
+} from "react-native";
+import { useRouter } from "expo-router";
+import styles from "../../../assets/styles/HomeScreen.styles";
 
 interface LearningModule {
   id: string;
@@ -20,31 +20,31 @@ interface LearningModule {
 
 const learningModules: LearningModule[] = [
   {
-    id: '1',
-    title: 'Números y operaciones',
-    subtitle: 'Aritmética básica y otros conceptos',
-    badges: ['Badge', 'Badge'],
+    id: "1",
+    title: "Números y operaciones",
+    subtitle: "Aritmética básica y otros conceptos",
+    badges: ["Badge", "Badge"],
     isBookmarked: false,
   },
   {
-    id: '2',
-    title: 'Alfabeto completo',
-    subtitle: 'Letras y vocales y otros conceptos',
-    badges: ['Badge', 'Badge'],
+    id: "2",
+    title: "Alfabeto completo",
+    subtitle: "Letras y vocales y otros conceptos",
+    badges: ["Badge", "Badge"],
     isBookmarked: false,
   },
   {
-    id: '3',
-    title: 'Saludos y Presentaciones',
-    subtitle: 'Descripción breve',
-    badges: ['Badge', 'Badge'],
+    id: "3",
+    title: "Saludos y Presentaciones",
+    subtitle: "Descripción breve",
+    badges: ["Badge", "Badge"],
     isBookmarked: false,
   },
   {
-    id: '4',
-    title: 'Familias y Relaciones',
-    subtitle: 'Parentezcos y lazos',
-    badges: ['Badge', 'Badge'],
+    id: "4",
+    title: "Familias y Relaciones",
+    subtitle: "Parentezcos y lazos",
+    badges: ["Badge", "Badge"],
     isBookmarked: false,
   },
 ];
@@ -53,20 +53,20 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const handleModulePress = (moduleId: string) => {
-    const module = learningModules.find(m => m.id === moduleId);
+    const module = learningModules.find((m) => m.id === moduleId);
     if (module) {
       router.push({
-        pathname: '/module-lessons',
+        pathname: "/home/module-lessons",
         params: {
           title: module.title,
-          subtitle: module.subtitle
-        }
+          subtitle: module.subtitle,
+        },
       });
     }
   };
 
   const handleBookmarkPress = (moduleId: string) => {
-    console.log('Bookmark toggled for:', moduleId);
+    console.log("Bookmark toggled for:", moduleId);
   };
 
   const renderLearningModule = (module: LearningModule) => (
@@ -77,12 +77,12 @@ export default function HomeScreen() {
     >
       <View style={styles.illustrationSection}>
         <Image
-          source={require('../../assets/images/book.png')} // reemplaza con tus imágenes
+          source={require("../../../assets/images/book.png")} // reemplaza con tus imágenes
           style={styles.illustrationImage}
         />
       </View>
 
-      <View style={styles.contentSection} className='bg-third'>
+      <View style={styles.contentSection} className="bg-third">
         <View style={styles.moduleInfo}>
           <View style={styles.badgesContainer}>
             {module.badges.map((badge, index) => (
@@ -90,17 +90,25 @@ export default function HomeScreen() {
                 key={index}
                 style={[
                   styles.badge,
-                  index === 0 ? styles.badgeLight : styles.badgeDark
+                  index === 0 ? styles.badgeLight : styles.badgeDark,
                 ]}
               >
-                <Text style={index === 0 ? styles.badgeLightText : styles.badgeDarkText}>
+                <Text
+                  style={
+                    index === 0 ? styles.badgeLightText : styles.badgeDarkText
+                  }
+                >
                   {badge}
                 </Text>
               </View>
             ))}
           </View>
-          <Text style={styles.moduleTitle} className='text-secondary'>{module.title}</Text>
-          <Text style={styles.moduleSubtitle} className='text-fourth'>{module.subtitle}</Text>
+          <Text style={styles.moduleTitle} className="text-secondary">
+            {module.title}
+          </Text>
+          <Text style={styles.moduleSubtitle} className="text-fourth">
+            {module.subtitle}
+          </Text>
         </View>
 
         <TouchableOpacity
@@ -116,11 +124,13 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} className='bg-primary'>
-      <View style={styles.header} className='bg-third'>
+    <SafeAreaView style={styles.container} className="bg-primary">
+      <View style={styles.header} className="bg-third">
         <View style={styles.levelContainer}>
           <Text style={styles.levelIcon}>💎</Text>
-          <Text style={styles.levelText} className='text-secondary'>Nv. 30</Text>
+          <Text style={styles.levelText} className="text-secondary">
+            Nv. 30
+          </Text>
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakIcon}>🔥</Text>
@@ -129,7 +139,9 @@ export default function HomeScreen() {
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.sectionTitle} className='text-secondary'>APRENDIZAJE</Text>
+        <Text style={styles.sectionTitle} className="text-secondary">
+          APRENDIZAJE
+        </Text>
         <View style={styles.modulesContainer}>
           {learningModules.map(renderLearningModule)}
         </View>

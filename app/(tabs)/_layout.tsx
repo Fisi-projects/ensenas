@@ -18,9 +18,10 @@ export default function TabLayout() {
           backgroundColor: colorScheme==='dark'? '#24262f' : 'white',
           borderColor: 'rgba(137, 137, 137, 0.2)',
          },
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: '',
           tabBarIcon: ({ color }) => (
