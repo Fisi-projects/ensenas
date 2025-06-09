@@ -1,10 +1,10 @@
-import { 
+import {
   collection,
-  doc, 
-  getDoc, 
-  getDocs, 
-  getFirestore 
-} from '@react-native-firebase/firestore';
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from "@react-native-firebase/firestore";
 
 export class FirestoreService {
   private static instance: FirestoreService;
@@ -29,31 +29,54 @@ export class FirestoreService {
       if (docSnap.exists()) {
         return {
           id: docSnap.id,
-          ...docSnap.data()
+          ...docSnap.data(),
         };
       } else {
         console.warn(`Document not found at path: ${docPath}`);
         return null;
       }
     } catch (error) {
-      console.error('Error fetching nested document:', error);
+      console.error("Error fetching nested document:", error);
       throw error;
     }
   }
 
   async fetchContenidosByModule(moduleId: string) {
     try {
-      const contenidosRef = collection(this.db, `modules/${moduleId}/contenidos`);
+      const contenidosRef = collection(
+        this.db,
+        `modules/${moduleId}/contenidos`,
+      );
       const querySnapshot = await getDocs(contenidosRef);
 
-      const results = querySnapshot.docs.map(doc => ({
+      const results = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
 
       return results;
     } catch (error) {
-      console.error('Error fetching contenidos:', error);
+      console.error("Error fetching contenidos:", error);
+      throw error;
+    }
+  }
+
+  async fetchPreguntasByContenido(moduleId: string, contenidoId: string) {
+    try {
+      const preguntasRef = collection(
+        this.db,
+        `modules/${moduleId}/contenidos/${contenidoId}/preguntas`,
+      );
+      const querySnapshot = await getDocs(preguntasRef);
+
+      const results = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return results;
+    } catch (error) {
+      console.error("Error fetching preguntas:", error);
       throw error;
     }
   }
