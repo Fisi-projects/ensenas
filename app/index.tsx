@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import "../i18n/i18n";
+import Constants from "expo-constants";
 import {
   FirebaseAuthTypes,
   getAuth,
   onAuthStateChanged,
 } from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+GoogleSignin.configure({
+  webClientId: Constants.expoConfig?.extra?.webClientId,
+});
 
 export default function Index() {
   const router = useRouter();
@@ -25,12 +31,8 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if (initializing) return;
-
-    if (user) {
-      router.replace("/(tabs)");
-    } else {
-      router.replace("/auth");
+    if (!initializing) {
+      router.replace(user ? "/(tabs)" : "/auth");
     }
   }, [user, initializing, router]);
 

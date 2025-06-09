@@ -1,4 +1,4 @@
-import { Stack, useFocusEffect } from "expo-router";
+import { Stack } from "expo-router";
 import '../global.css';
 import { Theme } from "@/components/ScreenLayout";
   
