@@ -9,9 +9,11 @@ import { TouchableOpacity } from "../ui/TouchableOpacity";
 import { Image } from "../ui/Image";
 import { Text } from "../ui/Text";
 import { useRouter } from "expo-router";
+import { useColorScheme } from "nativewind";
 
 export default function GoogleSignInButton() {
   const router = useRouter();
+  const { colorScheme } = useColorScheme();
 
   async function onGoogleButtonPress() {
     try {
@@ -40,7 +42,11 @@ export default function GoogleSignInButton() {
       onPress={() =>
         onGoogleButtonPress().then(() => console.log("Signed in with Google!"))
       }
-      className="flex-row items-center justify-center bg-white border border-gray-300 rounded-2xl w-full h-16 px-4 py-2 shadow-md"
+      className={`
+        flex-row items-center justify-center
+        border border-gray-300 rounded-2xl w-full h-16 px-4 py-2 shadow-md
+        ${colorScheme === "dark" ? "bg-[#1e1e1e]" : "bg-white"}
+      `}
       activeOpacity={0.8}
     >
       <Image
@@ -48,7 +54,11 @@ export default function GoogleSignInButton() {
         className="w-10 h-10 mr-2"
         contentFit="fill"
       />
-      <Text className="text-gray-600 font-semibold">Sign in with Google</Text>
+      <Text
+        className={`font-semibold ${colorScheme === "dark" ? "text-gray-200" : "text-gray-600"}`}
+      >
+        Sign in with Google
+      </Text>
     </TouchableOpacity>
   );
 }
