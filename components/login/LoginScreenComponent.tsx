@@ -90,6 +90,7 @@ export default function LoginScreenComponent({
         <TextInput
           placeholderTextColor={colorScheme === "dark" ? "#898989" : "#425466"}
           style={styles.input}
+          className = "text-secondary"
           placeholder="Ingresa tu correo electrónico"
           value={email}
           onChangeText={setEmail}
@@ -102,6 +103,7 @@ export default function LoginScreenComponent({
           placeholderTextColor={colorScheme === "dark" ? "#898989" : "#425466"}
           secureTextEntry={true}
           style={styles.input}
+          className="text-secondary"
           placeholder="Ingresa tu contraseña"
           value={password}
           onChangeText={setPassword}
@@ -115,6 +117,7 @@ export default function LoginScreenComponent({
             placeholderTextColor={
               colorScheme === "dark" ? "#898989" : "#425466"
             }
+            className="text-secondary"
             secureTextEntry={true}
             style={styles.input}
             placeholder="Repite tu contraseña"
