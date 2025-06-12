@@ -99,12 +99,12 @@ useEffect(() => {
           <TouchableOpacity
             onPress={() => {
               router.push({
-                pathname: "/(tabs)/home/lessons/questions/[id]",
-                params: {
-                  id: lesson.id,
-                  title: lesson.title,
-                  subtitle: lesson.description,
-                },
+          pathname: "/(tabs)/home/theory",
+          params: {
+            chapterId: String(id),
+            lessonId: lesson.id,
+            title: lesson.title,
+            subtitle: lesson.subtitle },
               });
             }}
             key={lesson.id || idx}

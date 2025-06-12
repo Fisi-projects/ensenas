@@ -80,4 +80,13 @@ export class FirestoreService {
       throw error;
     }
   }
+
+  async fetchNestedCollection(path: string): Promise<any[]> {
+    const ref = collection(this.db, path);
+    const snapshot = await getDocs(ref);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  }
+
 }
+
+
