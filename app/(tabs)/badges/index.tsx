@@ -1,13 +1,9 @@
 import { LayoutStyles } from "@/components/LayoutStyle";
-import {
-  ScrollView,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { Text } from "@/components/ui/Text";
+import { View } from "@/components/ui/View";
+import { ScrollView } from "@/components/ui/ScrollView";
+import { Image, FlatList, Dimensions } from "react-native";
+import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 
 const { width } = Dimensions.get("window");
 

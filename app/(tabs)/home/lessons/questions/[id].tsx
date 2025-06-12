@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Text } from "@/components/ui/Text";
 import React, { useEffect, useState } from "react";
 import { ScrollView } from "@/components/ui/ScrollView";
 
