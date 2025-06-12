@@ -21,32 +21,27 @@ const cardSize = (screenWidth - totalSpacing) / columns;
 const categoryData = [
   {
     title: "Categoría 1",
-    color: "#ff4f91",
-    items: ["Hola", "¿Cómo estás?", "Buen día", "Encantado", "Mucho gusto", "¿Qué tal?"]
+    items: ["Hola", "¿Cómo estás?", "Buen día", "Encantado", "Mucho gusto", "¿Qué tal?"],
   },
   {
     title: "Categoría 2",
-    color: "#333",
-    items: ["Buenas tardes", "¿Cómo te va?", "Buen día", "¿Todo bien?", "¡Qué alegría!", "¡Hola de nuevo!"]
+    items: ["Buenas tardes", "¿Cómo te va?", "Buen día", "¿Todo bien?", "¡Qué alegría!", "¡Hola de nuevo!"],
   },
   {
     title: "Categoría 3",
-    color: "#4caf50",
-    items: ["Buenas noches", "Dulces sueños", "Hasta mañana", "Descansa", "Que duermas bien"]
+    items: ["Buenas noches", "Dulces sueños", "Hasta mañana", "Descansa", "Que duermas bien"],
   },
   {
     title: "Categoría 4",
-    color: "#3f51b5",
-    items: ["Gracias", "De nada", "Por favor", "Con gusto", "Mil gracias", "Te lo agradezco"]
+    items: ["Gracias", "De nada", "Por favor", "Con gusto", "Mil gracias", "Te lo agradezco"],
   },
   {
     title: "Categoría 5",
-    color: "#ff9800",
-    items: ["Adiós", "Nos vemos", "Hasta luego", "Chau", "Cuídate", "Hasta pronto"]
+    items: ["Adiós", "Nos vemos", "Hasta luego", "Chau", "Cuídate", "Hasta pronto"],
   },
 ];
 
-const GreetingCard = ({ text, onPress, darkMode }) => {
+const GreetingCard = ({ text, onPress }) => {
   const [pressed, setPressed] = useState(false);
 
   return (
@@ -60,15 +55,13 @@ const GreetingCard = ({ text, onPress, darkMode }) => {
       activeOpacity={0.8}
       style={[
         styles.card,
-        darkMode && styles.cardDark,
-        pressed && (darkMode ? styles.cardPressedDark : styles.cardPressed),
+        pressed && styles.cardPressed,
       ]}
     >
       <Text
         style={[
           styles.cardText,
-          darkMode && styles.cardTextDark,
-          pressed && (darkMode ? styles.cardTextPressedDark : styles.cardTextPressed),
+          pressed && styles.cardTextPressed,
         ]}
       >
         {text}
@@ -77,7 +70,7 @@ const GreetingCard = ({ text, onPress, darkMode }) => {
   );
 };
 
-const GreetingSection = ({ title, color, items, isFirst, darkMode }) => {
+const GreetingSection = ({ title, items, isFirst }) => {
   const handlePress = (text) => {
     console.log("Presionado:", text);
   };
@@ -85,10 +78,13 @@ const GreetingSection = ({ title, color, items, isFirst, darkMode }) => {
   return (
     <View style={[styles.section, isFirst && { paddingTop: 16 }]}>
       <View style={styles.textWrapper}>
-        <View style={[styles.header, { backgroundColor: color }]}>
+        <View style={[styles.header, { backgroundColor: "#FF4885" }]}>
           <Text style={styles.headerText}>{title}</Text>
         </View>
-        <Text style={[styles.description, darkMode && styles.descriptionDark]}>
+        <Text
+          style={styles.description}
+          className="text-secondary"
+        >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis justo neque
         </Text>
       </View>
@@ -96,7 +92,7 @@ const GreetingSection = ({ title, color, items, isFirst, darkMode }) => {
         data={items}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <GreetingCard text={item} onPress={() => handlePress(item)} darkMode={darkMode} />
+          <GreetingCard text={item} onPress={() => handlePress(item)} />
         )}
         numColumns={3}
         columnWrapperStyle={styles.row}
@@ -108,24 +104,24 @@ const GreetingSection = ({ title, color, items, isFirst, darkMode }) => {
 };
 
 export default function Dictionary() {
-  const darkMode = false; //MODO OSCURO, cambiar a true para MODO oscuro
-
   return (
     <ScrollView
-      style={[LayoutStyles.container, darkMode ? styles.containerDark : styles.containerLight]}
+      style={LayoutStyles.container}
+      className="bg-primary"
       contentContainerStyle={{ paddingBottom: 40 }}
     >
-      <Text style={[LayoutStyles.Title__text, darkMode ? styles.titleDark : styles.titleLight]}>
+      <Text
+        style={LayoutStyles.Title__text}
+        className="text-secondary"
+      >
         Dictionary
       </Text>
       {categoryData.map((cat, index) => (
         <GreetingSection
           key={index}
           title={cat.title}
-          color={cat.color}
           items={cat.items}
           isFirst={index === 0}
-          darkMode={darkMode}
         />
       ))}
     </ScrollView>
@@ -149,11 +145,7 @@ const styles = StyleSheet.create({
   description: {
     textAlign: 'center',
     marginVertical: 8,
-    color: '#555',
     fontSize: 14,
-  },
-  descriptionDark: {
-    color: '#ccc',
   },
   cardContainer: {
     paddingHorizontal: horizontalPadding,
@@ -163,6 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   card: {
+    
     width: 84,
     height: 84,
     justifyContent: 'center',
@@ -183,10 +176,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  cardDark: {
-    backgroundColor: '#1e1e1e',
-    borderColor: '#444',
-  },
   cardPressed: {
     backgroundColor: '#dbefff',
     borderColor: '#2196f3',
@@ -202,21 +191,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  cardPressedDark: {
-    backgroundColor: '#3a3a3a',
-    borderColor: '#64b5f6',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#64b5f6',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.6,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
-  },
   cardText: {
     color: '#333',
     fontWeight: '600',
@@ -224,28 +198,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 2,
   },
-  cardTextDark: {
-    color: '#ddd',
-  },
   cardTextPressed: {
     color: '#1976d2',
   },
-  cardTextPressedDark: {
-    color: '#90caf9',
-  },
   textWrapper: {
     paddingHorizontal: horizontalPadding,
-  },
-  containerLight: {
-    backgroundColor: '#fff',
-  },
-  containerDark: {
-    backgroundColor: '#121212',
-  },
-  titleLight: {
-    color: '#333',
-  },
-  titleDark: {
-    color: '#eee',
   },
 });
