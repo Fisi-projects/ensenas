@@ -34,32 +34,36 @@ const lessons = [
 ];
 
 export default function ModuleLessonsScreen() {
-  //const [lessons, setLessons] = useState(lessons);
-
-/*   useEffect(()=>{
-    const fetchLessons = async () => {
-      try {
-        const db = getFirestore();
-        const q = query(collection(db, 'chapters'));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(doc => {
-          console.log(doc.id, ' => ', doc.data());
-        });
-        // You can set state here if you want to use fetched lessons
-        // setLessons(querySnapshot.docs.map(doc => doc.data()));
-      } catch (error) {
-        console.error('Error fetching chapters:', error);
-      }
-    };
-    fetchLessons();
-    console.log('wasa');
-  },[]) */
 
   const router = useRouter();
-  const { title, subtitle } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
   const colorScheme = useColorScheme();
+  
+const [lessonsData, setLessonsData] = useState<any[]>([]);
 
-  //
+useEffect(() => {
+  const fetchLessons = async () => {
+    try {
+      const db = getFirestore();
+      // Accede a la subcolección 'lessons' dentro del capítulo con id específico
+      const lessonsRef = collection(db, 'chapters', String(id), 'lessons');
+      const querySnapshot = await getDocs(lessonsRef);
+      const fetchedLessons = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      console.log('Fetched lessons:', fetchedLessons);
+      setLessonsData(fetchedLessons);
+    } catch (error) {
+      console.error('Error fetching lessons:', error);
+    }
+  };
+  if (id) fetchLessons();
+}, [id]);
+
   const isDark = colorScheme === "dark";
   const headerBg = { backgroundColor: "#6C7CFA" };
   const pageBg = { backgroundColor: isDark ? "#181A20" : "#F5F6FA" };
@@ -96,7 +100,7 @@ export default function ModuleLessonsScreen() {
             textAlign: "center",
           }}
         >
-          {title || "Lecciones"}
+          {lessonsData.length > 0 ? lessonsData[0].title : "Lecciones"}
         </Text>
         <Text
           style={{
@@ -107,7 +111,7 @@ export default function ModuleLessonsScreen() {
             marginBottom: 20,
           }}
         >
-          {subtitle || ""}
+          {lessonsData.length > 0 ? lessonsData[0].description : "Selecciona una lección"}
         </Text>
       </View>
       <ScrollView

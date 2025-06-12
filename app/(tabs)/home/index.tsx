@@ -62,11 +62,8 @@ export default function HomeScreen() {
     const module = chapters.find((m) => m.id === moduleId);
     if (module) {
       router.push({
-        pathname: "/home/module-lessons",
-        params: {
-          title: module.title,
-          description: module.description,
-        },
+        pathname: "/home/lessons/[id]",
+        params: {id: module.id},
       });
     }
   };
