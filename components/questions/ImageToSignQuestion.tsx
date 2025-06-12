@@ -1,20 +1,28 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ScrollView } from "@/components/ui/ScrollView";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import { Image } from "@/components/ui/Image";
+import { View } from "@/components/ui/View";
+
 import { FirestoreService } from "@/services/firestore";
 import { useRouter } from "expo-router";
 
-export default function QuestionsLayout() {
+interface ImageToSignViewProps {
+  selectedAnswers: { [key: number]: number };
+  setSelectedAnswers: React.Dispatch<React.SetStateAction<{ [key: number]: number }>>;
+  showExplanation: boolean;
+}
+
+export default function ImageToSignView({
+  selectedAnswers,
+  setSelectedAnswers,
+  showExplanation,
+}: ImageToSignViewProps) {
   const router = useRouter();
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<{
-    [key: number]: number;
-  }>({});
-  const [showExplanation, setShowExplanation] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -37,6 +45,10 @@ export default function QuestionsLayout() {
     console.log(questions);
   }, []);
 
+  useEffect(() => {
+    console.log("show answer state: ", showExplanation);
+  }, [showExplanation]);
+
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -44,26 +56,7 @@ export default function QuestionsLayout() {
     }));
   };
 
-  const handleContinue = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-      setShowExplanation(false);
-    } else {
-      // Questionnaire completed
-      router.back();
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
-      setShowExplanation(false);
-    }
-  };
-
   const currentQuestion = questions[currentQuestionIndex];
-  const progress =
-    questions.length > 0 ? (currentQuestionIndex + 1) / questions.length : 0;
   const isAnswerSelected = selectedAnswers[currentQuestionIndex] !== undefined;
 
   if (loading) {
@@ -92,43 +85,24 @@ export default function QuestionsLayout() {
 
   return (
     <View className="flex-1 bg-white">
-      {/* Header with close button and progress */}
-      <View className="px-4 pt-12 pb-4 bg-white shadow-sm">
-        <View className="flex-row items-center justify-between mb-4">
-          <TouchableOpacity onPress={() => router.back()} className="p-2">
-            <Text className="text-2xl">✕</Text>
-          </TouchableOpacity>
-          <Text className="text-sm text-gray-600">
-            {currentQuestionIndex + 1} de {questions.length}
-          </Text>
-        </View>
-
-        {/* Progress Bar */}
-        <View className="bg-gray-200 h-2 rounded-full">
-          <View
-            className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progress * 100}%` }}
-          />
-        </View>
-      </View>
-
-      <ScrollView className="flex-1 px-4 py-6">
+      <ScrollView className="flex-1 px-4 py-4">
         {currentQuestion && (
           <>
-            {/* Question */}
-            <View className="bg-gray-800 rounded-2xl p-4 mb-6">
-              <Text className="text-white text-lg font-medium">
-                {currentQuestion.pregunta}
-              </Text>
-            </View>
-
             {/* Media Content (Images/Videos) */}
-            {currentQuestion.mediaUrl && (
+            {true ? (
               <View className="bg-gray-50 rounded-2xl p-4 mb-6 items-center">
                 <Image
-                  source={{ uri: currentQuestion.mediaUrl }}
-                  className="w-64 h-64 mb-4"
+                  source={{
+                    uri: "https://japonesenlanube.com/wp-content/uploads/2016/05/hola-en-japones-chico.png",
+                  }}
+                  style={{
+                    width: 160,
+                    height: 160,
+                    marginBottom: 16,
+                    backgroundColor: "#ccc",
+                  }}
                   contentFit="contain"
+                  onError={(e) => console.log("Image load error", e.error)}
                 />
                 {/* Character illustration */}
                 <View className="items-center">
@@ -139,6 +113,10 @@ export default function QuestionsLayout() {
                     <Text className="text-gray-700">¡Hola!</Text>
                   </View>
                 </View>
+              </View>
+            ) : (
+              <View className="h-64 bg-gray-200">
+                <Text>Imagen fetcheada desde firebase</Text>
               </View>
             )}
 
@@ -186,69 +164,19 @@ export default function QuestionsLayout() {
 
             {/* Explanation (shown after answer is selected) */}
             {isAnswerSelected && showExplanation && (
-              <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+              <View className="bg-green-50 border border-green-200 rounded-2xl p-4 absolute mb-32">
                 <Text className="text-green-800 font-medium mb-2">
                   Explicación:
                 </Text>
                 <Text className="text-green-700">
                   {currentQuestion.explicacion ||
-                    "La seña compuesta significa un saludo de Buenas Noches"}
+                    "La seña compuesta significa un saludo"}
                 </Text>
               </View>
             )}
           </>
         )}
       </ScrollView>
-
-      {/* Bottom Navigation */}
-      <View className="px-4 py-6 bg-white border-t border-gray-100">
-        <View className="flex-row justify-between items-center">
-          {/* Previous Button */}
-          <TouchableOpacity
-            onPress={handlePrevious}
-            disabled={currentQuestionIndex === 0}
-            className={`px-6 py-3 rounded-full ${
-              currentQuestionIndex === 0 ? "bg-gray-100" : "bg-gray-200"
-            }`}
-          >
-            <Text
-              className={`font-medium ${
-                currentQuestionIndex === 0 ? "text-gray-400" : "text-gray-700"
-              }`}
-            >
-              Anterior
-            </Text>
-          </TouchableOpacity>
-
-          {/* Continue Button */}
-          <TouchableOpacity
-            onPress={() => {
-              if (isAnswerSelected && !showExplanation) {
-                setShowExplanation(true);
-              } else {
-                handleContinue();
-              }
-            }}
-            disabled={!isAnswerSelected}
-            className={`px-8 py-3 rounded-full ${
-              isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
-            }`}
-            style={{ minWidth: 120 }}
-          >
-            <Text
-              className={`text-center font-semibold ${
-                isAnswerSelected ? "text-white" : "text-gray-400"
-              }`}
-            >
-              {!showExplanation && isAnswerSelected
-                ? "Ver respuesta"
-                : currentQuestionIndex === questions.length - 1
-                  ? "Finalizar"
-                  : "Continuar"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </View>
   );
 }

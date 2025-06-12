@@ -1,20 +1,24 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ScrollView } from "@/components/ui/ScrollView";
+
+import { View } from "@/components/ui/View";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import { Image } from "@/components/ui/Image";
 import { FirestoreService } from "@/services/firestore";
 import { useRouter } from "expo-router";
+import ImageToSignView from "@/components/questions/ImageToSignQuestion";
 
 export default function QuestionsLayout() {
   const router = useRouter();
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [showExplanation, setShowExplanation] = useState(false);  
-    const [selectedAnswers, setSelectedAnswers] = useState<{
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
   }>({});
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -23,6 +27,8 @@ export default function QuestionsLayout() {
           "module_1",
           "la_persona_sorda_interactivo",
         );
+
+        console.log("data: ", data);
         setQuestions(data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -54,9 +60,8 @@ export default function QuestionsLayout() {
   const currentQuestion = questions[currentQuestionIndex];
   const progress =
     questions.length > 0 ? (currentQuestionIndex + 1) / questions.length : 0;
-  
-  
-    const isAnswerSelected = selectedAnswers[currentQuestionIndex] !== undefined;
+
+  const isAnswerSelected = selectedAnswers[currentQuestionIndex] !== undefined;
 
   if (loading) {
     return (
@@ -65,8 +70,6 @@ export default function QuestionsLayout() {
       </View>
     );
   }
-
-
 
   if (questions.length === 0) {
     return (
@@ -85,11 +88,10 @@ export default function QuestionsLayout() {
   }
 
   return (
-    <View className="flex-1 w-full h-full bg-primary flex-col" >
+    <View className="flex-1 w-full h-full bg-primary flex-col">
       {/* Header with close button and progress */}
 
-
-    <View className="px-4 pt-12 pb-4 items-start bg-third shadow-sm border-b border-gray-600">
+      <View className="px-4 pt-10 pb-4 items-start bg-third shadow-sm border-b border-gray-600">
         <View className="flex-row items-center justify-between mb-4">
           <TouchableOpacity onPress={() => router.back()} className="p-2">
             <Text className="text-2xl text-fourth">✕</Text>
@@ -108,23 +110,21 @@ export default function QuestionsLayout() {
         </View>
       </View>
 
+      {/* content */}
 
-
-        {/* content */}
-
-
-
-
-
-
-
-
-
-
-
+      {currentQuestionIndex === 0 && (
+        <ImageToSignView
+          selectedAnswers={selectedAnswers}
+          setSelectedAnswers={setSelectedAnswers}
+          showExplanation={showExplanation}
+        />
+      )}
 
       {/* Bottom Navigation */}
-    <View className="items-en px-4 py-6 border-t bg-third border-gray-600 absolute bottom-0 left-0 right-0" style={{ zIndex: 10 }}>
+      <View
+        className="items-en px-4 py-4 border-t bg-third border-gray-600 bottom-0 left-0 right-0"
+        style={{ zIndex: 10 }}
+      >
         <View className="flex-row justify-between items-center">
           {/* Previous Button */}
           <TouchableOpacity
@@ -172,9 +172,6 @@ export default function QuestionsLayout() {
           </TouchableOpacity>
         </View>
       </View>
-
-
-
     </View>
   );
 }
