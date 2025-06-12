@@ -99,8 +99,12 @@ useEffect(() => {
           <TouchableOpacity
             onPress={() => {
               router.push({
-          pathname: "/(tabs)/home/question",
-          params: { title: lesson.title, subtitle: lesson.subtitle },
+                pathname: "/(tabs)/home/lessons/questions/[id]",
+                params: {
+                  id: lesson.id,
+                  title: lesson.title,
+                  subtitle: lesson.description,
+                },
               });
             }}
             key={lesson.id || idx}
@@ -145,25 +149,6 @@ useEffect(() => {
           height: 40,
               }}
             >
-              {/* 
-              <TouchableOpacity
-          onPress={() => {
-              router.push({ pathname: "/(tabs)/home/question" });
-          }}
-          style={[
-            playBtnBg,
-            {
-              borderRadius: 50,
-              width: 40,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          ]}
-              >
-          <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
-              </TouchableOpacity> 
-              */}
             </View>
           </TouchableOpacity>
         ))}
