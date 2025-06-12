@@ -45,10 +45,6 @@ export default function ImageToSignView({
     console.log(questions);
   }, []);
 
-  useEffect(() => {
-    console.log("show answer state: ", showExplanation);
-  }, [showExplanation]);
-
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
