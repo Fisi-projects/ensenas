@@ -1,5 +1,4 @@
 "use client"
-
 import { LayoutStyles } from "@/components/LayoutStyle"
 import { Switch, View, TouchableOpacity, ScrollView } from "react-native"
 import { Text } from "react-native"
