@@ -63,7 +63,7 @@ export default function HomeScreen() {
     if (module) {
       router.push({
         pathname: "/home/lessons/[id]",
-        params: {id: module.id},
+        params: {id: module.id, title: module.title, subtitle: module.description},
       });
     }
   };

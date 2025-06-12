@@ -10,33 +10,10 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
 
-const lessons = [
-  {
-    title: "Saludos Basicos",
-    subtitle: "saludos simples y utiles dia a dia",
-  },
-  {
-    title: "Estados de animo",
-    subtitle: "emociones",
-  },
-  {
-    title: "Presentacion Personal",
-    subtitle: "Cuentanos algo acerca de ti",
-  },
-  {
-    title: "Pronombres",
-    subtitle: "Otras formas de llamar a una persona",
-  },
-  {
-    title: "Procedencia",
-    subtitle: "Lugares de donde venimos",
-  },
-];
-
 export default function ModuleLessonsScreen() {
 
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { id , title, subtitle} = useLocalSearchParams();
   const colorScheme = useColorScheme();
   
 const [lessonsData, setLessonsData] = useState<any[]>([]);
@@ -100,7 +77,7 @@ useEffect(() => {
             textAlign: "center",
           }}
         >
-          {lessonsData.length > 0 ? lessonsData[0].title : "Lecciones"}
+          {title || "Lecciones"}
         </Text>
         <Text
           style={{
@@ -111,80 +88,82 @@ useEffect(() => {
             marginBottom: 20,
           }}
         >
-          {lessonsData.length > 0 ? lessonsData[0].description : "Selecciona una lección"}
+          {subtitle || "Selecciona una lección"}
         </Text>
       </View>
       <ScrollView
         style={{ flex: 1, marginTop: 16 }}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
       >
-        {lessons.map((lesson, idx) => (
+        {lessonsData.map((lesson, idx) => (
           <TouchableOpacity
             onPress={() => {
               router.push({
-                pathname: "/(tabs)/home/question",
-                params: { title: lesson.title, subtitle: lesson.subtitle },
+          pathname: "/(tabs)/home/question",
+          params: { title: lesson.title, subtitle: lesson.subtitle },
               });
             }}
-            key={idx}
+            key={lesson.id || idx}
             style={[
               cardBg,
               cardShadow,
               {
-                borderRadius: 16,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 12,
-                paddingHorizontal: 16,
-                marginBottom: 16,
+          borderRadius: 16,
+          flexDirection: "row",
+          alignItems: "center",
+          paddingVertical: 12,
+          paddingHorizontal: 16,
+          marginBottom: 16,
               },
             ]}
           >
             <View
               style={[
-                {
-                  width: 40,
-                  height: 40,
-                  borderRadius: 8,
-                  marginRight: 16,
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-                iconBg,
+          {
+            width: 40,
+            height: 40,
+            borderRadius: 8,
+            marginRight: 16,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          iconBg,
               ]}
             />
             <View style={{ flex: 1, justifyContent: "center" }}>
               <Text style={[{ fontWeight: "bold", fontSize: 16 }, mainText]}>
-                {lesson.title}
+          {lesson.title}
               </Text>
               <Text style={[{ fontSize: 13 }, secondaryText]}>
-                {lesson.subtitle}
+          {lesson.description}
               </Text>
             </View>
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          height: 40,
               }}
             >
-{/*               <TouchableOpacity
-                onPress={() => {
-                    router.push({ pathname: "/(tabs)/home/question" });
-                }}
-                style={[
-                  playBtnBg,
-                  {
-                    borderRadius: 50,
-                    width: 40,
-                    height: 40,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
-                ]}
+              {/* 
+              <TouchableOpacity
+          onPress={() => {
+              router.push({ pathname: "/(tabs)/home/question" });
+          }}
+          style={[
+            playBtnBg,
+            {
+              borderRadius: 50,
+              width: 40,
+              height: 40,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}
               >
-                <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
-              </TouchableOpacity> */}
+          <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
+              </TouchableOpacity> 
+              */}
             </View>
           </TouchableOpacity>
         ))}
