@@ -1,12 +1,15 @@
 import { Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native';
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <Text>wasa</Text>
+      <View style={styles.container} className="bg-primary" >
+        <Text className='text-secondary'>Pagina No encontrada</Text>
+        <Text className='text-secondary'>Not found 404</Text>
+      </View>
     </>
   );
 }

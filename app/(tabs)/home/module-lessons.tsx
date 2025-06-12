@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   useColorScheme,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
 
 const lessons = [
   {
@@ -33,6 +34,27 @@ const lessons = [
 ];
 
 export default function ModuleLessonsScreen() {
+  //const [lessons, setLessons] = useState(lessons);
+
+/*   useEffect(()=>{
+    const fetchLessons = async () => {
+      try {
+        const db = getFirestore();
+        const q = query(collection(db, 'chapters'));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(doc => {
+          console.log(doc.id, ' => ', doc.data());
+        });
+        // You can set state here if you want to use fetched lessons
+        // setLessons(querySnapshot.docs.map(doc => doc.data()));
+      } catch (error) {
+        console.error('Error fetching chapters:', error);
+      }
+    };
+    fetchLessons();
+    console.log('wasa');
+  },[]) */
+
   const router = useRouter();
   const { title, subtitle } = useLocalSearchParams();
   const colorScheme = useColorScheme();
@@ -138,7 +160,7 @@ export default function ModuleLessonsScreen() {
             >
               <TouchableOpacity
                 onPress={() => {
-                  router.push("/(tabs)/home/questionary");
+                    router.push({ pathname: "/(tabs)/home/question" });
                 }}
                 style={[
                   playBtnBg,

@@ -8,7 +8,7 @@ export default function HomeLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: "Home" }} />
-      <Stack.Screen name="questionary" options={{ title: "Questionary" }} />
+      <Stack.Screen name="question" options={{ title: "question" }} />
       <Stack.Screen name="module-lessons" />
     </Stack>
   );

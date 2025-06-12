@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
   const handleContinue = () => {
     if (selectedOption) {
       console.log("Opción seleccionada:", selectedOption);
-      router.replace("/(tabs)");
+      router.replace("/(tabs)/home");
     }
   };
 

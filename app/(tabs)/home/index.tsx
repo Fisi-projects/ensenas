@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,57 +9,63 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import styles from "../../../assets/styles/HomeScreen.styles";
+import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
 
 interface LearningModule {
   id: string;
   title: string;
-  subtitle: string;
+  description: string;
   badges: string[];
   isBookmarked: boolean;
 }
-
-const learningModules: LearningModule[] = [
-  {
-    id: "1",
-    title: "Números y operaciones",
-    subtitle: "Aritmética básica y otros conceptos",
-    badges: ["Badge", "Badge"],
-    isBookmarked: false,
-  },
-  {
-    id: "2",
-    title: "Alfabeto completo",
-    subtitle: "Letras y vocales y otros conceptos",
-    badges: ["Badge", "Badge"],
-    isBookmarked: false,
-  },
-  {
-    id: "3",
-    title: "Saludos y Presentaciones",
-    subtitle: "Descripción breve",
-    badges: ["Badge", "Badge"],
-    isBookmarked: false,
-  },
-  {
-    id: "4",
-    title: "Familias y Relaciones",
-    subtitle: "Parentezcos y lazos",
-    badges: ["Badge", "Badge"],
-    isBookmarked: false,
-  },
-];
+  interface Chapter {
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string;
+    badges: string[];
+    isBookmarked: boolean;
+  }
 
 export default function HomeScreen() {
+
+  const [chapters, setChapters] = React.useState<Chapter[]>([]);
   const router = useRouter();
 
+    useEffect(() => {
+      const fetchLessons = async () => {
+        try {
+          const db = getFirestore();
+            const q = query(collection(db, 'chapters'));
+            const querySnapshot = await getDocs(q);
+            const fetchedChapters: Chapter[] = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            //console.log('Fetched chapter:', doc.id, data);
+            return {
+              id: doc.id,
+              title: data.title || '',
+              description: data.description || '',
+              imageUrl: data.imageUrl || '',
+              badges: data.badges || ['badge', 'badge'],
+              isBookmarked: data.isBookmarked ?? false,
+            };
+            });
+            setChapters(fetchedChapters);
+        } catch (error) {
+          console.error('Error fetching chapters:', error);
+        }
+      };
+      fetchLessons();
+    }, []);
+
   const handleModulePress = (moduleId: string) => {
-    const module = learningModules.find((m) => m.id === moduleId);
+    const module = chapters.find((m) => m.id === moduleId);
     if (module) {
       router.push({
         pathname: "/home/module-lessons",
         params: {
           title: module.title,
-          subtitle: module.subtitle,
+          description: module.description,
         },
       });
     }
@@ -107,7 +113,7 @@ export default function HomeScreen() {
             {module.title}
           </Text>
           <Text style={styles.moduleSubtitle} className="text-fourth">
-            {module.subtitle}
+            {module.description}
           </Text>
         </View>
 
@@ -143,7 +149,7 @@ export default function HomeScreen() {
           APRENDIZAJE
         </Text>
         <View style={styles.modulesContainer}>
-          {learningModules.map(renderLearningModule)}
+          {chapters.map(renderLearningModule)}
         </View>
       </ScrollView>
     </SafeAreaView>
