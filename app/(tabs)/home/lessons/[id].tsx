@@ -10,56 +10,37 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
 
-const lessons = [
-  {
-    title: "Saludos Basicos",
-    subtitle: "saludos simples y utiles dia a dia",
-  },
-  {
-    title: "Estados de animo",
-    subtitle: "emociones",
-  },
-  {
-    title: "Presentacion Personal",
-    subtitle: "Cuentanos algo acerca de ti",
-  },
-  {
-    title: "Pronombres",
-    subtitle: "Otras formas de llamar a una persona",
-  },
-  {
-    title: "Procedencia",
-    subtitle: "Lugares de donde venimos",
-  },
-];
-
 export default function ModuleLessonsScreen() {
-  //const [lessons, setLessons] = useState(lessons);
-
-/*   useEffect(()=>{
-    const fetchLessons = async () => {
-      try {
-        const db = getFirestore();
-        const q = query(collection(db, 'chapters'));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(doc => {
-          console.log(doc.id, ' => ', doc.data());
-        });
-        // You can set state here if you want to use fetched lessons
-        // setLessons(querySnapshot.docs.map(doc => doc.data()));
-      } catch (error) {
-        console.error('Error fetching chapters:', error);
-      }
-    };
-    fetchLessons();
-    console.log('wasa');
-  },[]) */
 
   const router = useRouter();
-  const { title, subtitle } = useLocalSearchParams();
+  const { id , title, subtitle} = useLocalSearchParams();
   const colorScheme = useColorScheme();
+  
+const [lessonsData, setLessonsData] = useState<any[]>([]);
 
-  //
+useEffect(() => {
+  const fetchLessons = async () => {
+    try {
+      const db = getFirestore();
+      // Accede a la subcolección 'lessons' dentro del capítulo con id específico
+      const lessonsRef = collection(db, 'chapters', String(id), 'lessons');
+      const querySnapshot = await getDocs(lessonsRef);
+      const fetchedLessons = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      console.log('Fetched lessons:', fetchedLessons);
+      setLessonsData(fetchedLessons);
+    } catch (error) {
+      console.error('Error fetching lessons:', error);
+    }
+  };
+  if (id) fetchLessons();
+}, [id]);
+
   const isDark = colorScheme === "dark";
   const headerBg = { backgroundColor: "#6C7CFA" };
   const pageBg = { backgroundColor: isDark ? "#181A20" : "#F5F6FA" };
@@ -107,80 +88,82 @@ export default function ModuleLessonsScreen() {
             marginBottom: 20,
           }}
         >
-          {subtitle || ""}
+          {subtitle || "Selecciona una lección"}
         </Text>
       </View>
       <ScrollView
         style={{ flex: 1, marginTop: 16 }}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
       >
-        {lessons.map((lesson, idx) => (
+        {lessonsData.map((lesson, idx) => (
           <TouchableOpacity
             onPress={() => {
               router.push({
-                pathname: "/(tabs)/home/question",
-                params: { title: lesson.title, subtitle: lesson.subtitle },
+          pathname: "/(tabs)/home/question",
+          params: { title: lesson.title, subtitle: lesson.subtitle },
               });
             }}
-            key={idx}
+            key={lesson.id || idx}
             style={[
               cardBg,
               cardShadow,
               {
-                borderRadius: 16,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 12,
-                paddingHorizontal: 16,
-                marginBottom: 16,
+          borderRadius: 16,
+          flexDirection: "row",
+          alignItems: "center",
+          paddingVertical: 12,
+          paddingHorizontal: 16,
+          marginBottom: 16,
               },
             ]}
           >
             <View
               style={[
-                {
-                  width: 40,
-                  height: 40,
-                  borderRadius: 8,
-                  marginRight: 16,
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-                iconBg,
+          {
+            width: 40,
+            height: 40,
+            borderRadius: 8,
+            marginRight: 16,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          iconBg,
               ]}
             />
             <View style={{ flex: 1, justifyContent: "center" }}>
               <Text style={[{ fontWeight: "bold", fontSize: 16 }, mainText]}>
-                {lesson.title}
+          {lesson.title}
               </Text>
               <Text style={[{ fontSize: 13 }, secondaryText]}>
-                {lesson.subtitle}
+          {lesson.description}
               </Text>
             </View>
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          height: 40,
               }}
             >
-{/*               <TouchableOpacity
-                onPress={() => {
-                    router.push({ pathname: "/(tabs)/home/question" });
-                }}
-                style={[
-                  playBtnBg,
-                  {
-                    borderRadius: 50,
-                    width: 40,
-                    height: 40,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
-                ]}
+              {/* 
+              <TouchableOpacity
+          onPress={() => {
+              router.push({ pathname: "/(tabs)/home/question" });
+          }}
+          style={[
+            playBtnBg,
+            {
+              borderRadius: 50,
+              width: 40,
+              height: 40,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}
               >
-                <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
-              </TouchableOpacity> */}
+          <Text style={[{ fontSize: 22 }, playIcon]}>▶</Text>
+              </TouchableOpacity> 
+              */}
             </View>
           </TouchableOpacity>
         ))}
