@@ -1,10 +1,10 @@
 "use client"
+import React, { useState, useEffect } from 'react'
 import { LayoutStyles } from "@/components/LayoutStyle"
-import { Switch, View, TouchableOpacity, ScrollView } from "react-native"
+import { Switch, View, TouchableOpacity, ScrollView, TextInput, Modal, Pressable } from "react-native"
 import { Text } from "react-native"
 import { Image } from "expo-image"
 import { collection, query, getDocs, getFirestore } from "@react-native-firebase/firestore"
-import { useEffect, useState } from "react"
 import { getStorage } from "@react-native-firebase/storage"
 import { useRouter } from "expo-router"
 import { useColorScheme } from "nativewind"
@@ -17,6 +17,10 @@ export default function Settings() {
   const [notifications, setNotifications] = useState(true)
   const router = useRouter()
   const { colorScheme, toggleColorScheme } = useColorScheme()
+  const [editingName, setEditingName] = useState(false)
+  const [userName, setUserName] = useState("Brayan Llacza Valeta")
+  const [newName, setNewName] = useState("")
+  const [showPhotoModal, setShowPhotoModal] = useState(false)
 
   // User data - esto debería venir de tu sistema de autenticación
   const userData = {
@@ -68,6 +72,12 @@ export default function Settings() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    if (editingName) {
+      setNewName(userName)
+    }
+  }, [editingName, userName])
+
   const experiencePercentage = (userData.experience / userData.maxExperience) * 100
 
   return (
@@ -83,17 +93,54 @@ export default function Settings() {
                 <Ionicons name="person" size={32} color="#666" />
               )}
             </View>
-            <TouchableOpacity className="absolute -bottom-2 right-3 bg-orange-500 rounded-full p-2">
+            <TouchableOpacity className="absolute -bottom-2 right-3 bg-orange-500 rounded-full p-2" onPress={() => setShowPhotoModal(true)}>
               <Ionicons name="camera" size={12} color="white" />
             </TouchableOpacity>
           </View>
 
           <View className="flex-1">
             <View style={SettingsStyles.rowIconText}>
-              <Text className="text-secondary text-xl font-semibold mr-2">{userData.name}</Text>
-              <TouchableOpacity>
-                <Ionicons name="pencil" size={16} color="#666" />
-              </TouchableOpacity>
+              {editingName ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                  <TextInput
+                    value={newName}
+                    onChangeText={setNewName}
+                    style={{
+                      borderBottomWidth: 1,
+                      borderColor: '#ccc',
+                      fontSize: 20,
+                      color: '#222',
+                      minWidth: 120,
+                      flex: 1,
+                      marginRight: 8,
+                    }}
+                    autoFocus
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setUserName(newName)
+                      setEditingName(false)
+                    }}
+                    style={{ marginRight: 8 }}
+                  >
+                    <Ionicons name="checkmark" size={22} color="#4CAF50" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setEditingName(false)
+                    }}
+                  >
+                    <Ionicons name="close" size={22} color="#EF476F" />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <>
+                  <Text className="text-secondary text-xl font-semibold mr-2">{userName}</Text>
+                  <TouchableOpacity onPress={() => setEditingName(true)}>
+                    <Ionicons name="pencil" size={16} color="#666" />
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
 
             <View className="flex-row items-center mt-1">
@@ -239,6 +286,42 @@ export default function Settings() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Modal para elegir acción de foto */}
+      <Modal
+        visible={showPhotoModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowPhotoModal(false)}
+      >
+        <Pressable style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.2)' }} onPress={() => setShowPhotoModal(false)}>
+          <View style={{
+            position: 'absolute',
+            top: '40%',
+            left: '10%',
+            width: '80%',
+            backgroundColor: colorScheme === 'dark' ? '#23242A' : '#fff',
+            borderRadius: 16,
+            padding: 24,
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOpacity: 0.08,
+            shadowRadius: 12,
+            elevation: 4,
+          }}>
+            <TouchableOpacity style={{ position: 'absolute', top: 12, right: 12 }} onPress={() => setShowPhotoModal(false)}>
+              <Ionicons name="close" size={22} color={colorScheme === 'dark' ? '#bbb' : '#888'} />
+            </TouchableOpacity>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#fff' : '#222', marginBottom: 20 }}>Foto de perfil</Text>
+            <TouchableOpacity style={{ width: '100%', paddingVertical: 12, alignItems: 'center', borderRadius: 8, marginBottom: 8, backgroundColor: colorScheme === 'dark' ? '#35363C' : '#F5F6FA' }}>
+              <Text style={{ color: colorScheme === 'dark' ? '#6C7CFA' : '#6C7CFA', fontSize: 16 }}>Abrir cámara</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ width: '100%', paddingVertical: 12, alignItems: 'center', borderRadius: 8, backgroundColor: colorScheme === 'dark' ? '#35363C' : '#F5F6FA' }}>
+              <Text style={{ color: colorScheme === 'dark' ? '#6C7CFA' : '#6C7CFA', fontSize: 16 }}>Abrir galería</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
     </ScrollView>
   )
 }
