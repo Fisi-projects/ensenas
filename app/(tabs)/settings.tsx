@@ -10,6 +10,7 @@ import { useRouter } from "expo-router"
 import { useColorScheme } from "nativewind"
 import { Ionicons } from "@expo/vector-icons"
 import { SettingsStyles } from "@/assets/styles/Settings.styles"
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Settings() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
@@ -287,7 +288,7 @@ export default function Settings() {
         </View>
       </View>
 
-      {/* Modal para elegir acción de foto */}
+      
       <Modal
         visible={showPhotoModal}
         transparent
@@ -316,7 +317,21 @@ export default function Settings() {
             <TouchableOpacity style={{ width: '100%', paddingVertical: 12, alignItems: 'center', borderRadius: 8, marginBottom: 8, backgroundColor: colorScheme === 'dark' ? '#35363C' : '#F5F6FA' }}>
               <Text style={{ color: colorScheme === 'dark' ? '#6C7CFA' : '#6C7CFA', fontSize: 16 }}>Abrir cámara</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ width: '100%', paddingVertical: 12, alignItems: 'center', borderRadius: 8, backgroundColor: colorScheme === 'dark' ? '#35363C' : '#F5F6FA' }}>
+            <TouchableOpacity
+              style={{ width: '100%', paddingVertical: 12, alignItems: 'center', borderRadius: 8, backgroundColor: colorScheme === 'dark' ? '#35363C' : '#F5F6FA' }}
+              onPress={async () => {
+                setShowPhotoModal(false);
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                  allowsEditing: true,
+                  aspect: [1, 1],
+                  quality: 1,
+                });
+                if (!result.canceled && result.assets && result.assets.length > 0) {
+                  setImageUrl(result.assets[0].uri);
+                }
+              }}
+            >
               <Text style={{ color: colorScheme === 'dark' ? '#6C7CFA' : '#6C7CFA', fontSize: 16 }}>Abrir galería</Text>
             </TouchableOpacity>
           </View>
