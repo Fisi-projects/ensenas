@@ -9,6 +9,7 @@ import {
   onAuthStateChanged,
 } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import WelcomeScreen from "./welcome-screen"; 
 
 GoogleSignin.configure({
   webClientId: Constants.expoConfig?.extra?.webClientId,
@@ -18,8 +19,14 @@ export default function Index() {
   const router = useRouter();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
 
-  // Handle user state changes
+  useEffect(() => {
+    const timer = setTimeout(() => setShowWelcome(false), 2750);
+    return () => clearTimeout(timer);
+  }, []);
+
+
   function handleAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     setUser(user);
     if (initializing) setInitializing(false);
@@ -27,21 +34,24 @@ export default function Index() {
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(getAuth(), handleAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return subscriber;
   }, []);
 
   useEffect(() => {
-    if (!initializing) {
+    if (!initializing && !showWelcome) {
       router.replace(user ? "/(tabs)/home" : "/auth");
     }
-  }, [user, initializing, router]);
+  }, [user, initializing, router, showWelcome]);
+
+  if (showWelcome) {
+    return <WelcomeScreen />;
+  }
+
 
   return (
-    <>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-        <Text>Checking authentication...</Text>
-      </View>
-    </>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" />
+      <Text>Checking authentication...</Text>
+    </View>
   );
 }
