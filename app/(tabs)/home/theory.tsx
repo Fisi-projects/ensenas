@@ -12,13 +12,21 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { FirestoreService } from "@/services/firestore"; // ajusta el path si es necesario
 
-interface TheoryContent {
+/* interface TheoryContent {
   id: string;
   title: string;
   description: string;
   resources?: {
     imageUrl?: string;
   };
+} */
+
+const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
+
+interface TheoryContent{
+  title:string;
+  description: string;
+  imageUrl?: string;
 }
 
 export default function TheoryScreen() {
@@ -42,19 +50,26 @@ export default function TheoryScreen() {
   const secondaryText = { color: isDark ? "#bbb" : "#555" };
 
   useEffect(() => {
+    
     const fetchData = async () => {
-      try {
-        const service = FirestoreService.getInstance();
-        const teoricPath = `chapters/${chapterId}/lessons/${lessonId}/teorical`;
-        const snapshot = await service.fetchNestedCollection(teoricPath);
-        setContents(snapshot);
-        console.log("chapterId:", chapterId, "lessonId:", lessonId);
-        console.log("snapshot: ", snapshot);
-      } catch (error) {
-        console.error("Error loading theory content:", error);
-      } finally {
-        setLoading(false);
-      }
+    try {
+      const response = await fetch(
+        `${baseUrl}${chapterId}/lessons/${lessonId}/theoric`
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      // Transforma el objeto en array
+      const arr = data
+      ? (Object.values(data) as TheoryContent[])
+    : [];
+    setContents(arr);
+    console.log(arr);
+    } catch (error) {
+      console.error("Error loading theory content:", error);
+      setContents([]);
+    } finally {
+      setLoading(false);
+    }
     };
 
     fetchData();
@@ -70,7 +85,9 @@ export default function TheoryScreen() {
 
   return (
     <SafeAreaView style={[{ flex: 1 }, pageBg]}>
-      <View style={{ padding: 24, paddingTop: 48, backgroundColor: "#6C7CFA" }}>
+    {/* #6C7CFA */}
+
+      <View className="bg-[#6C7CFA] px-6 pt-8 pb-4 flex-row items-center justify-center relative">
         <TouchableOpacity
           style={{ position: "absolute", left: 24, top: 20, zIndex: 2 }}
           onPress={() => router.back()}
@@ -84,6 +101,8 @@ export default function TheoryScreen() {
           {subtitle || ""}
         </Text>
       </View>
+
+
 
       {loading ? (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -105,12 +124,13 @@ export default function TheoryScreen() {
               },
             ]}
           >
+
             <Text style={[{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }, mainText]}>
               {contents[currentIndex].title}
             </Text>
-            {contents[currentIndex].resources?.imageUrl && (
+            {contents[currentIndex].imageUrl && (
               <Image
-                source={{ uri: contents[currentIndex].resources.imageUrl }}
+                source={{ uri: contents[currentIndex].imageUrl }}
                 style={{
                   width: "100%",
                   height: 200,
