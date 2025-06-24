@@ -6,6 +6,7 @@ import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import { Image } from "@/components/ui/Image";
 import { FirestoreService } from "@/services/firestore";
 import { useRouter , useLocalSearchParams} from "expo-router";
+import DragDropExercise from "@/components/questions/DragDropExercise";
 
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
@@ -210,7 +211,15 @@ export default function QuestionnaireScreens() {
               </>
             )}
             {currentQuestion.type == 2 && (
-              <Text className="text-secondary text-xl mb-4">buenas tardes</Text>
+
+
+
+
+              <DragDropExercise />
+
+
+
+
             )}
             {currentQuestion.type == 3 && (
               <>
