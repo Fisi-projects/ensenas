@@ -1,10 +1,18 @@
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useColorScheme } from "nativewind";
 
 export default function TabLayout() {
+  const segments = useSegments();
+  const hideTabBar =
+  segments[1] === "home" && (
+    segments[2] === "question" ||
+    segments[2] === "theory"
+  );
+
+  
   const { colorScheme } = useColorScheme();
   return (
     <Tabs
@@ -16,9 +24,11 @@ export default function TabLayout() {
           padding: 0,
           backgroundColor: colorScheme === "dark" ? "#24262f" : "white",
           borderColor: "rgba(137, 137, 137, 0.2)",
+          display: hideTabBar ? "none" : "flex",
         },
       }}
     >
+
       <Tabs.Screen
         name="home"
         options={{
@@ -33,6 +43,7 @@ export default function TabLayout() {
           /* tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />, */
         }}
       />
+
       <Tabs.Screen
         name="dictionary"
         options={{

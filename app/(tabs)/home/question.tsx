@@ -5,9 +5,17 @@ import { ScrollView } from "@/components/ui/ScrollView";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import { Image } from "@/components/ui/Image";
 import { FirestoreService } from "@/services/firestore";
-import { useRouter } from "expo-router";
+import { useRouter , useLocalSearchParams} from "expo-router";
+
+
+const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
+
 
 export default function QuestionnaireScreens() {
+  const { chapterId, lessonId } = useLocalSearchParams() as {
+    chapterId: string;
+    lessonId: string;
+  };
   const router = useRouter();
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,24 +25,38 @@ export default function QuestionnaireScreens() {
   }>({});
   const [showExplanation, setShowExplanation] = useState(false);
 
+
+
+
+
+
   useEffect(() => {
+    console.log(
+      `Fetching questions for chapterId: ${chapterId}, lessonId: ${lessonId}`
+    )
     const fetchQuestions = async () => {
       try {
-        const service = FirestoreService.getInstance();
-        const data = await service.fetchPreguntasByContenido(
-          "module_1",
-          "la_persona_sorda_interactivo",
-        );
-        setQuestions(data);
+        const response = await fetch(`${baseUrl}${chapterId}/lessons/${lessonId}/practical`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch questions");
+        }
+        const data = await response.json();
+        console.log("Fetched questions:", data);
+        setQuestions(Array.isArray(data) ? data : Object.values(data || {}));
+        console.log("Processed questions:", questions);
       } catch (error) {
         console.error("Error fetching questions:", error);
+        setQuestions([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchQuestions();
+
   }, []);
+
+
 
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
@@ -42,6 +64,9 @@ export default function QuestionnaireScreens() {
       [questionIndex]: answerIndex,
     }));
   };
+
+
+
 
   const handleContinue = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -53,12 +78,8 @@ export default function QuestionnaireScreens() {
     }
   };
 
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
-      setShowExplanation(false);
-    }
-  };
+
+
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress =
@@ -67,15 +88,15 @@ export default function QuestionnaireScreens() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white justify-center items-center">
-        <Text className="text-lg">Cargando preguntas...</Text>
+      <View className="flex-1 bg-primary justify-center items-center">
+        <Text className="text-secondary text-lg">Cargando preguntas...</Text>
       </View>
     );
   }
 
   if (questions.length === 0) {
     return (
-      <View className="flex-1 bg-white justify-center items-center px-4">
+      <View className="flex-1 bg-primary justify-center items-center px-4">
         <Text className="text-lg text-center mb-4">
           No se encontraron preguntas
         </Text>
@@ -83,21 +104,22 @@ export default function QuestionnaireScreens() {
           onPress={() => router.back()}
           className="bg-pink-500 rounded-lg py-3 px-6"
         >
-          <Text className="text-white font-semibold">Volver</Text>
+          <Text className="text-secondary font-semibold">Volver</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-primary">
+
       {/* Header with close button and progress */}
-      <View className="px-4 pt-12 pb-4 bg-white shadow-sm">
+      <View className="px-4 pt-2 pb-2 bg-third border-b border-gray-300 shadow-sm">
         <View className="flex-row items-center justify-between mb-4">
           <TouchableOpacity onPress={() => router.back()} className="p-2">
-            <Text className="text-2xl">✕</Text>
+            <Text className="text-secondary text-2xl">✕</Text>
           </TouchableOpacity>
-          <Text className="text-sm text-gray-600">
+          <Text className="text-sm text-fourth">
             {currentQuestionIndex + 1} de {questions.length}
           </Text>
         </View>
@@ -111,53 +133,54 @@ export default function QuestionnaireScreens() {
         </View>
       </View>
 
-      <ScrollView className="flex-1 px-4 py-6">
+
+
+
+      <View className="flex-1 px-4 py-3 bg-primary">
         {currentQuestion && (
           <>
-            {/* Question */}
-            <View className="bg-gray-800 rounded-2xl p-4 mb-6">
-              <Text className="text-white text-lg font-medium">
-                {currentQuestion.pregunta}
-              </Text>
-            </View>
+            {currentQuestion.type == 1 && (
+              <>
+                <View className="bg-gray rounded-2xl p-4 mb-4">
+                  <Text className="text-white text-lg font-medium">
+                    {currentQuestion.title}
+                  </Text>
+                </View>
 
-            {/* Media Content (Images/Videos) */}
-            {currentQuestion.mediaUrl && (
-              <View className="bg-gray-50 rounded-2xl p-4 mb-6 items-center">
-                <Image
-                  source={{ uri: currentQuestion.mediaUrl }}
-                  className="w-64 h-64 mb-4"
-                  contentFit="contain"
-                />
-                {/* Character illustration */}
-                <View className="items-center">
-                  <View className="bg-white rounded-full p-2 mb-2">
-                    <Text className="text-2xl">👋</Text>
-                  </View>
-                  <View className="bg-gray-200 rounded-2xl px-4 py-2">
-                    <Text className="text-gray-700">¡Hola!</Text>
+                {currentQuestion.imageUrl && (
+                    <View
+                      className="items-center mb-4  rounded-2xl overflow-hidden"
+                      style={{ width: "auto", maxWidth: 350, height: 180, alignSelf: "center" }}
+                    >
+                      <Image
+                      source={{ uri: currentQuestion.imageUrl }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        aspectRatio: 1.5,
+                        borderRadius: 16, // Borde redondeado
+                      }}
+                      contentFit="contain"
+                      />
+                    </View>
+                )}
+
+                <View className="bg-third rounded-2xl p-4 mb-6 border-2 border-gray-500">
+                  <View className="flex-row items-center">
+                    <Text className="text-2xl mr-3">🔊</Text>
+                    <Text className="text-secondary flex-1">
+                      {currentQuestion.description}
+                    </Text>
                   </View>
                 </View>
-              </View>
-            )}
 
-            {/* Audio Instructions */}
-            <View className="bg-gray-50 rounded-2xl p-4 mb-6">
-              <View className="flex-row items-center">
-                <Text className="text-2xl mr-3">🔊</Text>
-                <Text className="text-gray-700 flex-1">
-                  Elije una de las señas a continuación correspondiente a la
-                  acción.
-                </Text>
-              </View>
-            </View>
+                {/* alternativas */}
 
-            {/* Answer Options */}
-            {currentQuestion.opciones && (
+            {currentQuestion.alternatives && (
               <View className="mb-6">
                 <View className="flex-row flex-wrap justify-between">
-                  {currentQuestion.opciones.map(
-                    (_opcion: string, idx: number) => (
+                  {currentQuestion.alternatives.map(
+                    (opcion: any, idx: number) => (
                       <TouchableOpacity
                         key={idx}
                         onPress={() =>
@@ -165,57 +188,121 @@ export default function QuestionnaireScreens() {
                         }
                         className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
                           selectedAnswers[currentQuestionIndex] === idx
-                            ? "border-blue-500 bg-blue-50"
-                            : "border-gray-200 bg-white"
+                            ? "border-blue-500 bg-blue-400"
+                            : "border-gray-500 bg-third"
                         }`}
                       >
-                        {/* Placeholder for sign images */}
-                        <View className="bg-gray-100 h-32 rounded-xl mb-3 justify-center items-center">
-                          <Text className="text-4xl">👤</Text>
-                        </View>
-                        <Text className="text-center text-sm text-gray-700">
-                          Opción {idx + 1}
+                        <Text
+                          className={`text-center text-sm ${
+                          selectedAnswers[currentQuestionIndex] === idx? "text-primary" : "text-secondary"
+                          }`}
+                        >
+                          {opcion.title}
                         </Text>
                       </TouchableOpacity>
-                    ),
+                    )
                   )}
                 </View>
               </View>
             )}
 
-            {/* Explanation (shown after answer is selected) */}
-            {isAnswerSelected && showExplanation && (
-              <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
-                <Text className="text-green-800 font-medium mb-2">
-                  Explicación:
-                </Text>
-                <Text className="text-green-700">
-                  {currentQuestion.explicacion ||
-                    "La seña compuesta significa un saludo de Buenas Noches"}
-                </Text>
+
+              </>
+            )}
+            {currentQuestion.type == 2 && (
+              <Text className="text-secondary text-xl mb-4">buenas tardes</Text>
+            )}
+            {currentQuestion.type == 3 && (
+              <>
+                <View className="bg-gray-800 rounded-2xl p-4 mb-4">
+                  <Text className="text-white text-lg font-medium">
+                    {currentQuestion.title}
+                  </Text>
+                </View>
+
+                {currentQuestion.imageUrl && (
+                    <View
+                      className="items-center mb-4 rounded-2xl overflow-hidden"
+                      style={{ width: "auto", maxWidth: 350, height: 180, alignSelf: "center" }}
+                    >
+                      <Image
+                      source={{ uri: currentQuestion.imageUrl }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#ccc",
+                        aspectRatio: 1.5,
+                        borderRadius: 16, // Borde redondeado
+                      }}
+                      contentFit="contain"
+                      />
+                    </View>
+                )}
+
+                <View className="bg-third rounded-2xl p-4 mb-6 border-2 border-gray-500">
+                  <View className="flex-row items-center">
+                    <Text className="text-2xl mr-3">🔊</Text>
+                    <Text className="text-secondary flex-1">
+                      {currentQuestion.description}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* alternativas */}
+                
+            {currentQuestion.alternatives && (
+              <View className="mb-6">
+                <View className="flex-row flex-wrap justify-between">
+                  {currentQuestion.alternatives.map(
+                    (opcion: any, idx: number) => (
+                      <TouchableOpacity
+                        key={idx}
+                        onPress={() =>
+                          handleAnswerSelect(currentQuestionIndex, idx)
+                        }
+                        className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
+                          selectedAnswers[currentQuestionIndex] === idx
+                            ? "border-blue-500 bg-blue-400"
+                            : "border-gray-500 bg-third"
+                        }`}
+                      >
+                        <Text
+                          className={`text-center text-sm ${
+                          selectedAnswers[currentQuestionIndex] === idx? "text-primary" : "text-secondary"
+                          }`}
+                        >
+                          {opcion.title}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  )}
+                </View>
               </View>
             )}
+              </>
+            )}
+
+
+
           </>
         )}
-      </ScrollView>
+
+
+
+
+      </View>
 
       {/* Bottom Navigation */}
-      <View className="px-4 py-6 bg-white border-t border-gray-100">
+      <View className="px-4 py-6 bg-third border-t border-gray-200">
         <View className="flex-row justify-between items-center">
-          {/* Previous Button */}
+          
           <TouchableOpacity
-            onPress={handlePrevious}
-            disabled={currentQuestionIndex === 0}
-            className={`px-6 py-3 rounded-full ${
-              currentQuestionIndex === 0 ? "bg-gray-100" : "bg-gray-200"
-            }`}
+            onPress={handleContinue}
+            className="px-8 py-3 rounded-full bg-blue-500 mr-2"
+            style={{ minWidth: 120 }}
           >
-            <Text
-              className={`font-medium ${
-                currentQuestionIndex === 0 ? "text-gray-400" : "text-gray-700"
-              }`}
-            >
-              Anterior
+            <Text className="text-center font-semibold text-white">
+              Siguiente
             </Text>
           </TouchableOpacity>
 

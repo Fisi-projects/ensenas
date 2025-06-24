@@ -10,7 +10,6 @@ import {
   useColorScheme,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { FirestoreService } from "@/services/firestore"; // ajusta el path si es necesario
 
 /* interface TheoryContent {
   id: string;
@@ -79,7 +78,12 @@ export default function TheoryScreen() {
     if (currentIndex < contents.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      router.push("/(tabs)/home/question"); // ajusta la ruta si es distinta
+      console.log('chapterId: ', chapterId);
+      console.log('lessonId: ', lessonId);
+      router.push({
+        pathname: "/(tabs)/home/question",
+        params: { chapterId, lessonId},
+      });
     }
   };
 
@@ -149,7 +153,7 @@ export default function TheoryScreen() {
           <TouchableOpacity
             onPress={handleNext}
             style={{
-              backgroundColor: "#6C7CFA",
+              backgroundColor: currentIndex < contents.length - 1 ? "#6C7CFA" : "#EF476F",
               borderRadius: 12,
               paddingVertical: 14,
               alignItems: "center",
