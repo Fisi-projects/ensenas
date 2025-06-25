@@ -10,6 +10,12 @@ import {
 } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import WelcomeScreen from "./welcome-screen"; 
+import Smartlook, { Properties } from 'react-native-smartlook-analytics';
+
+Smartlook.instance.preferences.setProjectKey(
+  '015731bf9433071f40eeaa0e99d8239c06deb795'
+);
+Smartlook.instance.start();
 
 GoogleSignin.configure({
   webClientId: Constants.expoConfig?.extra?.webClientId,

@@ -34,6 +34,15 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": ["https://sdk.smartlook.com/android/release"]
+          }
+        }
+      ],
+
       "@react-native-google-signin/google-signin"
     ],
     "experiments": {
