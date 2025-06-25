@@ -81,10 +81,7 @@ export default function QuizResultsScreen({
             style={{ width: `90%` }}
           />
         </View>
-        {/* Progress Bar */}
-        <View className="px-2">
-          <View className="h-2 bg-gray-200 rounded-full overflow-hidden"></View>
-        </View>
+        
       </View>
 
       {/* Main Content */}
