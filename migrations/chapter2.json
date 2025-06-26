@@ -1,0 +1,205 @@
+db.modules.replaceOne(
+  { _id: ObjectId("68579ecd6b5e8250c0890b6b") },  // criterio para buscar el documento
+  {
+    "_id": ObjectId("68579ecd6b5e8250c0890b6b"),
+    "id": "chapter002",
+    "title": "Alfabeto Completo",
+    "description": "Aprende el alfabeto en lengua de señas desde lo básico hasta su aplicación práctica",
+    "lessons": [
+      {
+        "lesson001": {
+          "title": "Conozcamos las letras",
+          "description": "Descubre el alfabeto del A al Z con imágenes llamativas.",
+          "theoretical": {
+            "t001": {
+              "title": "¿Qué es la dactilología?",
+              "description": "La dactilología es la representación manual del alfabeto en lengua de señas. Se utiliza para deletrear nombres propios, apellidos, instituciones y palabras sin seña específica.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fdesctologia.jpg?alt=media&token=24501bf0-74ac-4170-bc59-58b24d3b05c6"
+            },
+            "t002": {
+              "title": "Posición correcta al deletrear",
+              "description": "Se debe utilizar la mano dominante, mantenerla a la altura del hombro y evitar movimientos innecesarios para que el interlocutor entienda claramente. Deletrea sin pausas prolongadas, deja un pequeño espacio entre palabras y evita gestos distractores.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fdactilologia.png?alt=media&token=21281b2c-1236-456d-927b-125001915e71"
+            },
+            "t003": {
+              "title": "¿Cómo representar letras dobles y la Ñ?",
+              "description": "Las letras dobles como 'LL' o 'RR' se hacen duplicando el movimiento. La 'Ñ' se representa con un doble movimiento hacia ambos lados.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Felleerre.png?alt=media&token=a578d762-268d-40b8-9430-cc7a50530ae0"
+            },
+            "t004": {
+              "title": "Grupo 1: A, B, C",
+              "description": "Observa cómo se representan las letras A, B y C en lengua de señas. Asegúrate de replicar la forma exacta de la mano.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fabc.png?alt=media&token=b348c2a7-41a8-47bc-b50b-063b3dee1d6e"
+            },
+            "t005": {
+              "title": "Grupo 2: D, E, F",
+              "description": "Aprende a formar correctamente las letras D, E y F con tu mano dominante. Estas letras son muy utilizadas al deletrear.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fdef.png?alt=media&token=72687854-2539-4c27-8cba-c9e28b5dd3e3"
+            },
+            "t006": {
+              "title": "Grupo 3: G, H, I",
+              "description": "Practica estas letras visualizando cada gesto desde distintos ángulos para mayor claridad.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fghi.png?alt=media&token=50ffb9fb-b4e1-46f9-83a8-5e8640f2c468"
+            },
+            "t007": {
+              "title": "Grupo 4: J, K, L",
+              "description": "Fíjate en el trazo de la letra J y la diferencia entre K y L, ya que su configuración puede parecer similar.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fjkl.png?alt=media&token=5e9a08d7-e39a-4a18-aa8f-63f7fbe0b80b"
+            },
+            "t008": {
+              "title": "Grupo 5: LL, M, N",
+              "description": "La doble L se hace con un pequeño deslizamiento lateral. Repasa también la M y N para no confundirlas.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fllmn.png?alt=media&token=b9be4755-94a8-4ec5-be18-178456ee53cc"
+            },
+            "t009": {
+              "title": "Grupo 6: Ñ, O, P",
+              "description": "La letra Ñ tiene un doble movimiento hacia ambos lados. Asegúrate de distinguir bien O y P, ya que son fundamentales.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2F%C3%B1op.png?alt=media&token=0ea7b7bb-4ceb-4304-a213-f65f43e0707f"
+            },
+            "t010": {
+              "title": "Grupo 7: Q, R, S",
+              "description": "Estas letras requieren precisión en los dedos. Asegúrate de que la posición sea clara para el receptor.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fqrs.png?alt=media&token=c4f3e920-bf2c-4664-a28d-a8f36ed4295f"
+            },
+            "t011": {
+              "title": "Grupo 8: T, U, V",
+              "description": "Las letras T, U y V se forman con combinaciones de dedos muy visuales. Practícalas en secuencia para facilitar su memorización.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Ftuv.png?alt=media&token=38843c9d-d085-4de9-b38b-2f11b3dccb44"
+            },
+            "t012": {
+              "title": "Grupo 9: W, X, Y, Z",
+              "description": "Estas letras cierran el alfabeto. La Z se realiza con un trazo en el aire. Ensaya todas con fluidez.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fwxyz.png?alt=media&token=91e1bdab-15a1-46f9-8886-470a78948616"
+            }
+          },
+          "practical": {
+            "p001": {
+              "title": "¿Cuál es la seña correcta para la letra B?",
+              "description": "Selecciona la imagen que representa correctamente la letra B.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Flit_letra_b.jpg?alt=media&token=c771689e-4d22-4999-b515-5ab21c22d821",
+              "type": "3",
+              "score": "10",
+              "alternatives": [
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_a.png?alt=media&token=a4540cf9-f54b-4a4c-888a-a90eb7e1562b", "label": "A" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_b.png?alt=media&token=6bfe9cf0-296e-430f-bda2-a7f8f0449802", "label": "B" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_c.png?alt=media&token=93485fed-7adb-4b35-8db3-db74d7cde062", "label": "C" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_d.png?alt=media&token=0b3ad927-53dc-4468-8c5b-52a5030967ae", "label": "D" }
+              ],
+              "answer": 1
+            },
+            "p002": {
+              "title": "¿Cómo se representa la letra Ñ?",
+              "description": "Elige la imagen que muestra correctamente la seña para la letra Ñ.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Flit_letra_%C3%B1.avif?alt=media&token=30bf3073-2c1b-4553-9b79-4466213173de",
+              "type": "3",
+              "score": "10",
+              "alternatives": [
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_n.png?alt=media&token=f4d7cf80-ffc9-4a61-863a-8cbe46adf730", "label": "N" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_l.png?alt=media&token=c1274aaa-c7c9-40ba-b9b9-dd3d1369cb44", "label": "L" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_%C3%B1.png?alt=media&token=e3efdc34-9d02-4bfe-8df2-06a58205622e", "label": "Ñ" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_r.png?alt=media&token=fe361a58-5fb9-464a-8081-49dec5adfb63", "label": "R" }
+              ],
+              "answer": 2
+            },
+            "p003": {
+              "title": "Ordena las letras",
+              "description": "Ordena estas letras para formar una palabra: CASA",
+              "imageUrl": "",
+              "type": "1",
+              "score": "10",
+              "alternatives": [
+                { "label": "C" },
+                { "label": "A" },
+                { "label": "S" },
+                { "label": "A" }
+              ],
+              "answer": ""
+            }
+          }
+        }
+      },
+      {
+        "lesson002": {
+          "title": "El sonido de cada letra",
+          "description": "Escucha y repite la pronunciación correcta de cada letra.",
+          "theoretical": {
+            "t001": {
+              "title": "El alfabeto en contexto visual",
+              "description": "Aunque no usamos sonidos en lengua de señas, es útil reconocer cada letra como unidad visual. Este módulo refuerza esa asociación.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fvisual_alfabeto.png?alt=media&token=6f5ed1f6-997c-420b-9627-81b639ebcc26"
+            }
+          },
+          "practical": {
+            "p001": {
+              "title": "Relaciona letra y seña",
+              "description": "Selecciona la seña correspondiente a la letra mostrada.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_m_lit.jpg?alt=media&token=95fd8ac4-dc9f-427a-9e0e-1c8160131d0d",
+              "type": "3",
+              "score": "10",
+              "alternatives": [
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_l.png?alt=media&token=c1274aaa-c7c9-40ba-b9b9-dd3d1369cb44", "label": "L" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_m.png?alt=media&token=9d8bcd9d-3ce6-41c7-b31a-063598c0754d", "label": "M" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_n.png?alt=media&token=f4d7cf80-ffc9-4a61-863a-8cbe46adf730", "label": "N" },
+                { "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fletra_o.png?alt=media&token=0ee29f9b-8d54-4f81-a434-853d30cc1d5apng", "label": "O" }
+              ],
+              "answer": 1
+            }
+          }
+        }
+      },
+      {
+        "lesson003": {
+          "title": "Palabras con A, B, C...",
+          "description": "Relaciona letras con palabras comunes.",
+          "theoretical": {
+            "t001": {
+              "title": "Palabras que comienzan con cada letra",
+              "description": "Ejemplos: A de 'Amigo', B de 'Buenos días', C de 'Casa'. Estas palabras ayudan a recordar las señas del alfabeto.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fpalabras_iniciales.png?alt=media&token=ce66d8a1-2875-48e4-a683-57f77350c471"
+            }
+          },
+          "practical": {
+            "p001": {
+              "title": "¿Qué palabra representa esta seña?",
+              "description": "Selecciona la palabra correcta para la seña mostrada.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fse%C3%B1a_amigo.png?alt=media&token=b25359f0-aadd-4725-867a-d82ca6650109",
+              "type": "3",
+              "score": "10",
+              "alternatives": [
+                { "title": "Casa" },
+                { "title": "Amigo" },
+                { "title": "Gato" },
+                { "title": "Gracias" }
+              ],
+              "answer": 1
+            }
+          }
+        }
+      },
+      {
+        "lesson004": {
+          "title": "Escribamos tu nombre",
+          "description": "Ejercicios para deletrear y escribir nombres propios.",
+          "theoretical": {
+            "t001": {
+              "title": "Deletrea tu nombre",
+              "description": "Piensa en tu nombre y cómo lo representarías usando señas. Practícalo frente al espejo.",
+              "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter2%2Flesson1%2Fdeletreo_nombre.png?alt=media&token=57bed865-d36c-4a7e-9e36-9616d3a2529d"
+            }
+          },
+          "practical": {
+            "p001": {
+              "title": "¿Cuál es tu nombre?",
+              "description": "Intenta deletrear tu nombre usando las señas que has aprendido.",
+              "imageUrl": "",
+              "type": "1",
+              "score": "10",
+              "alternatives": [],
+              "answer": ""
+            }
+          }
+        }
+      }
+    ]
+  }
+)
