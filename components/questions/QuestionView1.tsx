@@ -153,6 +153,15 @@ export default function QuestionsLayout() {
               </View>
             </View>
 
+            <View className="bg-third rounded-2xl p-4 mb-6 border-2 border-gray-500">
+              <Text className="text-green-800 font-medium mb-2">
+                Explicación:
+              </Text>
+              <Text className="text-green-700">
+                {currentQuestion.explicacion ||
+                  "La seña compuesta significa un saludo de Buenas Noches"}
+              </Text>
+            </View>
             {/* Answer Options */}
             {currentQuestion.opciones && (
               <View className="mb-6">

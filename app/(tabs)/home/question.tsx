@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View } from "@/components/ui/View";
 import { Text } from "@/components/ui/Text";
-import { ScrollView } from "@/components/ui/ScrollView";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import { Image } from "@/components/ui/Image";
-import { FirestoreService } from "@/services/firestore";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import DragDropExercise from "@/components/questions/DragDropExercise";
 import QuizResultsScreen from "./lessons/results";
-
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -27,15 +24,14 @@ export default function QuestionnaireScreens() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-
   useEffect(() => {
     console.log(
-      `Fetching questions for chapterId: ${chapterId}, lessonId: ${lessonId}`
+      `Fetching questions for chapterId: ${chapterId}, lessonId: ${lessonId}`,
     );
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}${chapterId}/lessons/${lessonId}/practical`
+          `${baseUrl}${chapterId}/lessons/${lessonId}/practical`,
         );
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
@@ -55,6 +51,10 @@ export default function QuestionnaireScreens() {
     fetchQuestions();
   }, []);
 
+  useEffect(() => {
+    console.log("change state for show explanation: ", showExplanation);
+  }, [showExplanation]);
+
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -72,7 +72,7 @@ export default function QuestionnaireScreens() {
     }
   };
 
-    const calculateScore = () => {
+  const calculateScore = () => {
     let score = 0;
     questions.forEach((q, idx) => {
       if (
@@ -115,7 +115,7 @@ export default function QuestionnaireScreens() {
     );
   }
 
-    if (showResults) {
+  if (showResults) {
     return (
       <QuizResultsScreen
         score={calculateScore()}
@@ -126,7 +126,7 @@ export default function QuestionnaireScreens() {
           setSelectedAnswers({});
           setShowExplanation(false);
         }}
-        onContinue={() => router.back()}
+        onContinue={() => router.replace('/home')}
       />
     );
   }
@@ -208,23 +208,21 @@ export default function QuestionnaireScreens() {
                             onPress={() =>
                               handleAnswerSelect(currentQuestionIndex, idx)
                             }
-                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
-                              selectedAnswers[currentQuestionIndex] === idx
-                                ? "border-blue-500 bg-blue-400"
-                                : "border-gray-500 bg-third"
-                            }`}
+                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${selectedAnswers[currentQuestionIndex] === idx
+                              ? "border-blue-500 bg-blue-400"
+                              : "border-gray-500 bg-third"
+                              }`}
                           >
                             <Text
-                              className={`text-center text-sm ${
-                                selectedAnswers[currentQuestionIndex] === idx
-                                  ? "text-primary"
-                                  : "text-secondary"
-                              }`}
+                              className={`text-center text-sm ${selectedAnswers[currentQuestionIndex] === idx
+                                ? "text-primary"
+                                : "text-secondary"
+                                }`}
                             >
                               {opcion.title}
                             </Text>
                           </TouchableOpacity>
-                        )
+                        ),
                       )}
                     </View>
                   </View>
@@ -285,25 +283,36 @@ export default function QuestionnaireScreens() {
                             onPress={() =>
                               handleAnswerSelect(currentQuestionIndex, idx)
                             }
-                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
-                              selectedAnswers[currentQuestionIndex] === idx
-                                ? "border-blue-500 bg-blue-400"
-                                : "border-gray-500 bg-third"
-                            }`}
+                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${selectedAnswers[currentQuestionIndex] === idx
+                              ? "border-blue-500 bg-blue-400"
+                              : "border-gray-500 bg-third"
+                              }`}
                           >
                             <Text
-                              className={`text-center text-sm ${
-                                selectedAnswers[currentQuestionIndex] === idx
-                                  ? "text-primary"
-                                  : "text-secondary"
-                              }`}
+                              className={`text-center text-sm ${selectedAnswers[currentQuestionIndex] === idx
+                                ? "text-primary"
+                                : "text-secondary"
+                                }`}
                             >
                               {opcion.title}
                             </Text>
                           </TouchableOpacity>
-                        )
+                        ),
                       )}
                     </View>
+
+                    {/* Explanation (shown after answer is selected) */}
+                    {isAnswerSelected && showExplanation && (
+                      <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+                        <Text className="text-green-800 font-medium mb-2">
+                          Explicación:
+                        </Text>
+                        <Text className="text-green-700">
+                          {currentQuestion.explicacion ||
+                            "La seña compuesta significa un saludo de Buenas Noches"}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 )}
               </>
@@ -335,21 +344,19 @@ export default function QuestionnaireScreens() {
               }
             }}
             disabled={!isAnswerSelected}
-            className={`px-8 py-3 rounded-full ${
-              isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
-            }`}
+            className={`px-8 py-3 rounded-full ${isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
+              }`}
             style={{ minWidth: 120 }}
           >
             <Text
-              className={`text-center font-semibold ${
-                isAnswerSelected ? "text-white" : "text-gray-400"
-              }`}
+              className={`text-center font-semibold ${isAnswerSelected ? "text-white" : "text-gray-400"
+                }`}
             >
               {!showExplanation && isAnswerSelected
                 ? "Ver respuesta"
                 : currentQuestionIndex === questions.length - 1
-                ? "Finalizar"
-                : "Continuar"}
+                  ? "Finalizar"
+                  : "Continuar"}
             </Text>
           </TouchableOpacity>
         </View>
