@@ -11,6 +11,7 @@ import { useColorScheme } from "nativewind"
 import { Ionicons } from "@expo/vector-icons"
 import { SettingsStyles } from "@/assets/styles/Settings.styles"
 import * as ImagePicker from 'expo-image-picker';
+import { getAuth, signOut } from '@react-native-firebase/auth';
 
 export default function Settings() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
@@ -38,9 +39,14 @@ export default function Settings() {
     router.replace("/welcome")
   }
 
-  const handleLogout = () => {
-    // Implementar lógica de cierre de sesión
-    console.log("Cerrando sesión...")
+  const handleLogout = async () => {
+    try {
+      await signOut(getAuth());
+      router.replace("/auth");
+      // El listener de onAuthStateChanged pondrá user en null automáticamente
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 
   const handleNavigation = (screen: string) => {
@@ -138,8 +144,8 @@ export default function Settings() {
                 <>
                   <Text className="text-secondary text-xl font-semibold mr-2">{userName}</Text>
                   <TouchableOpacity onPress={() => setEditingName(true)}>
-                    <Ionicons name="pencil" size={16} color="#666" />
-                  </TouchableOpacity>
+                <Ionicons name="pencil" size={16} color="#666" />
+              </TouchableOpacity>
                 </>
               )}
             </View>

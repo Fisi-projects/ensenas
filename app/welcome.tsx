@@ -21,7 +21,11 @@ export default function WelcomeScreen() {
   const handleContinue = () => {
     if (selectedOption) {
       console.log("Opción seleccionada:", selectedOption);
+      if (selectedOption === "experienced") {
+        router.replace("/experience-test");
+      } else {
       router.replace("/(tabs)/home");
+      }
     }
   };
 
