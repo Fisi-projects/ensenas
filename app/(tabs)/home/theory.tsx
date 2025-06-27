@@ -22,8 +22,8 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
-interface TheoryContent{
-  title:string;
+interface TheoryContent {
+  title: string;
   description: string;
   imageUrl?: string;
 }
@@ -49,26 +49,23 @@ export default function TheoryScreen() {
   const secondaryText = { color: isDark ? "#bbb" : "#555" };
 
   useEffect(() => {
-    
     const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `${baseUrl}${chapterId}/lessons/${lessonId}/theoric`
-      );
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
-      // Transforma el objeto en array
-      const arr = data
-      ? (Object.values(data) as TheoryContent[])
-    : [];
-    setContents(arr);
-    console.log(arr);
-    } catch (error) {
-      console.error("Error loading theory content:", error);
-      setContents([]);
-    } finally {
-      setLoading(false);
-    }
+      try {
+        const response = await fetch(
+          `${baseUrl}${chapterId}/lessons/${lessonId}/theoric`,
+        );
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        // Transforma el objeto en array
+        const arr = data ? (Object.values(data) as TheoryContent[]) : [];
+        setContents(arr);
+        console.log(arr);
+      } catch (error) {
+        console.error("Error loading theory content:", error);
+        setContents([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -78,18 +75,18 @@ export default function TheoryScreen() {
     if (currentIndex < contents.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      console.log('chapterId: ', chapterId);
-      console.log('lessonId: ', lessonId);
+      console.log("chapterId: ", chapterId);
+      console.log("lessonId: ", lessonId);
       router.push({
         pathname: "/(tabs)/home/question",
-        params: { chapterId, lessonId},
+        params: { chapterId, lessonId },
       });
     }
   };
 
   return (
     <SafeAreaView style={[{ flex: 1 }, pageBg]}>
-    {/* #6C7CFA */}
+      {/* #6C7CFA */}
 
       <View className="bg-[#6C7CFA] px-6 pt-8 pb-4 flex-row items-center justify-center relative">
         <TouchableOpacity
@@ -98,18 +95,33 @@ export default function TheoryScreen() {
         >
           <Text style={{ fontSize: 28, color: "#fff" }}>{"←"}</Text>
         </TouchableOpacity>
-        <Text style={{ color: "#fff", fontSize: 28, fontWeight: "bold", textAlign: "center", marginTop: 30 }}>
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 28,
+            fontWeight: "bold",
+            textAlign: "center",
+            marginTop: 30,
+          }}
+        >
           {title || "Contenido Teórico"}
         </Text>
-        <Text style={{ color: "#fff", fontSize: 16, textAlign: "center", marginTop: 8 }}>
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 16,
+            textAlign: "center",
+            marginTop: 8,
+          }}
+        >
           {subtitle || ""}
         </Text>
       </View>
 
-
-
       {loading ? (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <ActivityIndicator size="large" color="#6C7CFA" />
         </View>
       ) : contents.length > 0 ? (
@@ -128,8 +140,12 @@ export default function TheoryScreen() {
               },
             ]}
           >
-
-            <Text style={[{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }, mainText]}>
+            <Text
+              style={[
+                { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
+                mainText,
+              ]}
+            >
               {contents[currentIndex].title}
             </Text>
             {contents[currentIndex].imageUrl && (
@@ -142,7 +158,7 @@ export default function TheoryScreen() {
                   marginBottom: 12,
                   backgroundColor: "#ccc",
                 }}
-                resizeMode="cover"
+                resizeMode="contain"
               />
             )}
             <Text style={[{ fontSize: 15, lineHeight: 22 }, secondaryText]}>
@@ -153,7 +169,8 @@ export default function TheoryScreen() {
           <TouchableOpacity
             onPress={handleNext}
             style={{
-              backgroundColor: currentIndex < contents.length - 1 ? "#6C7CFA" : "#EF476F",
+              backgroundColor:
+                currentIndex < contents.length - 1 ? "#6C7CFA" : "#EF476F",
               borderRadius: 12,
               paddingVertical: 14,
               alignItems: "center",
@@ -161,12 +178,16 @@ export default function TheoryScreen() {
             }}
           >
             <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
-              {currentIndex < contents.length - 1 ? "Siguiente" : "Inicia preguntas"}
+              {currentIndex < contents.length - 1
+                ? "Siguiente"
+                : "Inicia preguntas"}
             </Text>
           </TouchableOpacity>
         </ScrollView>
       ) : (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <Text style={mainText}>No se encontró contenido teórico.</Text>
         </View>
       )}

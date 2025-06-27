@@ -209,16 +209,18 @@ export default function QuestionnaireScreens() {
                             onPress={() =>
                               handleAnswerSelect(currentQuestionIndex, idx)
                             }
-                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${selectedAnswers[currentQuestionIndex] === idx
+                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
+                              selectedAnswers[currentQuestionIndex] === idx
                                 ? "border-blue-500 bg-blue-400"
                                 : "border-gray-500 bg-third"
-                              }`}
+                            }`}
                           >
                             <Text
-                              className={`text-center text-sm ${selectedAnswers[currentQuestionIndex] === idx
+                              className={`text-center text-sm ${
+                                selectedAnswers[currentQuestionIndex] === idx
                                   ? "text-primary"
                                   : "text-secondary"
-                                }`}
+                              }`}
                             >
                               {opcion.title}
                             </Text>
@@ -277,8 +279,12 @@ export default function QuestionnaireScreens() {
                 {currentQuestion.alternatives && (
                   <View className="mb-6">
                     <View className="flex-row flex-wrap justify-between">
-                      {currentQuestion.alternatives.map(
-                        (opcion: any, idx: number) => {
+                      {currentQuestion.alternatives
+                        .slice() // Create a shallow copy to avoid mutating the original
+                        .sort(
+                          (a: { id: number }, b: { id: number }) => a.id - b.id,
+                        )
+                        .map((opcion: any, idx: number) => {
                           const isSelected =
                             selectedAnswers[currentQuestionIndex] === idx;
                           const isCorrect = idx === currentQuestion.answer;
@@ -286,7 +292,11 @@ export default function QuestionnaireScreens() {
                           let borderColor = "border-gray-500";
                           let bgColor = "bg-third";
 
-                          if (isAnswerSelected && isSelected && showExplanation) {
+                          if (
+                            isAnswerSelected &&
+                            isSelected &&
+                            showExplanation
+                          ) {
                             if (isCorrect) {
                               borderColor = "border-green-500";
                               bgColor = "bg-green-400";
@@ -308,16 +318,31 @@ export default function QuestionnaireScreens() {
                               className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${borderColor} ${bgColor}`}
                               disabled={showExplanation}
                             >
-                              <Text
-                                className={`text-center text-sm ${isSelected ? "text-primary" : "text-secondary"
+                              {opcion.label || opcion.imageUrl ? (
+                                <Image
+                                  source={{ uri: opcion.imageUrl }}
+                                  style={{
+                                    width: 80,
+                                    height: 80,
+                                    resizeMode: "contain",
+                                    alignSelf: "center",
+                                    borderRadius: 12,
+                                  }}
+                                />
+                              ) : (
+                                <Text
+                                  className={`text-center text-sm ${
+                                    isSelected
+                                      ? "text-primary"
+                                      : "text-secondary"
                                   }`}
-                              >
-                                {opcion.title}
-                              </Text>
+                                >
+                                  {opcion.title}
+                                </Text>
+                              )}
                             </TouchableOpacity>
                           );
-                        },
-                      )}
+                        })}
                     </View>
 
                     {/* Explanation (shown after answer is selected) */}
@@ -363,13 +388,15 @@ export default function QuestionnaireScreens() {
               }
             }}
             disabled={!isAnswerSelected}
-            className={`px-8 py-3 rounded-full ${isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
-              }`}
+            className={`px-8 py-3 rounded-full ${
+              isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
+            }`}
             style={{ minWidth: 120 }}
           >
             <Text
-              className={`text-center font-semibold ${isAnswerSelected ? "text-white" : "text-gray-400"
-                }`}
+              className={`text-center font-semibold ${
+                isAnswerSelected ? "text-white" : "text-gray-400"
+              }`}
             >
               {!showExplanation && isAnswerSelected
                 ? "Ver respuesta"
