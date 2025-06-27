@@ -52,7 +52,8 @@ export default function QuestionnaireScreens() {
   }, []);
 
   useEffect(() => {
-    console.log("change state for show explanation: ", showExplanation);
+    if (selectedAnswers) {
+    }
   }, [showExplanation]);
 
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
@@ -126,7 +127,7 @@ export default function QuestionnaireScreens() {
           setSelectedAnswers({});
           setShowExplanation(false);
         }}
-        onContinue={() => router.replace('/home')}
+        onContinue={() => router.replace("/home")}
       />
     );
   }
@@ -209,14 +210,14 @@ export default function QuestionnaireScreens() {
                               handleAnswerSelect(currentQuestionIndex, idx)
                             }
                             className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${selectedAnswers[currentQuestionIndex] === idx
-                              ? "border-blue-500 bg-blue-400"
-                              : "border-gray-500 bg-third"
+                                ? "border-blue-500 bg-blue-400"
+                                : "border-gray-500 bg-third"
                               }`}
                           >
                             <Text
                               className={`text-center text-sm ${selectedAnswers[currentQuestionIndex] === idx
-                                ? "text-primary"
-                                : "text-secondary"
+                                  ? "text-primary"
+                                  : "text-secondary"
                                 }`}
                             >
                               {opcion.title}
@@ -277,27 +278,45 @@ export default function QuestionnaireScreens() {
                   <View className="mb-6">
                     <View className="flex-row flex-wrap justify-between">
                       {currentQuestion.alternatives.map(
-                        (opcion: any, idx: number) => (
-                          <TouchableOpacity
-                            key={idx}
-                            onPress={() =>
-                              handleAnswerSelect(currentQuestionIndex, idx)
+                        (opcion: any, idx: number) => {
+                          const isSelected =
+                            selectedAnswers[currentQuestionIndex] === idx;
+                          const isCorrect = idx === currentQuestion.answer;
+
+                          let borderColor = "border-gray-500";
+                          let bgColor = "bg-third";
+
+                          if (isAnswerSelected && isSelected && showExplanation) {
+                            if (isCorrect) {
+                              borderColor = "border-green-500";
+                              bgColor = "bg-green-400";
+                            } else {
+                              borderColor = "border-red-500";
+                              bgColor = "bg-red-400";
                             }
-                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${selectedAnswers[currentQuestionIndex] === idx
-                              ? "border-blue-500 bg-blue-400"
-                              : "border-gray-500 bg-third"
-                              }`}
-                          >
-                            <Text
-                              className={`text-center text-sm ${selectedAnswers[currentQuestionIndex] === idx
-                                ? "text-primary"
-                                : "text-secondary"
-                                }`}
+                          } else if (isSelected) {
+                            borderColor = "border-blue-500";
+                            bgColor = "bg-blue-400";
+                          }
+
+                          return (
+                            <TouchableOpacity
+                              key={idx}
+                              onPress={() =>
+                                handleAnswerSelect(currentQuestionIndex, idx)
+                              }
+                              className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${borderColor} ${bgColor}`}
+                              disabled={showExplanation}
                             >
-                              {opcion.title}
-                            </Text>
-                          </TouchableOpacity>
-                        ),
+                              <Text
+                                className={`text-center text-sm ${isSelected ? "text-primary" : "text-secondary"
+                                  }`}
+                              >
+                                {opcion.title}
+                              </Text>
+                            </TouchableOpacity>
+                          );
+                        },
                       )}
                     </View>
 
