@@ -6,149 +6,106 @@ import {
   ScrollView,
   SafeAreaView,
   useColorScheme,
+  ImageBackground,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore,
+} from "@react-native-firebase/firestore";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export default function ModuleLessonsScreen() {
-
   const router = useRouter();
-  const { id , title, subtitle} = useLocalSearchParams();
+  const { id, title, subtitle } = useLocalSearchParams();
   const colorScheme = useColorScheme();
-  
-const [lessonsData, setLessonsData] = useState<any[]>([]);
 
-useEffect(() => {
-  const fetchLessons = async () => {
-    try {
-      const db = getFirestore();
-      // Accede a la subcolección 'lessons' dentro del capítulo con id específico
-      const lessonsRef = collection(db, 'chapters', String(id), 'lessons');
-      const querySnapshot = await getDocs(lessonsRef);
-      const fetchedLessons = querySnapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-        };
-      });
-      console.log('Fetched lessons:', fetchedLessons);
-      setLessonsData(fetchedLessons);
-    } catch (error) {
-      console.error('Error fetching lessons:', error);
-    }
-  };
-  if (id) fetchLessons();
-}, [id]);
+  const [lessonsData, setLessonsData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchLessons = async () => {
+      try {
+        const db = getFirestore();
+        // Accede a la subcolección 'lessons' dentro del capítulo con id específico
+        const lessonsRef = collection(db, "chapters", String(id), "lessons");
+        const querySnapshot = await getDocs(lessonsRef);
+        const fetchedLessons = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+          };
+        });
+        console.log("Fetched lessons:", fetchedLessons);
+        setLessonsData(fetchedLessons);
+      } catch (error) {
+        console.error("Error fetching lessons:", error);
+      }
+    };
+    if (id) fetchLessons();
+  }, [id]);
 
   const isDark = colorScheme === "dark";
-  const headerBg = { backgroundColor: "#6C7CFA" };
-  const pageBg = { backgroundColor: isDark ? "#181A20" : "#F5F6FA" };
-  const cardBg = { backgroundColor: isDark ? "#23242A" : "#fff" };
-  const cardShadow = isDark
-    ? { shadowColor: "#000", shadowOpacity: 0.3, shadowRadius: 8, elevation: 2 }
-    : {
-        shadowColor: "#000",
-        shadowOpacity: 0.06,
-        shadowRadius: 8,
-        elevation: 2,
-      };
-  const mainText = { color: isDark ? "#fff" : "#222" };
-  const secondaryText = { color: isDark ? "#bbb" : "#888" };
-  const playBtnBg = { backgroundColor: "#E6EFFA" };
-  const playIcon = { color: "gray" };
-  const iconBg = { backgroundColor: isDark ? "#444" : "#F0F0F0" };
 
   return (
-    <SafeAreaView style={[{ flex: 1 }, pageBg]}>
-      <View style={[headerBg, { padding: 24, paddingTop: 48 }]}>
-        <TouchableOpacity
-          style={{ position: "absolute", left: 24, top: 20, zIndex: 2 }}
-          onPress={() => router.back()}
-        >
-          <Text style={{ fontSize: 28, color: "#fff" }}>{"←"}</Text>
+    <SafeAreaView className="flex-1">
+      <ImageBackground
+        source={require("@/assets/images/background/bg-lessons.png")}
+        className="h-[250] pt-10 px-[30] gap-[30]"
+        resizeMode="cover"
+      >
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={35} color="white" />
         </TouchableOpacity>
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 28,
-            fontWeight: "bold",
-            marginTop: 30,
-            textAlign: "center",
-          }}
-        >
-          {title || "Lecciones"}
-        </Text>
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 16,
-            marginTop: 8,
-            textAlign: "center",
-            marginBottom: 20,
-          }}
-        >
-          {subtitle || "Selecciona una lección"}
-        </Text>
-      </View>
+        <View>
+          <Text className="text-3xl font-bold text-white max-w-[240]">
+            {title || "Lecciones"}
+          </Text>
+          <Text className="text-[15px] text-white mt-1 max-w-[240]">
+            {subtitle || "Selecciona una lección"}
+          </Text>
+        </View>
+      </ImageBackground>
       <ScrollView
-        style={{ flex: 1, marginTop: 16 }}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
+        className="pt-10 pb-5 bg-third -mt-7 rounded-t-[30] dark:bg-[#1A1C20]"
+        // contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16, marginTop: -20 }}
       >
         {lessonsData.map((lesson, idx) => (
           <TouchableOpacity
             onPress={() => {
               router.push({
-          pathname: "/(tabs)/home/theory",
-          params: {
-            chapterId: String(id),
-            lessonId: lesson.id,
-            title: lesson.title,
-            subtitle: lesson.subtitle },
+                pathname: "/(tabs)/home/theory",
+                params: {
+                  chapterId: String(id),
+                  lessonId: lesson.id,
+                  title: lesson.title,
+                  subtitle: lesson.subtitle,
+                },
               });
             }}
             key={lesson.id || idx}
-            style={[
-              cardBg,
-              cardShadow,
-              {
-          borderRadius: 16,
-          flexDirection: "row",
-          alignItems: "center",
-          paddingVertical: 12,
-          paddingHorizontal: 16,
-          marginBottom: 16,
-              },
-            ]}
+            className="px-4 py-1"
           >
-            <View
-              style={[
-          {
-            width: 40,
-            height: 40,
-            borderRadius: 8,
-            marginRight: 16,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          iconBg,
-              ]}
-            />
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Text style={[{ fontWeight: "bold", fontSize: 16 }, mainText]}>
-          {lesson.title}
-              </Text>
-              <Text style={[{ fontSize: 13 }, secondaryText]}>
-          {lesson.description}
-              </Text>
-            </View>
-            <View
-              style={{
-          justifyContent: "center",
-          alignItems: "center",
-          height: 40,
-              }}
-            >
+            <View className="flex-row items-center justify-between py-4 px-5 bg-lessons rounded-md ">
+              <View className="flex-row items-center gap-5">
+                <View className="w-11 h-11 rounded-full bg-[#B0BBFF] dark:bg-gray-700 items-center justify-center">
+                  <Text className="text-base text-white font-medium ">{idx + 1}</Text>
+                </View>
+                <View>
+                  <Text className="text-lg font-semibold dark:text-white">{lesson.title}</Text>
+                  <Text
+                    className="text-[15px] max-w-[230px] truncate text-card-text"
+                    numberOfLines={1}
+                  >
+                    {lesson.description}
+                  </Text>
+                </View>
+              </View>
+              <FontAwesome6 name="lock" size={20} color="#757575" />
             </View>
           </TouchableOpacity>
         ))}

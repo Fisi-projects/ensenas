@@ -13,7 +13,10 @@ module.exports = {
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         third: 'var(--color-third)',
-        fourth: 'var(--color-fourth)'
+        fourth: 'var(--color-fourth)',
+        lessons: 'var(--color-lessons)',
+        card: 'var(--color-card)',
+        'card-text': 'var(--color-card-text)', // Color del texto de las tarjetas
       }
     },
   },

@@ -9,13 +9,19 @@ const themes = {
       '--color-primary': '#f4f5f9',
       '--color-secondary': 'black',
       '--color-third':'white',
-      '--color-fourth':'425466'
+      '--color-fourth':'425466',
+      '--color-lessons':'white',
+      '--color-card':'#f4f5f9',
+      '--color-card-text':'#425466', // Color del texto de las tarjetas (No seteado)
     }),
     dark: vars({
       '--color-primary': '#1a1c20',
       '--color-secondary': 'white',
       '--color-third':'#24262f',
-      '--color-fourth':'#898989'
+      '--color-fourth':'#898989',
+      '--color-lessons':'#24262F',
+      '--color-card':'#D1D1D1',
+      '--color-card-text':'white',
     }),
   },
 };
