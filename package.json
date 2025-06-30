@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
+    "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
     "@react-native-firebase/app": "^22.2.0",
     "@react-native-firebase/auth": "^22.2.0",
     "@react-native-firebase/firestore": "^22.2.0",
@@ -25,6 +26,8 @@
     "@react-navigation/native": "^7.1.10",
     "expo": "~52.0.43",
     "expo-blur": "~14.0.3",
+    "expo-build-properties": "~0.13.3",
+    "expo-camera": "~16.0.18",
     "expo-constants": "~17.0.8",
     "expo-dev-client": "~5.0.19",
     "expo-font": "~13.0.4",
@@ -46,15 +49,17 @@
     "react-i18next": "^15.5.2",
     "react-native": "0.76.9",
     "react-native-gesture-handler": "~2.20.2",
+    "react-native-mediapipe": "^0.6.0",
     "react-native-reanimated": "^3.16.2",
     "react-native-safe-area-context": "^4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-smartlook-analytics": "^2.1.21",
+    "react-native-vision-camera": "^4.7.0",
     "react-native-web": "~0.19.13",
+    "react-native-websocket": "^1.0.2",
     "react-native-webview": "13.12.5",
-    "tailwindcss": "^3.4.17",
-    "expo-camera": "~16.0.18",
-    "expo-build-properties": "~0.13.3"
+    "react-native-worklets-core": "^1.5.0",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
