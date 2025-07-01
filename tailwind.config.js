@@ -17,6 +17,7 @@ module.exports = {
         lessons: 'var(--color-lessons)',
         card: 'var(--color-card)',
         'card-text': 'var(--color-card-text)', // Color del texto de las tarjetas
+        purple:'#8570FF'
       }
     },
   },

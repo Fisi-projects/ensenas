@@ -66,24 +66,6 @@ export default function QuizResultsScreen({
         translucent={false}
       />
 
-      {/* Header Section */}
-      <View className="px-4 py-4">
-        <View className="flex-row items-center">
-          <TouchableOpacity
-            onPress={handleClose}
-            className="p-2 -ml-2 rounded-full active:bg-gray-100"
-            activeOpacity={0.7}
-          >
-            <CloseIcon />
-          </TouchableOpacity>
-          <View
-            className="h-2 bg-blue-500 rounded-full transition-all duration-300"
-            style={{ width: `90%` }}
-          />
-        </View>
-        
-      </View>
-
       {/* Main Content */}
       <View className="flex-1 px-6 py-8">
         {/* Spacer for better vertical centering */}

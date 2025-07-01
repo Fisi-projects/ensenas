@@ -10,6 +10,10 @@ import {
   Platform,
 } from "react-native";
 import { useState } from "react";
+import Smartlook, { Properties } from "react-native-smartlook-analytics";
+
+Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
+Smartlook.instance.analytics.trackNavigationExit("Diccionario");
 
 const screenWidth = Dimensions.get("window").width;
 const horizontalPadding = 20;
@@ -21,27 +25,66 @@ const cardSize = (screenWidth - totalSpacing) / columns;
 const categoryData = [
   {
     title: "Categoría 1",
-    items: ["Hola", "¿Cómo estás?", "Buen día", "Encantado", "Mucho gusto", "¿Qué tal?"],
+    items: [
+      "Hola",
+      "¿Cómo estás?",
+      "Buen día",
+      "Encantado",
+      "Mucho gusto",
+      "¿Qué tal?",
+    ],
   },
   {
     title: "Categoría 2",
-    items: ["Buenas tardes", "¿Cómo te va?", "Buen día", "¿Todo bien?", "¡Qué alegría!", "¡Hola de nuevo!"],
+    items: [
+      "Buenas tardes",
+      "¿Cómo te va?",
+      "Buen día",
+      "¿Todo bien?",
+      "¡Qué alegría!",
+      "¡Hola de nuevo!",
+    ],
   },
   {
     title: "Categoría 3",
-    items: ["Buenas noches", "Dulces sueños", "Hasta mañana", "Descansa", "Que duermas bien"],
+    items: [
+      "Buenas noches",
+      "Dulces sueños",
+      "Hasta mañana",
+      "Descansa",
+      "Que duermas bien",
+    ],
   },
   {
     title: "Categoría 4",
-    items: ["Gracias", "De nada", "Por favor", "Con gusto", "Mil gracias", "Te lo agradezco"],
+    items: [
+      "Gracias",
+      "De nada",
+      "Por favor",
+      "Con gusto",
+      "Mil gracias",
+      "Te lo agradezco",
+    ],
   },
   {
     title: "Categoría 5",
-    items: ["Adiós", "Nos vemos", "Hasta luego", "Chau", "Cuídate", "Hasta pronto"],
+    items: [
+      "Adiós",
+      "Nos vemos",
+      "Hasta luego",
+      "Chau",
+      "Cuídate",
+      "Hasta pronto",
+    ],
   },
 ];
 
-const GreetingCard = ({ text, onPress }) => {
+type GreetingCardProps = {
+  text: string;
+  onPress: () => void;
+};
+
+const GreetingCard = ({ text, onPress }: GreetingCardProps) => {
   const [pressed, setPressed] = useState(false);
 
   return (
@@ -53,25 +96,23 @@ const GreetingCard = ({ text, onPress }) => {
         onPress();
       }}
       activeOpacity={0.8}
-      style={[
-        styles.card,
-        pressed && styles.cardPressed,
-      ]}
+      style={[styles.card, pressed && styles.cardPressed]}
     >
-      <Text
-        style={[
-          styles.cardText,
-          pressed && styles.cardTextPressed,
-        ]}
-      >
+      <Text style={[styles.cardText, pressed && styles.cardTextPressed]}>
         {text}
       </Text>
     </TouchableOpacity>
   );
 };
 
-const GreetingSection = ({ title, items, isFirst }) => {
-  const handlePress = (text) => {
+type GreetingSectionProps = {
+  title: string;
+  items: string[];
+  isFirst?: boolean;
+};
+
+const GreetingSection = ({ title, items, isFirst }: GreetingSectionProps) => {
+  const handlePress = (text: string) => {
     console.log("Presionado:", text);
   };
 
@@ -81,11 +122,9 @@ const GreetingSection = ({ title, items, isFirst }) => {
         <View style={[styles.header, { backgroundColor: "#FF4885" }]}>
           <Text style={styles.headerText}>{title}</Text>
         </View>
-        <Text
-          style={styles.description}
-          className="text-secondary"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis justo neque
+        <Text style={styles.description}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+          quis justo neque
         </Text>
       </View>
       <FlatList
@@ -110,10 +149,7 @@ export default function Dictionary() {
       className="bg-primary"
       contentContainerStyle={{ paddingBottom: 40 }}
     >
-      <Text
-        style={LayoutStyles.Title__text}
-        className="text-secondary"
-      >
+      <Text style={LayoutStyles.Title__text}>
         Dictionary
       </Text>
       {categoryData.map((cat, index) => (
@@ -135,15 +171,15 @@ const styles = StyleSheet.create({
   header: {
     paddingVertical: 10,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   headerText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 15,
   },
   description: {
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: 8,
     fontSize: 14,
   },
@@ -151,22 +187,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: horizontalPadding,
   },
   row: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginBottom: 16,
   },
   card: {
-    
     width: 84,
     height: 84,
-    justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
+    justifyContent: "center",
+    backgroundColor: "#f2f2f2",
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
-    alignItems: 'center',
+    borderColor: "#ccc",
+    alignItems: "center",
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
@@ -177,11 +212,11 @@ const styles = StyleSheet.create({
     }),
   },
   cardPressed: {
-    backgroundColor: '#dbefff',
-    borderColor: '#2196f3',
+    backgroundColor: "#dbefff",
+    borderColor: "#2196f3",
     ...Platform.select({
       ios: {
-        shadowColor: '#2196f3',
+        shadowColor: "#2196f3",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.4,
         shadowRadius: 4,
@@ -192,14 +227,14 @@ const styles = StyleSheet.create({
     }),
   },
   cardText: {
-    color: '#333',
-    fontWeight: '600',
+    color: "#333",
+    fontWeight: "600",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: 2,
   },
   cardTextPressed: {
-    color: '#1976d2',
+    color: "#1976d2",
   },
   textWrapper: {
     paddingHorizontal: horizontalPadding,

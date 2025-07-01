@@ -6,6 +6,8 @@ import { Image } from "@/components/ui/Image";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import DragDropExercise from "@/components/questions/DragDropExercise";
 import QuizResultsScreen from "./lessons/results";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -26,12 +28,12 @@ export default function QuestionnaireScreens() {
 
   useEffect(() => {
     console.log(
-      `Fetching questions for chapterId: ${chapterId}, lessonId: ${lessonId}`,
+      `Fetching questions for chapterId: ${chapterId}, lessonId: ${lessonId}`
     );
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}${chapterId}/lessons/${lessonId}/practical`,
+          `${baseUrl}${chapterId}/lessons/${lessonId}/practical`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
@@ -133,25 +135,23 @@ export default function QuestionnaireScreens() {
   }
 
   return (
-    <View className="flex-1 bg-primary">
-      {/* Header with close button and progress */}
-      <View className="px-4 pt-2 pb-2 bg-third border-b border-gray-300 shadow-sm">
-        <View className="flex-row items-center justify-between mb-4">
-          <TouchableOpacity onPress={() => router.back()} className="p-2">
-            <Text className="text-secondary text-2xl">✕</Text>
-          </TouchableOpacity>
-          <Text className="text-sm text-fourth">
-            {currentQuestionIndex + 1} de {questions.length}
-          </Text>
-        </View>
+    <View className="flex-1 bg-third">
+      {/* Corregir color con version oscura */}
+      <View className="px-5 py-1 h-20 flex-row items-center gap-2 pt-8">
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="close" size={35} color="gray" />
+        </TouchableOpacity>
 
         {/* Progress Bar */}
-        <View className="bg-gray-200 h-2 rounded-full">
+        <View className="bg-gray-200 h-4 rounded-full grow">
           <View
-            className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+            className="bg-purple h-4 rounded-full transition-all duration-300"
             style={{ width: `${progress * 100}%` }}
           />
         </View>
+        <Text className="text-sm text-fourth">
+          {currentQuestionIndex + 1} de {questions.length}
+        </Text>
       </View>
 
       <View className="flex-1 px-4 py-3 bg-primary">
@@ -225,7 +225,7 @@ export default function QuestionnaireScreens() {
                               {opcion.title}
                             </Text>
                           </TouchableOpacity>
-                        ),
+                        )
                       )}
                     </View>
                   </View>
@@ -235,62 +235,55 @@ export default function QuestionnaireScreens() {
             {currentQuestion.type == 2 && <DragDropExercise />}
             {currentQuestion.type == 3 && (
               <>
-                <View className="bg-gray-800 rounded-2xl p-4 mb-4">
-                  <Text className="text-white text-lg font-medium">
+                <View className="rounded-2xl p-4 mb-4">
+                  <Text className="text-xl font-medium">
                     {currentQuestion.title}
                   </Text>
                 </View>
 
-                {currentQuestion.imageUrl && (
+                {/* {currentQuestion.imageUrl && (
                   <View
-                    className="items-center mb-4 rounded-2xl overflow-hidden"
-                    style={{
-                      width: "auto",
-                      maxWidth: 350,
-                      height: 180,
-                      alignSelf: "center",
-                    }}
+                    className="items-center mb-4 overflow-hidden w-full max-w-[350] h-[180]"
                   >
                     <Image
                       source={{ uri: currentQuestion.imageUrl }}
                       style={{
                         width: "100%",
                         height: "100%",
-                        backgroundColor: "#ccc",
                         aspectRatio: 1.5,
                         borderRadius: 16, // Borde redondeado
                       }}
-                      contentFit="contain"
+                      contentFit="contain"  //cambiar a cover, img estandar
                     />
                   </View>
-                )}
+                )} */}
 
-                <View className="bg-third rounded-2xl p-4 mb-6 border-2 border-gray-500">
-                  <View className="flex-row items-center">
-                    <Text className="text-2xl mr-3">🔊</Text>
-                    <Text className="text-secondary flex-1">
-                      {currentQuestion.description}
-                    </Text>
+                <View className="px-5 mb-6 flex-row gap-3">
+                  <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
+                    <MaterialIcons name="volume-up" size={25} color="white" />
                   </View>
+                  <Text className="text-base">
+                    {currentQuestion.description}
+                  </Text>
                 </View>
 
                 {/* alternativas */}
 
                 {currentQuestion.alternatives && (
-                  <View className="mb-6">
-                    <View className="flex-row flex-wrap justify-between">
+                  <View className="px-5 mb-5 grow">
+                    <View className="flex-row flex-wrap gap-y-3 justify-between grow ">
                       {currentQuestion.alternatives
                         .slice() // Create a shallow copy to avoid mutating the original
                         .sort(
-                          (a: { id: number }, b: { id: number }) => a.id - b.id,
+                          (a: { id: number }, b: { id: number }) => a.id - b.id
                         )
                         .map((opcion: any, idx: number) => {
                           const isSelected =
                             selectedAnswers[currentQuestionIndex] === idx;
                           const isCorrect = idx === currentQuestion.answer;
 
-                          let borderColor = "border-gray-500";
-                          let bgColor = "bg-third";
+                          let borderColor = "border-gray-300 dark:border-gray-300/20";
+                          
 
                           if (
                             isAnswerSelected &&
@@ -298,15 +291,12 @@ export default function QuestionnaireScreens() {
                             showExplanation
                           ) {
                             if (isCorrect) {
-                              borderColor = "border-green-500";
-                              bgColor = "bg-green-400";
+                              borderColor = "border-green-400";
                             } else {
-                              borderColor = "border-red-500";
-                              bgColor = "bg-red-400";
+                              borderColor = "border-red-400";
                             }
                           } else if (isSelected) {
-                            borderColor = "border-blue-500";
-                            bgColor = "bg-blue-400";
+                            borderColor = "border-purple/70";
                           }
 
                           return (
@@ -315,28 +305,19 @@ export default function QuestionnaireScreens() {
                               onPress={() =>
                                 handleAnswerSelect(currentQuestionIndex, idx)
                               }
-                              className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${borderColor} ${bgColor}`}
+                              className={`w-[45%] h-[45%] max-h-[190] mb-4 p-4 bg-white dark:bg-black/20 rounded-2xl border-2 border-b-8  ${borderColor}`}
                               disabled={showExplanation}
                             >
                               {opcion.label || opcion.imageUrl ? (
                                 <Image
                                   source={{ uri: opcion.imageUrl }}
+                                  className="w-full h-auto"
                                   style={{
-                                    width: 80,
-                                    height: 80,
-                                    resizeMode: "contain",
-                                    alignSelf: "center",
-                                    borderRadius: 12,
+                                    resizeMode: "cover",
                                   }}
                                 />
                               ) : (
-                                <Text
-                                  className={`text-center text-sm ${
-                                    isSelected
-                                      ? "text-primary"
-                                      : "text-secondary"
-                                  }`}
-                                >
+                                <Text className="text-center text-sm">
                                   {opcion.title}
                                 </Text>
                               )}
@@ -401,8 +382,8 @@ export default function QuestionnaireScreens() {
               {!showExplanation && isAnswerSelected
                 ? "Ver respuesta"
                 : currentQuestionIndex === questions.length - 1
-                  ? "Finalizar"
-                  : "Continuar"}
+                ? "Finalizar"
+                : "Continuar"}
             </Text>
           </TouchableOpacity>
         </View>

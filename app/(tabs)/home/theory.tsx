@@ -10,7 +10,8 @@ import {
   useColorScheme,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Smartlook from "react-native-smartlook-analytics";
 /* interface TheoryContent {
   id: string;
   title: string;
@@ -19,6 +20,8 @@ import { useRouter, useLocalSearchParams } from "expo-router";
     imageUrl?: string;
   };
 } */
+Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
+Smartlook.instance.analytics.trackNavigationExit("Diccionario");
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -52,7 +55,7 @@ export default function TheoryScreen() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}${chapterId}/lessons/${lessonId}/theoric`,
+          `${baseUrl}${chapterId}/lessons/${lessonId}/theoric`
         );
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
@@ -88,34 +91,15 @@ export default function TheoryScreen() {
     <SafeAreaView style={[{ flex: 1 }, pageBg]}>
       {/* #6C7CFA */}
 
-      <View className="bg-[#6C7CFA] px-6 pt-8 pb-4 flex-row items-center justify-center relative">
-        <TouchableOpacity
-          style={{ position: "absolute", left: 24, top: 20, zIndex: 2 }}
-          onPress={() => router.back()}
-        >
-          <Text style={{ fontSize: 28, color: "#fff" }}>{"←"}</Text>
+      <View className="h-[220] pt-10 px-[30] gap-[30] bg-[#6B7DF2]">
+        <TouchableOpacity onPress={() => router.back()} className="-ml-2">
+          <Ionicons name="close" size={35} color="white" />
         </TouchableOpacity>
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 28,
-            fontWeight: "bold",
-            textAlign: "center",
-            marginTop: 30,
-          }}
-        >
-          {title || "Contenido Teórico"}
-        </Text>
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 16,
-            textAlign: "center",
-            marginTop: 8,
-          }}
-        >
-          {subtitle || ""}
-        </Text>
+        <View>
+          <Text className="text-3xl font-bold text-white max-w-[240]">
+            {title || "Lecciones"}
+          </Text>
+        </View>
       </View>
 
       {loading ? (
@@ -125,64 +109,42 @@ export default function TheoryScreen() {
           <ActivityIndicator size="large" color="#6C7CFA" />
         </View>
       ) : contents.length > 0 ? (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 100 }}>
-          <View
-            style={[
-              cardBg,
-              {
-                borderRadius: 16,
-                padding: 16,
-                marginBottom: 16,
-                shadowColor: "#000",
-                shadowOpacity: isDark ? 0.3 : 0.06,
-                shadowRadius: 8,
-                elevation: 2,
-              },
-            ]}
-          >
-            <Text
-              style={[
-                { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
-                mainText,
-              ]}
-            >
-              {contents[currentIndex].title}
-            </Text>
-            {contents[currentIndex].imageUrl && (
-              <Image
-                source={{ uri: contents[currentIndex].imageUrl }}
-                style={{
-                  width: "100%",
-                  height: 200,
-                  borderRadius: 12,
-                  marginBottom: 12,
-                  backgroundColor: "#ccc",
-                }}
-                resizeMode="contain"
-              />
-            )}
-            <Text style={[{ fontSize: 15, lineHeight: 22 }, secondaryText]}>
-              {contents[currentIndex].description}
-            </Text>
-          </View>
+        <ScrollView className="pt-10 pb-5 px-8 bg-third -mt-7 rounded-t-[30] dark:bg-[#1A1C20]" contentContainerStyle={{ flexGrow: 1 }}>
+          <View className="flex-1 justify-between">
+            <View className="">
+              <Text className="text-xl dark:text-card font-bold mb-4">
+                {contents[currentIndex].title}
+              </Text>
+              {contents[currentIndex].imageUrl && (
+                <Image
+                  source={{ uri: contents[currentIndex].imageUrl }}
+                  className="h-[200] mb-4 w-full"
+                  resizeMode="contain"
+                />
+              )}
+              <Text style={[{ fontSize: 15, lineHeight: 22 }, secondaryText]}>
+                {contents[currentIndex].description}
+              </Text>
+            </View>
 
-          <TouchableOpacity
-            onPress={handleNext}
-            style={{
-              backgroundColor:
-                currentIndex < contents.length - 1 ? "#6C7CFA" : "#EF476F",
-              borderRadius: 12,
-              paddingVertical: 14,
-              alignItems: "center",
-              marginTop: 16,
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
-              {currentIndex < contents.length - 1
-                ? "Siguiente"
-                : "Inicia preguntas"}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleNext}
+              style={{
+                backgroundColor:
+                  currentIndex < contents.length - 1 ? "#6C7CFA" : "#EF476F",
+                borderRadius: 12,
+                paddingVertical: 14,
+                alignItems: "center",
+                marginTop: 16,
+              }}
+            >
+              <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+                {currentIndex < contents.length - 1
+                  ? "Siguiente" //arreglar espacio
+                  : "Inicia preguntas"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       ) : (
         <View
