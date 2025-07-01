@@ -27,11 +27,20 @@ import * as ImagePicker from "expo-image-picker";
 import { getAuth, signOut } from "@react-native-firebase/auth";
 import Smartlook from "react-native-smartlook-analytics";
 
-Smartlook.instance.analytics.trackEvent("settings-access");
-Smartlook.instance.analytics.trackNavigationEnter("Settings");
-Smartlook.instance.analytics.trackNavigationExit("Settings");
-
 export default function Settings() {
+  useEffect(() => {
+    // Evento custom para acceso a Settings
+    Smartlook.instance.analytics.trackEvent('settings_screen_viewed');
+    // Opcional: Trackeo de navegación (entrada)
+    Smartlook.instance.analytics.trackNavigationEnter('Settings');
+
+    return () => {
+      // Trackeo de navegación (salida)
+      Smartlook.instance.analytics.trackNavigationExit('Settings');
+      console.log('Settings screen exited');
+    };
+  }, []);
+
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
