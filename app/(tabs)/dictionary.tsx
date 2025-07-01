@@ -9,7 +9,7 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Smartlook from "react-native-smartlook-analytics";
 
 const screenWidth = Dimensions.get("window").width;
@@ -141,17 +141,19 @@ const GreetingSection = ({ title, items, isFirst }: GreetingSectionProps) => {
 
 export default function Dictionary() {
   Smartlook.instance.analytics.trackEvent("dictionary_screen_viewed");
-  Smartlook.instance.analytics.trackNavigationEnter("Dictionary");
-  Smartlook.instance.analytics.trackNavigationExit("Dictionary");
+  useEffect(() => {
+    Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
+    return () => {
+      Smartlook.instance.analytics.trackNavigationExit("Diccionario");
+    };
+  }, []);
   return (
     <ScrollView
       style={LayoutStyles.container}
       className="bg-primary"
       contentContainerStyle={{ paddingBottom: 40 }}
     >
-      <Text style={LayoutStyles.Title__text}>
-        Dictionary
-      </Text>
+      <Text style={LayoutStyles.Title__text}>Dictionary</Text>
       {categoryData.map((cat, index) => (
         <GreetingSection
           key={index}

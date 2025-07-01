@@ -31,8 +31,12 @@ interface TheoryContent {
 
 export default function TheoryScreen() {
   Smartlook.instance.analytics.trackEvent("theory_screen_viewed");
-  Smartlook.instance.analytics.trackNavigationEnter("Theory");
-  Smartlook.instance.analytics.trackNavigationExit("Theory");
+  useEffect(() => {
+    Smartlook.instance.analytics.trackNavigationEnter("Teoria");
+    return () => {
+      Smartlook.instance.analytics.trackNavigationExit("Teoria");
+    };
+  }, []);
   const router = useRouter();
   const { chapterId, lessonId, title, subtitle } = useLocalSearchParams<{
     chapterId: string;
@@ -110,7 +114,10 @@ export default function TheoryScreen() {
           <ActivityIndicator size="large" color="#6C7CFA" />
         </View>
       ) : contents.length > 0 ? (
-        <ScrollView className="pt-10 pb-5 px-8 bg-third -mt-7 rounded-t-[30] dark:bg-[#1A1C20]" contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView
+          className="pt-10 pb-5 px-8 bg-third -mt-7 rounded-t-[30] dark:bg-[#1A1C20]"
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
           <View className="flex-1 justify-between">
             <View className="">
               <Text className="text-xl dark:text-card font-bold mb-4">

@@ -14,8 +14,12 @@ const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
 export default function QuestionnaireScreens() {
   Smartlook.instance.analytics.trackEvent("question_screen");
-  Smartlook.instance.analytics.trackNavigationEnter("Questions");
-  Smartlook.instance.analytics.trackNavigationExit("Questions");
+  useEffect(() => {
+    Smartlook.instance.analytics.trackNavigationEnter("Ejercicios");
+    return () => {
+      Smartlook.instance.analytics.trackNavigationExit("Ejercicios");
+    };
+  }, []);
   const { chapterId, lessonId } = useLocalSearchParams() as {
     chapterId: string;
     lessonId: string;
@@ -286,8 +290,8 @@ export default function QuestionnaireScreens() {
                             selectedAnswers[currentQuestionIndex] === idx;
                           const isCorrect = idx === currentQuestion.answer;
 
-                          let borderColor = "border-gray-300 dark:border-gray-300/20";
-                          
+                          let borderColor =
+                            "border-gray-300 dark:border-gray-300/20";
 
                           if (
                             isAnswerSelected &&

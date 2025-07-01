@@ -5,6 +5,7 @@ import { ScrollView } from "@/components/ui/ScrollView";
 import { Image, FlatList, Dimensions } from "react-native";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import Smartlook from "react-native-smartlook-analytics";
+import { useEffect } from "react";
 
 const { width } = Dimensions.get("window");
 
@@ -76,8 +77,12 @@ const rewards = [
 
 export default function Badges({ navigation }: any) {
   Smartlook.instance.analytics.trackEvent("badges_screen_viewed");
-  Smartlook.instance.analytics.trackNavigationEnter("Badges");
-  Smartlook.instance.analytics.trackNavigationExit("Badges");
+useEffect(() => {
+  Smartlook.instance.analytics.trackNavigationEnter("Logros");
+  return () => {
+    Smartlook.instance.analytics.trackNavigationExit("Logros");
+  };
+}, []);
   return (
     <View
       style={[

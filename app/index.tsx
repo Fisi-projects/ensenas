@@ -16,6 +16,7 @@ Smartlook.instance.preferences.setProjectKey(
   '015731bf9433071f40eeaa0e99d8239c06deb795'
 );
 Smartlook.instance.start();
+console.log("Smartlook initialized");
 
 GoogleSignin.configure({
   webClientId: Constants.expoConfig?.extra?.webClientId,
