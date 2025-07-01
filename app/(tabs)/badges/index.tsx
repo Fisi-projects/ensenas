@@ -6,9 +6,10 @@ import { Image, FlatList, Dimensions } from "react-native";
 import { TouchableOpacity } from "@/components/ui/TouchableOpacity";
 import Smartlook from "react-native-smartlook-analytics";
 import { useEffect } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
 
 const { width } = Dimensions.get("window");
-
 const personalBadges = [
   {
     id: "1",
@@ -77,37 +78,28 @@ const rewards = [
 
 export default function Badges({ navigation }: any) {
   Smartlook.instance.analytics.trackEvent("badges_screen_viewed");
-useEffect(() => {
-  Smartlook.instance.analytics.trackNavigationEnter("Logros");
-  return () => {
-    Smartlook.instance.analytics.trackNavigationExit("Logros");
-  };
-}, []);
+  useEffect(() => {
+    Smartlook.instance.analytics.trackNavigationEnter("Logros");
+    return () => {
+      Smartlook.instance.analytics.trackNavigationExit("Logros");
+    };
+  }, []);
+  const router = useRouter();
+
   return (
-    <View
-      style={[
-        LayoutStyles.container,
-        { paddingHorizontal: 30, paddingVertical: 25 },
-      ]}
-      className="bg-primary"
-    >
+    <ScrollView className="bg-white dark:bg-[#1A1C20]">
       {/* Encabezado con flecha + título */}
-      <View className="flex-row items-center mb-4">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text className="text-secondary text-3xl mr-3">←</Text>
-        </TouchableOpacity>
-        <View className="flex-1 items-center">
-          <Text
-            style={LayoutStyles.Title__text}
-            className="text-secondary text-2xl"
-          >
+      <View className="h-[150] pt-10 px-[30] gap-[30] bg-[#6B7DF2] justify-center">
+        <View>
+          <Text className="text-3xl font-bold text-white max-w-[240]">
             Logros
           </Text>
         </View>
       </View>
 
       {/* Logros personales */}
-      <Text className="text-secondary text-xl font-bold mb-2">
+      <View className="px-[30] pt-10">
+        <Text className="text-secondary text-xl font-bold my-5">
         Logros personales
       </Text>
       <ScrollView
@@ -118,63 +110,25 @@ useEffect(() => {
         {personalBadges.map((badge) => (
           <View
             key={badge.id}
-            style={{
-              alignContent: "center",
-              width: 150,
-              height: 200,
-              borderRadius: 5,
-              padding: 17,
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 1,
-              borderColor: "#898989",
-            }}
+            className="flex w-[130] h-[200] rounded-md justify-center p-4 bg-lessons border border-gray-200 dark:border-0"
           >
-            {/*<Image
-            source={badge.image}
-            style={{
-                width: '100%',
-                height: 120,
-                borderRadius: 8,
-                marginBottom: 8,
-                resizeMode: 'cover',
-            }}
-            /> */}
-            <View
-              style={{
-                width: "100%",
-                height: 120,
-                backgroundColor: "#e5e5e5",
-                borderRadius: 8,
-                marginBottom: 8,
-              }}
-            />
-            <View
-              style={{
-                width: "100%",
-                height: 40,
-                borderRadius: 8,
-                marginBottom: 8,
-                justifyContent: "center",
-              }}
-            >
-              <View
-                style={{
-                  width: "100%",
-                  height: 40,
-                  borderRadius: 8,
-                  justifyContent: "center",
-                  marginTop: 6,
-                }}
-              >
+            <View className="flex-1 justify-center">
+              <Image
+                source={badge.image}
+                resizeMode="contain"
+                className="w-3/4 h-3/4 mx-auto"
+              />
+            </View>
+            <View>
+              <View>
                 <Text
-                  className="text-secondary text-center text-15 font-bold"
+                  className="text-secondary text-center text-[17px] font-bold"
                   numberOfLines={2}
                 >
                   {badge.name}
                 </Text>
               </View>
-              <Text className=" text-center text-secondary text-13">
+              <Text className=" text-center text-secondary text-sm">
                 {badge.date}
               </Text>
             </View>
@@ -183,77 +137,35 @@ useEffect(() => {
       </ScrollView>
 
       {/* Premios */}
-      <Text className="text-secondary text-xl font-bold mt-6 mb-2">
+      <Text className="text-secondary text-xl font-bold my-5">
         Premios
       </Text>
-      <FlatList
-        data={rewards}
-        keyExtractor={(item) => item.id}
-        numColumns={3}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginBottom: 12,
-        }}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              width: 120,
-              height: 200,
-              borderRadius: 12,
-              padding: 8,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {/*<Image
-            source={item.image}
-            style={{
-                width: '100%',
-                height: 120,
-                borderRadius: 8,
-                marginBottom: 8,
-                resizeMode: 'contain',
-            }}
+      {rewards.map((item) => (
+        <View
+          key={item.id}
+          className="flex-row w-full gap-5 items-center rounded-md bg-lessons p-5 mb-3"
+        >
+          <View>
+            <Image
+              source={item.image}
+              resizeMode="contain"
+              className="h-[60] w-20"
             />
-            */}
-            <View
-              style={{
-                width: 104,
-                height: 120,
-                backgroundColor: "#e5e5e5",
-                borderRadius: 5,
-                marginBottom: 6,
-              }}
-            />
-
-            <View
-              style={{
-                width: "100%",
-                height: 40,
-                borderRadius: 8,
-                justifyContent: "center",
-              }}
-            >
-              <View
-                style={{
-                  width: "100%",
-                  height: 40,
-                  borderRadius: 8,
-                  justifyContent: "center",
-                  marginTop: 6,
-                }}
-              >
-                <Text className="text-secondary text-center font-bold text-15">
-                  {item.name}
-                </Text>
-              </View>
-              <Text className="text-center text-secondary text-12">
-                {item.quantity}
-              </Text>
-            </View>
           </View>
-        )}
-      />
-    </View>
+          <View >
+            <Text
+              className="text-secondary font-bold text-[15px]"
+              numberOfLines={2}
+            >
+              {item.name}
+            </Text>
+            <Text className="text-secondary text-[12px]">
+              {item.quantity}
+            </Text>
+          </View>
+        </View>
+      ))}
+      </View>
+    </ScrollView>
   );
 }
