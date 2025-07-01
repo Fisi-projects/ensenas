@@ -29,6 +29,7 @@ import Smartlook from "react-native-smartlook-analytics";
 
 export default function Settings() {
   Smartlook.instance.analytics.trackEvent("settings_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationEnter("Settings");
   Smartlook.instance.analytics.trackNavigationExit("Settings");
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);

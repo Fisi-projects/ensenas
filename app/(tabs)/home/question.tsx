@@ -14,6 +14,7 @@ const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
 export default function QuestionnaireScreens() {
   Smartlook.instance.analytics.trackEvent("question_screen");
+  Smartlook.instance.analytics.trackNavigationEnter("Questions");
   Smartlook.instance.analytics.trackNavigationExit("Questions");
   const { chapterId, lessonId } = useLocalSearchParams() as {
     chapterId: string;

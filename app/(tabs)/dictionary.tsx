@@ -141,6 +141,7 @@ const GreetingSection = ({ title, items, isFirst }: GreetingSectionProps) => {
 
 export default function Dictionary() {
   Smartlook.instance.analytics.trackEvent("dictionary_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationEnter("Dictionary");
   Smartlook.instance.analytics.trackNavigationExit("Dictionary");
   return (
     <ScrollView

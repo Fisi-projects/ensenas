@@ -31,6 +31,7 @@ interface TheoryContent {
 
 export default function TheoryScreen() {
   Smartlook.instance.analytics.trackEvent("theory_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationEnter("Theory");
   Smartlook.instance.analytics.trackNavigationExit("Theory");
   const router = useRouter();
   const { chapterId, lessonId, title, subtitle } = useLocalSearchParams<{

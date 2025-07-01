@@ -76,6 +76,7 @@ const rewards = [
 
 export default function Badges({ navigation }: any) {
   Smartlook.instance.analytics.trackEvent("badges_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationEnter("Badges");
   Smartlook.instance.analytics.trackNavigationExit("Badges");
   return (
     <View
