@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import Smartlook, { Properties } from "react-native-smartlook-analytics";
 
+Smartlook.instance.analytics.trackEvent("diccionario-access");
+
 Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
 Smartlook.instance.analytics.trackNavigationExit("Diccionario");
 

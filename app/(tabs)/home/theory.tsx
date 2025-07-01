@@ -20,8 +20,10 @@ import Smartlook from "react-native-smartlook-analytics";
     imageUrl?: string;
   };
 } */
-Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
-Smartlook.instance.analytics.trackNavigationExit("Diccionario");
+Smartlook.instance.analytics.trackEvent("enter-theory");
+
+Smartlook.instance.analytics.trackNavigationEnter("Teoria");
+Smartlook.instance.analytics.trackNavigationExit("Teoria");
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 

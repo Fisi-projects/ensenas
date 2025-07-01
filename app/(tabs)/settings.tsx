@@ -27,8 +27,9 @@ import * as ImagePicker from "expo-image-picker";
 import { getAuth, signOut } from "@react-native-firebase/auth";
 import Smartlook from "react-native-smartlook-analytics";
 
-Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
-Smartlook.instance.analytics.trackNavigationExit("Diccionario");
+Smartlook.instance.analytics.trackEvent("settings-access");
+Smartlook.instance.analytics.trackNavigationEnter("Settings");
+Smartlook.instance.analytics.trackNavigationExit("Settings");
 
 export default function Settings() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
