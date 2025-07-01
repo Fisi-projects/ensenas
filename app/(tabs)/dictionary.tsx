@@ -10,12 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { useState } from "react";
-import Smartlook, { Properties } from "react-native-smartlook-analytics";
-
-Smartlook.instance.analytics.trackEvent("diccionario-access");
-
-Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
-Smartlook.instance.analytics.trackNavigationExit("Diccionario");
+import Smartlook from "react-native-smartlook-analytics";
 
 const screenWidth = Dimensions.get("window").width;
 const horizontalPadding = 20;
@@ -145,6 +140,8 @@ const GreetingSection = ({ title, items, isFirst }: GreetingSectionProps) => {
 };
 
 export default function Dictionary() {
+  Smartlook.instance.analytics.trackEvent("dictionary_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationExit("Dictionary");
   return (
     <ScrollView
       style={LayoutStyles.container}

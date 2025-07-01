@@ -20,10 +20,6 @@ import Smartlook from "react-native-smartlook-analytics";
     imageUrl?: string;
   };
 } */
-Smartlook.instance.analytics.trackEvent("enter-theory");
-
-Smartlook.instance.analytics.trackNavigationEnter("Teoria");
-Smartlook.instance.analytics.trackNavigationExit("Teoria");
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -34,6 +30,8 @@ interface TheoryContent {
 }
 
 export default function TheoryScreen() {
+  Smartlook.instance.analytics.trackEvent("theory_screen_viewed");
+  Smartlook.instance.analytics.trackNavigationExit("Theory");
   const router = useRouter();
   const { chapterId, lessonId, title, subtitle } = useLocalSearchParams<{
     chapterId: string;

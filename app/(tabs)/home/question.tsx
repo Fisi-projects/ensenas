@@ -8,10 +8,13 @@ import DragDropExercise from "@/components/questions/DragDropExercise";
 import QuizResultsScreen from "./lessons/results";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Smartlook from "react-native-smartlook-analytics";
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
 export default function QuestionnaireScreens() {
+  Smartlook.instance.analytics.trackEvent("question_screen");
+  Smartlook.instance.analytics.trackNavigationExit("Questions");
   const { chapterId, lessonId } = useLocalSearchParams() as {
     chapterId: string;
     lessonId: string;
