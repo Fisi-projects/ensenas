@@ -245,7 +245,7 @@ export default function QuestionnaireScreens() {
             {currentQuestion.type == 3 && (
               <>
                 <View className="rounded-2xl p-4 mb-4">
-                  <Text className="text-xl font-medium">
+                  <Text className="text-xl font-medium text-secondary">
                     {currentQuestion.title}
                   </Text>
                 </View>
@@ -271,7 +271,7 @@ export default function QuestionnaireScreens() {
                   <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
                     <MaterialIcons name="volume-up" size={25} color="white" />
                   </View>
-                  <Text className="text-base">
+                  <Text className="text-base text-fourth">
                     {currentQuestion.description}
                   </Text>
                 </View>
@@ -326,7 +326,7 @@ export default function QuestionnaireScreens() {
                                   }}
                                 />
                               ) : (
-                                <Text className="text-center text-sm">
+                                <Text className="text-center text-sm text-secondary">
                                   {opcion.title}
                                 </Text>
                               )}
