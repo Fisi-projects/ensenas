@@ -231,7 +231,7 @@ export default function QuestionnaireScreens() {
                                   : "text-secondary"
                               }`}
                             >
-                              {opcion.title}
+                              {opcion.label}
                             </Text>
                           </TouchableOpacity>
                         )
