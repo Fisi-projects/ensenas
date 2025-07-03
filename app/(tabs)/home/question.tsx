@@ -9,6 +9,7 @@ import QuizResultsScreen from "./lessons/results";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Smartlook from "react-native-smartlook-analytics";
+import { SafeAreaView } from "react-native";
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -143,7 +144,7 @@ export default function QuestionnaireScreens() {
   }
 
   return (
-    <View className="flex-1 bg-third">
+    <SafeAreaView className="flex-1 bg-third">
       {/* Corregir color con version oscura */}
       <View className="px-5 py-1 h-20 flex-row items-center gap-2 pt-8">
         <TouchableOpacity onPress={() => router.back()}>
@@ -396,6 +397,6 @@ export default function QuestionnaireScreens() {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
