@@ -288,7 +288,7 @@ useEffect(() => {
 
                     {/* Explanation (shown after answer is selected) */}
                     {isAnswerSelected && showExplanation && (
-                      <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+                      <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 absolute bottom-2 w-full">
                         <Text className="text-green-800 font-medium mb-2">
                           Explicación:
                         </Text>
@@ -322,7 +322,7 @@ useEffect(() => {
                 {/* alternativas */}
 
                 {currentQuestion.alternatives && (
-                  <View className="px-5 mb-5 grow">
+                  <View className=" mb-5 grow">
                     <View className="flex-row flex-wrap gap-y-3 justify-between grow ">
                       {currentQuestion.alternatives
                         .slice()
@@ -376,7 +376,7 @@ useEffect(() => {
 
                     {/* Explanation (shown after answer is selected) */}
                     {isAnswerSelected && showExplanation && (
-                      <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+                      <View className="w-full bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 absolute bottom-2">
                         <Text className="text-green-800 font-medium mb-2">
                           Explicación:
                         </Text>
@@ -398,7 +398,7 @@ useEffect(() => {
         <View className="flex-row justify-between items-center">
           <TouchableOpacity
             onPress={handleContinue}
-            className="px-8 py-3 rounded-full bg-blue-500 mr-2"
+            className="px-8 py-3 rounded-full border border-purple mr-2"
             style={{ minWidth: 120 }}
           >
             <Text className="text-center font-semibold text-white">
@@ -417,7 +417,7 @@ useEffect(() => {
             }}
             disabled={!isAnswerSelected}
             className={`px-8 py-3 rounded-full ${
-              isAnswerSelected ? "bg-pink-500" : "bg-gray-200"
+              isAnswerSelected ? "bg-purple" : "bg-purple/50"
             }`}
             style={{ minWidth: 120 }}
           >
