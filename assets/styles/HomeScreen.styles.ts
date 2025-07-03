@@ -62,15 +62,17 @@ export default StyleSheet.create({
     minHeight: 160,
   },
   illustrationSection: {
-    backgroundColor: '#FFE8B3',
+    backgroundColor: '#E3B1D2',
     width: 140,
     height: 160,
     justifyContent: 'center',
     alignItems: 'center',
   },
   illustrationImage: {
-    width: 200,
-    height: 200,
+    width: 220,
+    height: 220,
+    position: 'absolute',
+    bottom: -60,
     resizeMode: 'contain',
   },
   contentSection: {

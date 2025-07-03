@@ -11,7 +11,11 @@ import { Text } from "../ui/Text";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
 
-export default function GoogleSignInButton() {
+interface LoginScreenProps {
+  text: string;
+}
+
+export default function GoogleSignInButton( { text }: LoginScreenProps) {
   const router = useRouter();
   const { colorScheme } = useColorScheme();
 
@@ -57,7 +61,7 @@ export default function GoogleSignInButton() {
       <Text
         className={`font-semibold ${colorScheme === "dark" ? "text-gray-200" : "text-gray-600"}`}
       >
-        Sign in with Google
+        {text}
       </Text>
     </TouchableOpacity>
   );

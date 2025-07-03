@@ -144,9 +144,9 @@ export default function QuestionnaireScreens() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-third">
+    <SafeAreaView className="flex-1 px-6 pb-8 bg-general">
       {/* Corregir color con version oscura */}
-      <View className="px-5 py-1 h-20 flex-row items-center gap-2 pt-8">
+      <View className="py-1 h-20 flex-row items-center gap-2 pt-5">
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="close" size={35} color="gray" />
         </TouchableOpacity>
@@ -163,80 +163,102 @@ export default function QuestionnaireScreens() {
         </Text>
       </View>
 
-      <View className="flex-1 px-4 py-3 bg-primary">
+      <View className="flex-1">
         {currentQuestion && (
           <>
             {currentQuestion.type == 1 && (
               <>
-                <View className="bg-gray rounded-2xl p-4 mb-4">
-                  <Text className="text-white text-lg font-medium">
+                <View className="rounded-2xl py-4 mb-4">
+                  <Text className="text-xl font-medium text-secondary">
                     {currentQuestion.title}
                   </Text>
                 </View>
 
                 {currentQuestion.imageUrl && (
-                  <View
-                    className="items-center mb-4  rounded-2xl overflow-hidden"
-                    style={{
-                      width: "auto",
-                      maxWidth: 350,
-                      height: 180,
-                      alignSelf: "center",
-                    }}
-                  >
+                  <View className="items-center mb-4 overflow-hidden w-full max-w-[350] h-[250]">
                     <Image
                       source={{ uri: currentQuestion.imageUrl }}
                       style={{
                         width: "100%",
                         height: "100%",
                         aspectRatio: 1.5,
-                        borderRadius: 16, // Borde redondeado
                       }}
-                      contentFit="contain"
+                      contentFit="contain" //cambiar a cover, img estandar
                     />
                   </View>
                 )}
 
-                <View className="bg-third rounded-2xl p-4 mb-6 border-2 border-gray-500">
-                  <View className="flex-row items-center">
-                    <Text className="text-2xl mr-3">🔊</Text>
-                    <Text className="text-secondary flex-1">
-                      {currentQuestion.description}
-                    </Text>
+                <View className="py-5 flex-row gap-3">
+                  <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
+                    <MaterialIcons name="volume-up" size={25} color="white" />
                   </View>
+                  <Text className="text-base text-fourth">
+                    {currentQuestion.description}
+                  </Text>
                 </View>
 
                 {/* alternativas */}
 
                 {currentQuestion.alternatives && (
-                  <View className="mb-6">
-                    <View className="flex-row flex-wrap justify-between">
-                      {currentQuestion.alternatives.map(
-                        (opcion: any, idx: number) => (
-                          <TouchableOpacity
-                            key={idx}
-                            onPress={() =>
-                              handleAnswerSelect(currentQuestionIndex, idx)
-                            }
-                            className={`w-[48%] mb-4 p-4 rounded-2xl border-2 ${
-                              selectedAnswers[currentQuestionIndex] === idx
-                                ? "border-blue-500 bg-blue-400"
-                                : "border-gray-500 bg-third"
-                            }`}
-                          >
-                            <Text
-                              className={`text-center text-sm ${
-                                selectedAnswers[currentQuestionIndex] === idx
-                                  ? "text-primary"
-                                  : "text-secondary"
-                              }`}
-                            >
-                              {opcion.label}
-                            </Text>
-                          </TouchableOpacity>
+                  <View className="pb-10 grow justify-center">
+                    <View className="flex-row flex-wrap gap-y-3 justify-between">
+                      {currentQuestion.alternatives
+                        .slice() // Create a shallow copy to avoid mutating the original
+                        .sort(
+                          (a: { id: number }, b: { id: number }) => a.id - b.id
                         )
-                      )}
+                        .map((opcion: any, idx: number) => {
+                          const isSelected =
+                            selectedAnswers[currentQuestionIndex] === idx;
+                          const isCorrect = idx === currentQuestion.answer;
+
+                          let borderColor =
+                            "border-gray-300 dark:border-gray-300/20";
+
+                          if (
+                            isAnswerSelected &&
+                            isSelected &&
+                            showExplanation
+                          ) {
+                            if (isCorrect) {
+                              borderColor = "border-green-400";
+                            } else {
+                              borderColor = "border-red-400";
+                            }
+                          } else if (isSelected) {
+                            borderColor = "border-purple/70";
+                          }
+
+                          return (
+                            <TouchableOpacity
+                              key={idx}
+                              onPress={() =>
+                                handleAnswerSelect(currentQuestionIndex, idx)
+                              }
+                              className={`basis-[48%] mb-3 p-4 bg-white dark:bg-black/20 rounded-2xl border-2 border-b-8 ${borderColor}`}
+                              disabled={showExplanation}
+                            >
+                            <Text className="text-center text-sm text-secondary">
+                              {opcion.title}
+                            </Text>
+                              
+                            </TouchableOpacity>
+                          );
+                        })}
                     </View>
+
+                    {/* Explanation (shown after answer is selected) */}
+                    {isAnswerSelected && showExplanation && (
+                      <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+                        <Text className="text-green-800 font-medium mb-2">
+                          Explicación:
+                        </Text>
+                        <Text className="text-green-700">
+                          {currentQuestion.explicacion ||
+                            "La seña compuesta significa un saludo de Buenas Noches"}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 )}
               </>
@@ -249,23 +271,6 @@ export default function QuestionnaireScreens() {
                     {currentQuestion.title}
                   </Text>
                 </View>
-
-                {currentQuestion.imageUrl && (
-                  <View
-                    className="items-center mb-4 overflow-hidden w-full max-w-[350] h-[180]"
-                  >
-                    <Image
-                      source={{ uri: currentQuestion.imageUrl }}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        aspectRatio: 1.5,
-                        borderRadius: 16, // Borde redondeado
-                      }}
-                      contentFit="contain"  //cambiar a cover, img estandar
-                    />
-                  </View>
-                )} 
 
                 <View className="px-5 mb-6 flex-row gap-3">
                   <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
@@ -282,7 +287,7 @@ export default function QuestionnaireScreens() {
                   <View className="px-5 mb-5 grow">
                     <View className="flex-row flex-wrap gap-y-3 justify-between grow ">
                       {currentQuestion.alternatives
-                        .slice() // Create a shallow copy to avoid mutating the original
+                        .slice()
                         .sort(
                           (a: { id: number }, b: { id: number }) => a.id - b.id
                         )
@@ -356,7 +361,7 @@ export default function QuestionnaireScreens() {
       </View>
 
       {/* Bottom Navigation */}
-      <View className="px-4 py-6 bg-third border-t border-gray-200">
+      <View>
         <View className="flex-row justify-between items-center">
           <TouchableOpacity
             onPress={handleContinue}
