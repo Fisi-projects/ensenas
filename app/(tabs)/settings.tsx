@@ -257,7 +257,10 @@ export default function Settings() {
               </View>
               <Switch
                 value={colorScheme === "dark"}
-                onValueChange={toggleColorScheme}
+                onValueChange={() => {
+                  Smartlook.instance.analytics.trackEvent("toggle_dark_mode");
+                  toggleColorScheme();
+                }}
                 trackColor={{ false: "#E5E5E5", true: "#007AFF" }}
                 thumbColor={colorScheme === "dark" ? "#fff" : "#fff"}
               />
@@ -270,7 +273,10 @@ export default function Settings() {
               </View>
               <Switch
                 value={audioEnabled}
-                onValueChange={setAudioEnabled}
+                onValueChange={(value) => {
+                  Smartlook.instance.analytics.trackEvent("toggle_tallback");
+                  setAudioEnabled(value);
+                }}
                 trackColor={{ false: "#E5E5E5", true: "#007AFF" }}
                 thumbColor={audioEnabled ? "#fff" : "#fff"}
               />
