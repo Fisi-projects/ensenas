@@ -13,10 +13,20 @@ export default function DictionaryDetail() {
   const { word, description, imageUrl } = useLocalSearchParams();
   const [imageError, setImageError] = useState(false);
   const [loadingImage, setLoadingImage] = useState(true);
+
+  // NO decodifiques la URL, solo asegúrate de que sea string
   const imageUrlString = Array.isArray(imageUrl) ? imageUrl[0] : imageUrl;
 
-  console.log("Image URL:", imageUrl); // Verifica la URL en consola
-  console.log("Word:", word); // Verifica la palabra en consola
+  const isValidImageUrl =
+    typeof imageUrlString === "string" &&
+    imageUrlString.startsWith("http") &&
+    imageUrlString.length > 10;
+
+  useEffect(() => {
+    setImageError(false);
+    setLoadingImage(true);
+    console.log("Image URL:", imageUrlString);
+  }, [imageUrlString]);
 
   return (
     <View className="flex-1 bg-general  px-6 py-8">
@@ -29,7 +39,7 @@ export default function DictionaryDetail() {
         </TouchableOpacity>
       </View>
       <View className="justify-top items-center grow">
-        {imageUrl && !imageError ? (
+        {isValidImageUrl && !imageError ? (
           <View className="mb-4">
             <Image
               source={{ uri: imageUrlString }}
@@ -50,7 +60,7 @@ export default function DictionaryDetail() {
           </View>
         ) : null}
 
-        {imageError && (
+        {(!isValidImageUrl || imageError) && (
           <View className="w-32 h-32 bg-gray-200 rounded-lg mb-4 justify-center items-center">
             <Text className="text-gray-500">Imagen no disponible</Text>
           </View>

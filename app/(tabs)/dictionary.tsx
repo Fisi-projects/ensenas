@@ -101,16 +101,18 @@ export default function Dictionary() {
                 <TouchableOpacity
                   key={`${chapterKey}-${lessonKey}-${tIdx}`}
                   className="w-[48%] bg-lessons rounded-xl py-4 px-2 mb-3 items-center border-2 border-b-4 border-gray-300"
-                  onPress={() =>
+                  onPress={() => {
                     router.push({
-                      pathname: "/(tabs)/home/dictionary-details",
+                      pathname: "/(tabs)/dictionary/dictionary-details",
                       params: {
                         word: theory.title || "Sin título",
                         description: theory.description || "Sin descripción disponible.",
-                        imageUrl: theory.imageUrl || "",
+                        // Codifica la URL aquí:
+                        imageUrl: theory.imageUrl ? encodeURIComponent(theory.imageUrl) : "",
                       },
-                    })
-                  }
+                    });
+                    console.log(theory.imageUrl);
+                  }}
                 >
                   <Text className="text-base text-gray-800 dark:text-white text-center my-auto">
                     {theory.title || "Sin título"}
