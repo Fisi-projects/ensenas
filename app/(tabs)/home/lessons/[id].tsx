@@ -105,7 +105,7 @@ export default function ModuleLessonsScreen() {
                   </Text>
                 </View>
               </View>
-              <FontAwesome6 name="lock" size={20} color="#757575" />
+              {/* <FontAwesome6 name="lock" size={20} color="#757575" /> */}
             </View>
           </TouchableOpacity>
         ))}
