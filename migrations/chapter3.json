@@ -1,0 +1,210 @@
+{
+  "_id": ObjectId("68579f526b5e8250c0890b6c"),
+  "id": "chapter003",
+  "title": "Números y operaciones",
+  "description": "Aprende los números, operaciones básicas y su representación en lengua de señas",
+  "lessons": [
+    {
+      "lesson001": {
+        "title": "Contemos juntos",
+        "description": "Aprende a contar del 1 al 20 de forma divertida y visual.",
+        "theoretical": {
+          "t001": {
+            "title": "¿Cómo se configuran los números?",
+            "description": "Los números en lengua de señas se realizan con una sola mano (la dominante), de izquierda a derecha, haciendo una breve pausa entre cada número. La referencia siempre es la persona que hace la seña.",
+            "imageUrl": "https://.../numbers_config.png"
+          },
+          "t002": {
+            "title": "Números del 1 al 10",
+            "description": "Estos números son los más usados y se aprenden fácilmente. Observa cómo se representan con claridad.",
+            "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter3%2F1al10.png?alt=media&token=7de73154-c017-4e96-9740-465ca1a12ddd"
+          },
+          "t003": {
+            "title": "Números del 11 al 20",
+            "description": "Estos números requieren movimientos más específicos. Practica los gestos con tu mano dominante.",
+            "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter3%2F11al20.png?alt=media&token=05bebd42-0782-4827-b78f-2690b7fedf13"
+          },
+          "t004": {
+            "title": "Números especiales: 21, 100, 1000 y 10 000",
+            "description": "Algunos números como 100, 1000 o 1 000 000 tienen gestos únicos. Aprende a diferenciarlos correctamente.",
+            "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter3%2F21al1000.png?alt=media&token=dd8ac21d-c3ab-4c9e-b0a6-ee882c9f6c36"
+          }
+        },
+        "practical": {
+          "p001": {
+            "title": "¿Qué número representa esta seña?",
+            "description": "Selecciona el número correcto que corresponde a la seña mostrada.",
+            "imageUrl": "https://firebasestorage.googleapis.com/v0/b/ensenas-cf081.firebasestorage.app/o/modules%2Fchapter3%2Fnum_7.png?alt=media&token=4c057fd2-3e74-4e45-916e-1f7c34491d3b",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "5" },
+              { "label": "6" },
+              { "label": "7" },
+              { "label": "8" }
+            ],
+            "answer": 2
+          },
+          "p002": {
+            "title": "Relaciona la seña con el número",
+            "description": "Selecciona la seña que representa el número 15.",
+            "imageUrl": "",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "13", "imageUrl": "https://.../number_13.png" },
+              { "label": "14", "imageUrl": "https://.../number_14.png" },
+              { "label": "15", "imageUrl": "https://.../number_15.png" },
+              { "label": "16", "imageUrl": "https://.../number_16.png" }
+            ],
+            "answer": 2
+          },
+          "p003": {
+            "title": "¿Cómo se representa el número 100?",
+            "description": "Escoge la imagen que corresponde al número 100.",
+            "imageUrl": "https://.../number_100_question.png",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "100", "imageUrl": "https://.../number_100.png" },
+              { "label": "1000", "imageUrl": "https://.../number_1000.png" },
+              { "label": "21", "imageUrl": "https://.../number_21.png" },
+              { "label": "10 000", "imageUrl": "https://.../number_10000.png" }
+            ],
+            "answer": 0
+          },
+          "p004": {
+            "title": "Ordena los números",
+            "description": "Arrastra los números en el orden correcto.",
+            "imageUrl": "",
+            "type": "1",
+            "score": "10",
+            "alternatives": [
+              { "label": "3" },
+              { "label": "1" },
+              { "label": "2" },
+              { "label": "4" }
+            ],
+            "answer": ""
+          }
+        }
+      }
+    },
+    {
+      "lesson002": {
+        "title": "Sumar es fácil",
+        "description": "Practica sumas básicas con objetos e ilustraciones.",
+        "theoretical": {
+          "t001": {
+            "title": "Sumar con señas",
+            "description": "Para representar una suma, se muestran los números uno a uno, seguidos del gesto de agregar (+).",
+            "imageUrl": "https://.../sum_example.png"
+          }
+        },
+        "practical": {
+          "p001": {
+            "title": "¿Cuánto es 3 + 2?",
+            "description": "Selecciona la seña correcta para el resultado.",
+            "imageUrl": "https://.../sum_3_2.png",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "4", "imageUrl": "https://.../number_4.png" },
+              { "label": "5", "imageUrl": "https://.../number_5.png" },
+              { "label": "6", "imageUrl": "https://.../number_6.png" },
+              { "label": "7", "imageUrl": "https://.../number_7.png" }
+            ],
+            "answer": 1
+          }
+        }
+      }
+    },
+    {
+      "lesson003": {
+        "title": "¿Cuánto falta?",
+        "description": "Introduce la resta a través de situaciones cotidianas.",
+        "theoretical": {
+          "t001": {
+            "title": "Restar en señas",
+            "description": "Para restar se muestran los números en secuencia y se acompaña con el gesto de quitar (-).",
+            "imageUrl": "https://.../subtraction_example.png"
+          }
+        },
+        "practical": {
+          "p001": {
+            "title": "¿Cuánto es 10 - 4?",
+            "description": "Selecciona el número que representa la respuesta.",
+            "imageUrl": "https://.../sub_10_4.png",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "5", "imageUrl": "https://.../number_5.png" },
+              { "label": "6", "imageUrl": "https://.../number_6.png" },
+              { "label": "7", "imageUrl": "https://.../number_7.png" },
+              { "label": "8", "imageUrl": "https://.../number_8.png" }
+            ],
+            "answer": 1
+          }
+        }
+      }
+    },
+    {
+      "lesson004": {
+        "title": "Encuentra el número",
+        "description": "Asocia números con imágenes y cantidades concretas.",
+        "theoretical": {
+          "t001": {
+            "title": "Números y cantidades",
+            "description": "Relaciona los números con cantidades visibles. Esto ayuda a reforzar el concepto.",
+            "imageUrl": "https://.../numbers_vs_objects.png"
+          }
+        },
+        "practical": {
+          "p001": {
+            "title": "¿Cuántos objetos hay?",
+            "description": "Cuenta los objetos y elige el número correcto.",
+            "imageUrl": "https://.../count_apples.png",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "2", "imageUrl": "https://.../number_2.png" },
+              { "label": "3", "imageUrl": "https://.../number_3.png" },
+              { "label": "4", "imageUrl": "https://.../number_4.png" },
+              { "label": "5", "imageUrl": "https://.../number_5.png" }
+            ],
+            "answer": 2
+          }
+        }
+      }
+    },
+    {
+      "lesson005": {
+        "title": "Gesto y número",
+        "description": "Aprende los gestos físicos para representar números del 1 al 10.",
+        "theoretical": {
+          "t001": {
+            "title": "Forma correcta de la mano",
+            "description": "Observa cómo deben estar colocados los dedos para representar cada número correctamente.",
+            "imageUrl": "https://.../hand_position_numbers.png"
+          }
+        },
+        "practical": {
+          "p001": {
+            "title": "¿Qué número es?",
+            "description": "Selecciona el número que corresponde a la seña mostrada.",
+            "imageUrl": "https://.../number_9.png",
+            "type": "3",
+            "score": "10",
+            "alternatives": [
+              { "label": "8", "imageUrl": "https://.../number_8.png" },
+              { "label": "9", "imageUrl": "https://.../number_9.png" },
+              { "label": "10", "imageUrl": "https://.../number_10.png" },
+              { "label": "7", "imageUrl": "https://.../number_7.png" }
+            ],
+            "answer": 1
+          }
+        }
+      }
+    }
+  ]
+}
