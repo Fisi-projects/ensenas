@@ -1,244 +1,126 @@
-import { LayoutStyles } from "@/components/LayoutStyle";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
   ScrollView,
-  Dimensions,
-  Platform,
+  TouchableOpacity,
+  ActivityIndicator,
+  ImageBackground,
 } from "react-native";
-import { useState, useEffect } from "react";
-import Smartlook from "react-native-smartlook-analytics";
+import { useRouter } from "expo-router";
 
-const screenWidth = Dimensions.get("window").width;
-const horizontalPadding = 20;
-const spaceBetween = 20;
-const columns = 3;
-const totalSpacing = spaceBetween * (columns - 1) + horizontalPadding * 2;
-const cardSize = (screenWidth - totalSpacing) / columns;
+const baseUrl = "https://ensenas-nosql.onrender.com/modules/dictionary";
 
-const categoryData = [
-  {
-    title: "Categoría 1",
-    items: [
-      "Hola",
-      "¿Cómo estás?",
-      "Buen día",
-      "Encantado",
-      "Mucho gusto",
-      "¿Qué tal?",
-    ],
-  },
-  {
-    title: "Categoría 2",
-    items: [
-      "Buenas tardes",
-      "¿Cómo te va?",
-      "Buen día",
-      "¿Todo bien?",
-      "¡Qué alegría!",
-      "¡Hola de nuevo!",
-    ],
-  },
-  {
-    title: "Categoría 3",
-    items: [
-      "Buenas noches",
-      "Dulces sueños",
-      "Hasta mañana",
-      "Descansa",
-      "Que duermas bien",
-    ],
-  },
-  {
-    title: "Categoría 4",
-    items: [
-      "Gracias",
-      "De nada",
-      "Por favor",
-      "Con gusto",
-      "Mil gracias",
-      "Te lo agradezco",
-    ],
-  },
-  {
-    title: "Categoría 5",
-    items: [
-      "Adiós",
-      "Nos vemos",
-      "Hasta luego",
-      "Chau",
-      "Cuídate",
-      "Hasta pronto",
-    ],
-  },
-];
-
-type GreetingCardProps = {
-  text: string;
-  onPress: () => void;
-};
-
-const GreetingCard = ({ text, onPress }: GreetingCardProps) => {
-  const [pressed, setPressed] = useState(false);
-
-  return (
-    <TouchableOpacity
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      onPress={() => {
-        setPressed(false);
-        onPress();
-      }}
-      activeOpacity={0.8}
-      style={[styles.card, pressed && styles.cardPressed]}
-    >
-      <Text style={[styles.cardText, pressed && styles.cardTextPressed]}>
-        {text}
-      </Text>
-    </TouchableOpacity>
-  );
-};
-
-type GreetingSectionProps = {
+interface Theory {
   title: string;
-  items: string[];
-  isFirst?: boolean;
-};
+  description: string;
+  imageUrl: string;
+}
 
-const GreetingSection = ({ title, items, isFirst }: GreetingSectionProps) => {
-  const handlePress = (text: string) => {
-    console.log("Presionado:", text);
+interface Lesson {
+  [theoryKey: string]: Theory; // t001, t002, etc.
+}
+
+interface Chapter {
+  [lessonKey: string]: Lesson; // lesson001, lesson002, etc.
+}
+
+interface DictionaryData {
+  [chapterKey: string]: Chapter; // chapter001, chapter002, etc.
+}
+
+export default function Dictionary() {
+  const [lessonsData, setLessonsData] = useState<
+    { chapterKey: string; lessonKey: string; theories: Theory[] }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(baseUrl);
+        const data: DictionaryData = await res.json();
+
+        // Procesamos los datos para obtener un array plano de lecciones con sus teorías
+        const processedData = Object.entries(data).flatMap(
+          ([chapterKey, chapter]) =>
+            Object.entries(chapter).map(([lessonKey, lesson]) => ({
+              chapterKey,
+              lessonKey,
+              theories: Object.values(lesson),
+            }))
+        );
+        setLessonsData(processedData);
+      } catch (e) {
+        console.error("Error fetching data:", e);
+        setLessonsData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#6C7CFA" />
+      </View>
+    );
+  }
+
+  // Función para extraer el número de la lección (ej: "lesson001" → 1)
+  const getLessonNumber = (lessonKey: string): number => {
+    return parseInt(lessonKey.replace("lesson", ""), 10);
   };
 
   return (
-    <View style={[styles.section, isFirst && { paddingTop: 16 }]}>
-      <View style={styles.textWrapper}>
-        <View style={[styles.header, { backgroundColor: "#FF4885" }]}>
-          <Text style={styles.headerText}>{title}</Text>
+    <ScrollView className="flex-1 bg-primary">
+      <ImageBackground
+        source={require("@/assets/images/background/bg_dictionary.png")}
+        className="h-[250] px-6"
+        resizeMode="cover"
+      >
+        <View className="my-auto">
+          <Text className="text-3xl font-bold text-white">Diccionario</Text>
+          <Text className="text-base text-white mt-1">
+            Temas teóricos por lección
+          </Text>
         </View>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-          quis justo neque
-        </Text>
-      </View>
-      <FlatList
-        data={items}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <GreetingCard text={item} onPress={() => handlePress(item)} />
-        )}
-        numColumns={3}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.cardContainer}
-        scrollEnabled={false}
-      />
-    </View>
-  );
-};
+      </ImageBackground>
 
-export default function Dictionary() {
-  Smartlook.instance.analytics.trackEvent("dictionary_screen_viewed");
-  useEffect(() => {
-    Smartlook.instance.analytics.trackNavigationEnter("Diccionario");
-    return () => {
-      Smartlook.instance.analytics.trackNavigationExit("Diccionario");
-    };
-  }, []);
-  return (
-    <ScrollView
-      style={LayoutStyles.container}
-      className="bg-primary"
-      contentContainerStyle={{ paddingBottom: 40 }}
-    >
-      <Text style={LayoutStyles.Title__text}>Dictionary</Text>
-      {categoryData.map((cat, index) => (
-        <GreetingSection
-          key={index}
-          title={cat.title}
-          items={cat.items}
-          isFirst={index === 0}
-        />
-      ))}
+      <View className="-mt-7 bg-general px-6 py-8 rounded-t-[30]">
+        {lessonsData.map(({ chapterKey, lessonKey, theories }, idx) => (
+          <View key={`${chapterKey}-${lessonKey}`} className="mb-6">
+            <Text className="text-lg dark:text-white font-semibold mb-1">
+              Lección {idx + 1}
+            </Text>
+            <View className="flex-row flex-wrap justify-between">
+              {theories.map((theory, tIdx) => (
+                <TouchableOpacity
+                  key={`${chapterKey}-${lessonKey}-${tIdx}`}
+                  className="w-[48%] bg-lessons rounded-xl py-4 px-2 mb-3 items-center border-2 border-b-4 border-gray-300"
+                  onPress={() =>
+                    router.push({
+                      pathname: "/(tabs)/home/dictionary-details",
+                      params: {
+                        word: theory.title || "Sin título",
+                        description: theory.description || "Sin descripción disponible.",
+                        imageUrl: theory.imageUrl || "",
+                      },
+                    })
+                  }
+                >
+                  <Text className="text-base text-gray-800 dark:text-white text-center my-auto">
+                    {theory.title || "Sin título"}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        ))}
+      </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  section: {
-    marginBottom: 24,
-  },
-  header: {
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  headerText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-  description: {
-    textAlign: "center",
-    marginVertical: 8,
-    fontSize: 14,
-  },
-  cardContainer: {
-    paddingHorizontal: horizontalPadding,
-  },
-  row: {
-    justifyContent: "space-between",
-    marginBottom: 16,
-  },
-  card: {
-    width: 84,
-    height: 84,
-    justifyContent: "center",
-    backgroundColor: "#f2f2f2",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    alignItems: "center",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  cardPressed: {
-    backgroundColor: "#dbefff",
-    borderColor: "#2196f3",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#2196f3",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 6,
-      },
-    }),
-  },
-  cardText: {
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 16,
-    textAlign: "center",
-    paddingHorizontal: 2,
-  },
-  cardTextPressed: {
-    color: "#1976d2",
-  },
-  textWrapper: {
-    paddingHorizontal: horizontalPadding,
-  },
-});
