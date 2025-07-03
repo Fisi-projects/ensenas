@@ -14,6 +14,7 @@ import { collection, query, where, getDocs, getFirestore } from '@react-native-f
 interface LearningModule {
   id: string;
   title: string;
+  imageUrl: string;
   description: string;
   badges: string[];
   isBookmarked: boolean;
@@ -80,7 +81,7 @@ export default function HomeScreen() {
     >
       <View style={styles.illustrationSection}>
         <Image
-          source={require("../../../assets/images/book.png")} // reemplaza con tus imágenes
+          source={module.imageUrl ? { uri: module.imageUrl } : require("../../../assets/images/book.png")}
           style={styles.illustrationImage}
         />
       </View>
