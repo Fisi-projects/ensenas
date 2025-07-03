@@ -13,7 +13,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Smartlook from "react-native-smartlook-analytics";
 import * as Speech from 'expo-speech';
-
+import { useAudio } from "../../../components/AudioContext"; // Asegúrate de que la ruta sea correcta
 /* interface TheoryContent {
   id: string;
   title: string;
@@ -21,7 +21,7 @@ import * as Speech from 'expo-speech';
   resources?: {
     imageUrl?: string;
   };
-} */
+} */ 
 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
@@ -32,6 +32,7 @@ interface TheoryContent {
 }
 
 export default function TheoryScreen() {
+
   Smartlook.instance.analytics.trackEvent("theory_screen_viewed");
   useEffect(() => {
     Smartlook.instance.analytics.trackNavigationEnter("Teoria");
@@ -93,9 +94,11 @@ export default function TheoryScreen() {
       });
     }
   };
+const { audioEnabled } = useAudio();
 
 
 useEffect(() => {
+  if (!audioEnabled) return;
   if (contents[currentIndex]?.title) {
     Speech.speak(contents[currentIndex].title, {
       onDone: () => {
@@ -105,9 +108,12 @@ useEffect(() => {
       }
     });
   }
-}, [currentIndex, contents[currentIndex]?.title, contents[currentIndex]?.description]);
-
-
+  // Cleanup: detener audio al desmontar o cambiar teoría
+  return () => {
+    Speech.stop();
+  };
+}, [audioEnabled, currentIndex, contents[currentIndex]?.title, contents[currentIndex]?.description]);
+// ...existing code...
 
   return (
     <SafeAreaView style={[{ flex: 1 }, pageBg]}>

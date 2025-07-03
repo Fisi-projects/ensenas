@@ -10,6 +10,7 @@ import {
   Modal,
   Pressable,
 } from "react-native";
+import { useAudio } from "../../components/AudioContext";
 import { Text } from "react-native";
 import { Image } from "expo-image";
 import {
@@ -35,7 +36,7 @@ export default function Settings() {
       Smartlook.instance.analytics.trackNavigationExit("Settings");
     };
   }, []);
-
+  const { audioEnabled, setAudioEnabled } = useAudio();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
@@ -257,21 +258,21 @@ export default function Settings() {
               <Switch
                 value={colorScheme === "dark"}
                 onValueChange={toggleColorScheme}
-                trackColor={{ false: "#E5E5E5", true: "#666" }}
+                trackColor={{ false: "#E5E5E5", true: "#007AFF" }}
                 thumbColor={colorScheme === "dark" ? "#fff" : "#fff"}
               />
             </TouchableOpacity>
 
             <TouchableOpacity style={SettingsStyles.rowItems}>
               <View style={SettingsStyles.rowIconText}>
-                <Ionicons name="notifications" size={20} color="#666" />
-                <Text className="text-secondary ml-3">Notificaciones</Text>
+                <Ionicons name="megaphone-sharp" size={24} color="#666" />
+                <Text className="text-secondary ml-3">Tallback</Text>
               </View>
               <Switch
-                value={notifications}
-                onValueChange={setNotifications}
+                value={audioEnabled}
+                onValueChange={setAudioEnabled}
                 trackColor={{ false: "#E5E5E5", true: "#007AFF" }}
-                thumbColor={notifications ? "#fff" : "#fff"}
+                thumbColor={audioEnabled ? "#fff" : "#fff"}
               />
             </TouchableOpacity>
           </View>

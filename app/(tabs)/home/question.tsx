@@ -11,6 +11,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Smartlook from "react-native-smartlook-analytics";
 import { SafeAreaView } from "react-native";
 import * as Speech from 'expo-speech';
+import { useAudio } from "../../../components/AudioContext"; 
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
 export default function QuestionnaireScreens() {
@@ -103,8 +104,9 @@ export default function QuestionnaireScreens() {
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-
+const { audioEnabled } = useAudio();
 useEffect(() => {
+  if (!audioEnabled) return;
   if (currentQuestion?.title) {
     Speech.speak(currentQuestion.title, {
       onDone: () => {
@@ -114,8 +116,12 @@ useEffect(() => {
       }
     });
   }
-}, [currentQuestionIndex, currentQuestion?.title, currentQuestion?.description]);
-
+  // Cleanup: detener audio al desmontar o cambiar pregunta
+  return () => {
+    Speech.stop();
+  };
+}, [audioEnabled, currentQuestionIndex, currentQuestion?.title, currentQuestion?.description]);
+// ...existing code...
 
   const progress =
     questions.length > 0 ? (currentQuestionIndex + 1) / questions.length : 0;

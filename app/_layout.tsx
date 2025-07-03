@@ -3,6 +3,7 @@ import "../global.css";
 import { Theme } from "@/components/ScreenLayout";
 import { StatusBar } from "react-native";
 import { useColorScheme } from "nativewind";
+import { AudioProvider } from "../components/AudioContext"; 
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -18,7 +19,9 @@ export default function RootLayout() {
         translucent={false}
       />
       <Theme>
+        <AudioProvider>
         <Stack screenOptions={{ headerShown: false }} />
+        </AudioProvider>
       </Theme>
     </>
   );
