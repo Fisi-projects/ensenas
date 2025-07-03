@@ -10,7 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Smartlook from "react-native-smartlook-analytics";
 import { SafeAreaView } from "react-native";
-
+import * as Speech from 'expo-speech';
 const baseUrl = "https://ensenas-nosql.onrender.com/modules/";
 
 export default function QuestionnaireScreens() {
@@ -63,10 +63,14 @@ export default function QuestionnaireScreens() {
   }, []);
 
   useEffect(() => {
+    
     if (selectedAnswers) {
     }
   }, [showExplanation]);
 
+  
+
+  
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -99,6 +103,15 @@ export default function QuestionnaireScreens() {
   };
 
   const currentQuestion = questions[currentQuestionIndex];
+
+  useEffect(() => {
+    if (currentQuestion?.title) {
+      Speech.speak(currentQuestion.title);
+    }
+  }, [currentQuestionIndex, currentQuestion?.title]);
+
+
+
   const progress =
     questions.length > 0 ? (currentQuestionIndex + 1) / questions.length : 0;
   const isAnswerSelected = selectedAnswers[currentQuestionIndex] !== undefined;
@@ -189,9 +202,14 @@ export default function QuestionnaireScreens() {
                 )}
 
                 <View className="py-5 flex-row gap-3">
-                  <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
+                  <TouchableOpacity className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center"
+                    onPress={()=>{
+                      const thingToSay = currentQuestion.description;
+                      Speech.speak(thingToSay);
+                    }}
+                  >
                     <MaterialIcons name="volume-up" size={25} color="white" />
-                  </View>
+                  </TouchableOpacity>
                   <Text className="text-base text-fourth">
                     {currentQuestion.description}
                   </Text>
@@ -239,7 +257,7 @@ export default function QuestionnaireScreens() {
                               disabled={showExplanation}
                             >
                             <Text className="text-center text-sm text-secondary">
-                              {opcion.title}
+                              {opcion.label}
                             </Text>
                               
                             </TouchableOpacity>
