@@ -64,7 +64,7 @@ export default function LoginScreenComponent({
         await createUserWithEmailAndPassword(auth, email, password);
         console.log("Usuario registrado con éxito.");
       }
-      router.replace("/welcome");
+      router.replace("/(tabs)/home");
     } catch (error) {
       console.error(error);
     } finally {
