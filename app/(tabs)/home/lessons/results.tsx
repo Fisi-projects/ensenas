@@ -1,12 +1,11 @@
 "use client";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
+import Constants from "expo-constants";
+import { getAuth } from "@react-native-firebase/auth";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function QuizResultsScreen({
   score = 0,
@@ -21,6 +20,42 @@ export default function QuizResultsScreen({
 }) {
   const colorScheme = useColorScheme(); // Correct destructuring
   const percentage = totalQuestions === 0 ? 0 : (score / totalQuestions) * 100;
+  const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl;
+
+  const addExperience = async (gainedExp: number) => {
+    const user = getAuth().currentUser;
+    if (!user) throw new Error("No user logged in");
+
+    const resultToken = await user.getIdTokenResult();
+    const token = resultToken.token;
+
+    const response = await axios.post(
+      `${API_BASE_URL}user/${user.uid}`,
+      { experience: gainedExp },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    return response.data;
+  };
+
+  useEffect(() => {
+    const sendExperience = async () => {
+      try {
+        await addExperience(getExp());
+        console.log("Experience added");
+      } catch (err) {
+        console.error("Failed to add experience", err);
+      }
+    };
+
+    if (score > 0) {
+      sendExperience();
+    }
+  }, [score]);
 
   const getEncouragementMessage = () => {
     if (percentage >= 80) return "¡Excelente trabajo!";

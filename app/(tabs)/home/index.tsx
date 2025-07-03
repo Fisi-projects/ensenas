@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   View,
@@ -13,7 +13,6 @@ import styles from "../../../assets/styles/HomeScreen.styles";
 import {
   collection,
   query,
-  where,
   getDocs,
   getFirestore,
 } from "@react-native-firebase/firestore";
@@ -37,10 +36,22 @@ interface Chapter {
   isBookmarked: boolean;
 }
 
+export interface UserResponse {
+  id: string;
+  name: string;
+  email: string;
+  streak: number;
+  level: number;
+  experience: number;
+  last_experience_at: string | null; // Use string for DateTime<Utc>
+  timezone: string;
+}
+
 export default function HomeScreen() {
   const [chapters, setChapters] = React.useState<Chapter[]>([]);
   const router = useRouter();
   const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl;
+  const [user, setUser] = useState<UserResponse | null>(null);
 
   useEffect(() => {
     const fetchLessons = async () => {
@@ -84,17 +95,15 @@ export default function HomeScreen() {
         const uid = tokenResult.claims.user_id;
 
         // 1. Check if the user already exists
-        const getUserRes = await axios.get(
-          `${API_BASE_URL}user/${uid}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const getUserRes = await axios.get(`${API_BASE_URL}user/${uid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
 
         if (getUserRes.data) {
           console.log("User already exists:", getUserRes.data);
+          setUser(getUserRes.data);
           return; // ✅ User exists, do not create
         }
 
@@ -111,6 +120,7 @@ export default function HomeScreen() {
         );
 
         console.log("User created:", createUserRes.data);
+        setUser(createUserRes.data);
       } catch (err) {
         console.error("Error during user check/creation:", err);
       }
@@ -186,7 +196,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.bookmarkButton}
           onPress={() => handleModulePress(module.id)}
-        //onPress={() => handleBookmarkPress(module.id)}
+          //onPress={() => handleBookmarkPress(module.id)}
         >
           <View style={styles.bookmarkIcon}>
             <Text style={styles.bookmarkText}>▶</Text>
@@ -207,7 +217,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakIcon}>🔥</Text>
-          <Text style={styles.streakText}>0</Text>
+          <Text style={styles.streakText}>{user?.streak ?? 0}</Text>
         </View>
       </View>
 

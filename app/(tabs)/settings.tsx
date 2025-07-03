@@ -27,6 +27,9 @@ import { SettingsStyles } from "@/assets/styles/Settings.styles";
 import * as ImagePicker from "expo-image-picker";
 import { getAuth, signOut } from "@react-native-firebase/auth";
 import Smartlook from "react-native-smartlook-analytics";
+import { UserResponse } from "./home";
+import axios from "axios";
+import Constants from "expo-constants";
 
 export default function Settings() {
   Smartlook.instance.analytics.trackEvent("settings_screen_viewed");
@@ -46,6 +49,8 @@ export default function Settings() {
   const [userName, setUserName] = useState("Brayan Llacza Valeta");
   const [newName, setNewName] = useState("");
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [userStats, setUserStats] = useState<UserResponse | null>(null);
+  const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl;
 
   // User data - esto debería venir de tu sistema de autenticación
   const userData = {
@@ -61,6 +66,38 @@ export default function Settings() {
   const handleWelcome = async () => {
     router.replace("/welcome");
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = getAuth().currentUser;
+      if (!user) {
+        console.log("No user logged in.");
+        return;
+      }
+
+      console.log("Checking if user exists...");
+
+      try {
+        const tokenResult = await user.getIdTokenResult();
+        const token = tokenResult.token;
+        const uid = tokenResult.claims.user_id;
+
+        // 1. Check if the user already exists
+        const getUserRes = await axios.get(`${API_BASE_URL}user/${uid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("User already exists:", getUserRes.data);
+        setUserStats(getUserRes.data);
+      } catch (err) {
+        console.error("Error during user check/creation:", err);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -109,7 +146,7 @@ export default function Settings() {
   }, [editingName, userName]);
 
   const experiencePercentage =
-    (userData.experience / userData.maxExperience) * 100;
+    userStats?.experience ?? 50 / 100 + (userStats?.level ?? 1 - 1) * 10;
 
   return (
     <ScrollView style={LayoutStyles.container} className="bg-primary">
@@ -179,7 +216,7 @@ export default function Settings() {
               ) : (
                 <>
                   <Text className="text-secondary text-xl font-semibold mr-2">
-                    {userName}
+                    {userStats?.name ?? userName}
                   </Text>
                   <TouchableOpacity onPress={() => setEditingName(true)}>
                     <Ionicons name="pencil" size={16} color="#666" />
@@ -191,18 +228,20 @@ export default function Settings() {
             <View className="flex-row items-center mt-1">
               <Ionicons name="star" size={14} color="#666" />
               <Text className="text-secondary text-lg ml-1">
-                Nv. {userData.level}
+                Nv. {userStats?.level ?? 1}
               </Text>
             </View>
 
             <View className="mt-2">
               <Text className="text-secondary text-xs mb-1">
-                {userData.experience}/{userData.maxExperience} EXP
+                {userStats?.level ?? 1} EXP
               </Text>
               <View className="w-full h-3 bg-gray-200 rounded-full">
                 <View
                   className="h-3 bg-green-500 rounded-full"
-                  style={{ width: `${experiencePercentage}%` }}
+                  style={{
+                    width: `${experiencePercentage}%`,
+                  }}
                 />
               </View>
             </View>
@@ -221,7 +260,7 @@ export default function Settings() {
               <View className="flex-row items-center mb-2">
                 <Ionicons name="flame" size={24} color="#FF6B35" />
                 <Text className="text-secondary text-xl font-bold ml-2">
-                  {userData.streakDays}
+                  {userStats?.streak ?? 0}
                 </Text>
               </View>
               <Text className="text-gray-600 text-sm text-center">
