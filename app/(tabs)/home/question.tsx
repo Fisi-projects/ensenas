@@ -48,10 +48,23 @@ export default function QuestionnaireScreens() {
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
         }
+
         const data = await response.json();
         console.log("Fetched questions:", data);
-        setQuestions(Array.isArray(data) ? data : Object.values(data || {}));
-        console.log("Processed questions:", questions);
+
+        const parsedQuestions = Array.isArray(data) ? data : Object.values(data || {});
+
+        // Asegúrate que cada alternativa sea un objeto bien formado
+        const normalizedQuestions = parsedQuestions.map((q: any) => ({
+          ...q,
+          alternatives: Array.isArray(q.alternatives)
+            ? q.alternatives.map((alt: any) =>
+                typeof alt === "object" ? alt : { title: String(alt) }
+              )
+            : [],
+        }));
+
+        setQuestions(normalizedQuestions);
       } catch (error) {
         console.error("Error fetching questions:", error);
         setQuestions([]);
@@ -60,18 +73,16 @@ export default function QuestionnaireScreens() {
       }
     };
 
+
     fetchQuestions();
   }, []);
 
   useEffect(() => {
-    
+
     if (selectedAnswers) {
     }
   }, [showExplanation]);
 
-  
-
-  
   const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -268,9 +279,8 @@ useEffect(() => {
                               disabled={showExplanation}
                             >
                             <Text className="text-center text-sm text-secondary">
-                              {opcion.label}
+                              {opcion.label || opcion.title}
                             </Text>
-                              
                             </TouchableOpacity>
                           );
                         })}
@@ -283,8 +293,7 @@ useEffect(() => {
                           Explicación:
                         </Text>
                         <Text className="text-green-700">
-                          {currentQuestion.explicacion ||
-                            "La seña compuesta significa un saludo de Buenas Noches"}
+                          {currentQuestion.alternatives[selectedAnswers[currentQuestionIndex]]?.explanation}
                         </Text>
                       </View>
                     )}
@@ -351,17 +360,15 @@ useEffect(() => {
                               className={`w-[45%] h-[45%] max-h-[190] mb-4 p-4 bg-white dark:bg-black/20 rounded-2xl border-2 border-b-8  ${borderColor}`}
                               disabled={showExplanation}
                             >
-                              {opcion.label || opcion.imageUrl ? (
+                              {opcion.imageUrl ? (
                                 <Image
                                   source={{ uri: opcion.imageUrl }}
-                                  className="w-full h-auto"
-                                  style={{
-                                    resizeMode: "cover",
-                                  }}
+                                  className="w-full h-full"
+                                  contentFit="cover"
                                 />
                               ) : (
                                 <Text className="text-center text-sm text-secondary">
-                                  {opcion.title}
+                                  {opcion.label || opcion.title}
                                 </Text>
                               )}
                             </TouchableOpacity>
@@ -376,8 +383,7 @@ useEffect(() => {
                           Explicación:
                         </Text>
                         <Text className="text-green-700">
-                          {currentQuestion.explicacion ||
-                            "La seña compuesta significa un saludo de Buenas Noches"}
+                          {currentQuestion.alternatives[selectedAnswers[currentQuestionIndex]]?.explanation}
                         </Text>
                       </View>
                     )}
@@ -398,7 +404,7 @@ useEffect(() => {
             style={{ minWidth: 120 }}
           >
             <Text className="text-center font-semibold text-white">
-              Siguiente
+              Omitir
             </Text>
           </TouchableOpacity>
 
