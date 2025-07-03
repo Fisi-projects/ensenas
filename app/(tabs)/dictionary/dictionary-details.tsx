@@ -32,7 +32,7 @@ export default function DictionaryDetail() {
     <View className="flex-1 bg-general  px-6 py-8">
       <View className="h-[120] gap-[30]">
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/dictionary")}
+          onPress={() => router.back()}
           className="-ml-2"
         >
           <Ionicons name="close" size={35} color="gray" />
@@ -74,7 +74,7 @@ export default function DictionaryDetail() {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => router.replace("/(tabs)/dictionary")}
+        onPress={() => router.back()}
         className="bg-purple  w-full h-12 rounded-lg justify-center items-center mt-8"
       >
         <Text className="text-white text-2xl font-semibold">Volver</Text>
