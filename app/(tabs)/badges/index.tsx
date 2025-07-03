@@ -95,9 +95,9 @@ export default function Badges({ navigation }: any) {
         resizeMode="cover"
       >
         <View className="my-auto">
-          <Text className="text-3xl font-bold text-white">Diccionario</Text>
+          <Text className="text-3xl font-bold text-white">Logros</Text>
           <Text className="text-base text-white mt-1">
-            Temas teóricos por lección
+            Todos los logros de la aplicación
           </Text>
         </View>
       </ImageBackground>
