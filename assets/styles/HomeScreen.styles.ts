@@ -131,14 +131,16 @@ export default StyleSheet.create({
   },
   bookmarkIcon: {
     backgroundColor: '#6B7DF2',
-    width: 32,
-    height: 32,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
     borderRadius: 8,
+    marginRight: 6,
     justifyContent: 'center',
     alignItems: 'center',
   },
   bookmarkText: {
-    fontSize: 14,
     color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
