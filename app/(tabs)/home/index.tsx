@@ -117,10 +117,11 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.bookmarkButton}
-          onPress={() => handleBookmarkPress(module.id)}
+          onPress={() => handleModulePress(module.id)}
+          //onPress={() => handleBookmarkPress(module.id)}
         >
           <View style={styles.bookmarkIcon}>
-            <Text style={styles.bookmarkText}>📖</Text>
+            <Text style={styles.bookmarkText}>▶</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -133,12 +134,12 @@ export default function HomeScreen() {
         <View style={styles.levelContainer}>
           <Text style={styles.levelIcon}>💎</Text>
           <Text style={styles.levelText} className="text-secondary">
-            Nv. 30
+            Nv. 1
           </Text>
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakIcon}>🔥</Text>
-          <Text style={styles.streakText}>7</Text>
+          <Text style={styles.streakText}>0</Text>
         </View>
       </View>
 
