@@ -43,6 +43,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "62cfe78c-67f1-4397-af0b-a2bea4a7c425",
     },
     webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
+    apiBaseUrl: process.env.API_BASE_URL || "",
   },
   owner: config.owner ?? "ensenas",
 });

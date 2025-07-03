@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import {
   View,
   Text,
@@ -9,7 +10,15 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import styles from "../../../assets/styles/HomeScreen.styles";
-import { collection, query, where, getDocs, getFirestore } from '@react-native-firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore,
+} from "@react-native-firebase/firestore";
+import { getAuth } from "@react-native-firebase/auth";
+import Constants from "expo-constants";
 
 interface LearningModule {
   id: string;
@@ -19,52 +28,107 @@ interface LearningModule {
   badges: string[];
   isBookmarked: boolean;
 }
-  interface Chapter {
-    id: string;
-    title: string;
-    description: string;
-    imageUrl: string;
-    badges: string[];
-    isBookmarked: boolean;
-  }
+interface Chapter {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  badges: string[];
+  isBookmarked: boolean;
+}
 
 export default function HomeScreen() {
-
   const [chapters, setChapters] = React.useState<Chapter[]>([]);
   const router = useRouter();
+  const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl;
 
-    useEffect(() => {
-      const fetchLessons = async () => {
-        try {
-          const db = getFirestore();
-            const q = query(collection(db, 'chapters'));
-            const querySnapshot = await getDocs(q);
-            const fetchedChapters: Chapter[] = querySnapshot.docs.map(doc => {
-            const data = doc.data();
-            //console.log('Fetched chapter:', doc.id, data);
-            return {
-              id: doc.id,
-              title: data.title || '',
-              description: data.description || '',
-              imageUrl: data.imageUrl || '',
-              badges: data.badges || ['badge', 'badge'],
-              isBookmarked: data.isBookmarked ?? false,
-            };
-            });
-            setChapters(fetchedChapters);
-        } catch (error) {
-          console.error('Error fetching chapters:', error);
+  useEffect(() => {
+    const fetchLessons = async () => {
+      try {
+        const db = getFirestore();
+        const q = query(collection(db, "chapters"));
+        const querySnapshot = await getDocs(q);
+        const fetchedChapters: Chapter[] = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          //console.log('Fetched chapter:', doc.id, data);
+          return {
+            id: doc.id,
+            title: data.title || "",
+            description: data.description || "",
+            imageUrl: data.imageUrl || "",
+            badges: data.badges || ["badge", "badge"],
+            isBookmarked: data.isBookmarked ?? false,
+          };
+        });
+        setChapters(fetchedChapters);
+      } catch (error) {
+        console.error("Error fetching chapters:", error);
+      }
+    };
+    fetchLessons();
+  }, []);
+
+  useEffect(() => {
+    const createUserIfNotExists = async () => {
+      const user = getAuth().currentUser;
+      if (!user) {
+        console.log("No user logged in.");
+        return;
+      }
+
+      console.log("Checking if user exists...");
+
+      try {
+        const tokenResult = await user.getIdTokenResult();
+        const token = tokenResult.token;
+        const uid = tokenResult.claims.user_id;
+
+        // 1. Check if the user already exists
+        const getUserRes = await axios.get(
+          `${API_BASE_URL}user/${uid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (getUserRes.data) {
+          console.log("User already exists:", getUserRes.data);
+          return; // ✅ User exists, do not create
         }
-      };
-      fetchLessons();
-    }, []);
+
+        // 2. Create the user
+        console.log("User does not exist, creating...");
+        const createUserRes = await axios.post(
+          `${API_BASE_URL}user`,
+          {}, // if your POST body is empty
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        console.log("User created:", createUserRes.data);
+      } catch (err) {
+        console.error("Error during user check/creation:", err);
+      }
+    };
+
+    createUserIfNotExists();
+  }, []);
 
   const handleModulePress = (moduleId: string) => {
     const module = chapters.find((m) => m.id === moduleId);
     if (module) {
       router.push({
         pathname: "/home/lessons/[id]",
-        params: {id: module.id, title: module.title, subtitle: module.description},
+        params: {
+          id: module.id,
+          title: module.title,
+          subtitle: module.description,
+        },
       });
     }
   };
@@ -81,7 +145,11 @@ export default function HomeScreen() {
     >
       <View style={styles.illustrationSection}>
         <Image
-          source={module.imageUrl ? { uri: module.imageUrl } : require("../../../assets/images/book.png")}
+          source={
+            module.imageUrl
+              ? { uri: module.imageUrl }
+              : require("../../../assets/images/book.png")
+          }
           style={styles.illustrationImage}
         />
       </View>
@@ -118,7 +186,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.bookmarkButton}
           onPress={() => handleModulePress(module.id)}
-          //onPress={() => handleBookmarkPress(module.id)}
+        //onPress={() => handleBookmarkPress(module.id)}
         >
           <View style={styles.bookmarkIcon}>
             <Text style={styles.bookmarkText}>▶</Text>
