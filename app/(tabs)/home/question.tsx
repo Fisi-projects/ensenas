@@ -354,9 +354,7 @@ useEffect(() => {
                           return (
                             <TouchableOpacity
                               key={idx}
-                              onPress={() =>
-                                handleAnswerSelect(currentQuestionIndex, idx)
-                              }
+                              onPress={() => handleAnswerSelect(currentQuestionIndex, idx)}
                               className={`w-[45%] h-[45%] max-h-[190] mb-4 p-4 bg-white dark:bg-black/20 rounded-2xl border-2 border-b-8  ${borderColor}`}
                               disabled={showExplanation}
                             >
