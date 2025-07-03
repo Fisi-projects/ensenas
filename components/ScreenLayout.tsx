@@ -12,7 +12,13 @@ const themes = {
       '--color-fourth':'425466',
       '--color-lessons':'white',
       '--color-card':'#f4f5f9',
-      '--color-card-text':'#425466', // Color del texto de las tarjetas (No seteado)
+      '--color-card-text':'#425466', 
+      //
+      '--color-general':'white', // Color de fondo general
+      '--color-secondary-card': 'white', 
+      '--color-title': '#425466', // Color del título
+      '--color-icons': '#425466', // Color de los iconos
+      
     }),
     dark: vars({
       '--color-primary': '#1a1c20',
@@ -22,6 +28,11 @@ const themes = {
       '--color-lessons':'#24262F',
       '--color-card':'#D1D1D1',
       '--color-card-text':'white',
+      //
+      '--color-general':'#14161B', // Color de fondo general
+      '--color-secondary-card': '#313843', // Color púrpura
+      '--color-title': 'white', // Color del título
+      '--color-icons': 'white', // Color de los iconos
     }),
   },
 };

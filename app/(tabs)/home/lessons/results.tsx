@@ -1,15 +1,12 @@
 "use client";
-import { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,
-  Dimensions,
 } from "react-native";
-
-const { width, height } = Dimensions.get("window");
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 
 export default function QuizResultsScreen({
   score = 0,
@@ -22,9 +19,25 @@ export default function QuizResultsScreen({
   onRetry?: () => void;
   onContinue?: () => void;
 }) {
-  const handleClose = () => {
-    onContinue();
+  const colorScheme = useColorScheme(); // Correct destructuring
+  const percentage = totalQuestions === 0 ? 0 : (score / totalQuestions) * 100;
+
+  const getEncouragementMessage = () => {
+    if (percentage >= 80) return "¡Excelente trabajo!";
+    if (percentage >= 60) return "¡Buen trabajo, sigue así!";
+    if (percentage >= 40) return "Vas por buen camino, ¡sigue practicando!";
+    return "¡Aún tienes mucho por mejorar!";
   };
+
+  const getEncouragementIcon = () => {
+    if (percentage >= 80) return "grin-stars";
+    if (percentage >= 60) return "grin-beam";
+    if (percentage >= 40) return "meh";
+    return "frown";
+  };
+
+  const getExp = () => score * 10;
+  const getPrecision = () => `${Math.round(percentage)}%`;
 
   const handleContinue = () => {
     onContinue();
@@ -34,111 +47,87 @@ export default function QuizResultsScreen({
     onRetry();
   };
 
-  const getEncouragementMessage = () => {
-    const percentage = (score / totalQuestions) * 100;
-    if (percentage >= 80) return "¡Excelente trabajo!";
-    if (percentage >= 60) return "¡Buen trabajo, sigue así!";
-    if (percentage >= 40) return "Vas por buen camino, ¡sigue practicando!";
-    return "¡Aún tienes mucho por mejorar!";
-  };
-
-  // Close Icon Component (simple X)
-  const CloseIcon = () => (
-    <View className="w-6 h-6 items-center justify-center">
-      <View className="w-4 h-0.5 bg-gray-600 absolute rotate-45" />
-      <View className="w-4 h-0.5 bg-gray-600 absolute -rotate-45" />
-    </View>
-  );
-
-  // Refresh Icon Component
-  const RefreshIcon = () => (
-    <View className="w-5 h-5 items-center justify-center mr-2">
-      <View className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
-      <View className="absolute top-0 right-0.5 w-0 h-0 border-l-2 border-r-2 border-b-2 border-l-transparent border-r-white border-b-white" />
-    </View>
-  );
-
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="#f3f4f6"
-        translucent={false}
-      />
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 bg-general px-6 py-8">
+        <View className="grow justify-center">
+          {/* Título */}
+          <View className="items-center">
+            <Text className="text-title font-bold text-4xl mb-4">
+              Resultados
+            </Text>
+            {/* Puntuación */}
+            <Text className="text-title text-xl font-semibold mb-8">
+              Puntuación: {score}/{totalQuestions}
+            </Text>
+            {/* Espacio vertical */}
+            <View className="mb-8" style={{ height: 30 }} />
+          </View>
 
-      {/* Main Content */}
-      <View className="flex-1 px-6 py-8">
-        {/* Spacer for better vertical centering */}
-        <View className="flex-1" />
-
-        {/* Results Button */}
-        <View className="items-center mb-8">
-          <TouchableOpacity
-            className="bg-gray-800 px-12 py-3 rounded-lg shadow-md active:bg-gray-700"
-            activeOpacity={0.8}
-          >
-            <Text className="text-white font-semibold text-lg">Resultados</Text>
-          </TouchableOpacity>
+          <View className="flex-row items-center bg-secondary-card rounded-lg px-4 py-4 mb-4 w-full">
+            <FontAwesome5
+              name={getEncouragementIcon()}
+              size={24}
+              className="mr-3"
+              color={colorScheme.colorScheme === "dark" ? "#fff" : "#8570FF"}
+            />
+            <Text className="text-title text-lg font-medium">
+              {getEncouragementMessage()}
+            </Text>
+          </View>
+          {/* Exp obtenida */}
+          <View className="flex-row justify-between items-center bg-secondary-card rounded-lg px-4 py-4 mb-4 w-full">
+            <View className="flex-row items-center">
+              <FontAwesome5
+                name="star"
+                size={22}
+                className="mr-3"
+                color={colorScheme.colorScheme === "dark" ? "#fff" : "#8570FF"}
+              />
+              <Text className="text-title text-lg font-medium">
+                Exp obtenida
+              </Text>
+            </View>
+            <Text className="text-title text-lg font-medium">{getExp()}</Text>
+          </View>
+          {/* Precisión */}
+          <View className="flex-row justify-between bg-secondary-card rounded-lg px-4 py-4 mb-8 w-full">
+            <View className="flex-row">
+              <FontAwesome5
+                name="bullseye"
+                size={22}
+                className="mr-3"
+                color={colorScheme.colorScheme === "dark" ? "#fff" : "#8570FF"}
+              />
+              <Text className="text-title text-lg font-medium">Precisión</Text>
+            </View>
+            <Text className="text-title text-lg font-medium">
+              {getPrecision()}
+            </Text>
+          </View>
         </View>
 
-        {/* Results Content */}
-        <View className="items-center mb-12 bg-white p-5 rounded-lg">
-          <Text className="text-gray-700 text-base mb-3">Tus resultados:</Text>
-
-          <Text className="text-xl font-bold text-gray-800 mb-6">
-            Puntuación: {score}/{totalQuestions}
-          </Text>
-
-          <Text className="text-gray-600 text-center text-base leading-6 px-4">
-            {getEncouragementMessage()}
-          </Text>
-        </View>
-
-        {/* Spacer for better vertical centering */}
-        <View className="flex-1" />
-
-        {/* Action Buttons */}
+        {/* Botones */}
         <View className="gap-4">
-          {/* Continue Button */}
           <TouchableOpacity
             onPress={handleContinue}
-            className="bg-pink-500 py-4 px-6 rounded-xl shadow-lg active:bg-pink-600"
+            className="bg-purple py-4 px-6 rounded-xl "
             activeOpacity={0.8}
-            style={{
-              shadowColor: "#ec4899",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.25,
-              shadowRadius: 8,
-              elevation: 8,
-            }}
           >
             <Text className="text-white text-center font-semibold text-lg">
               Continuar
             </Text>
           </TouchableOpacity>
-
-          {/* Retry Button */}
           <TouchableOpacity
             onPress={handleRetry}
-            className="bg-blue-500 py-4 px-6 rounded-xl shadow-lg active:bg-blue-600 flex-row items-center justify-center"
+            className=" py-4 px-6 rounded-xl w-full border border-purple"
             activeOpacity={0.8}
-            style={{
-              shadowColor: "#3b82f6",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.25,
-              shadowRadius: 8,
-              elevation: 8,
-            }}
           >
-            <RefreshIcon />
-            <Text className="text-white font-semibold text-lg">
+            <Text className="text-title mx-auto font-semibold text-lg">
               Volver a intentar
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* Bottom spacing for safe area */}
-        <View className="h-4" />
       </View>
     </SafeAreaView>
   );
