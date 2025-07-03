@@ -20,12 +20,12 @@ export default function DictionaryDetail() {
 
   return (
     <View className="flex-1 bg-general  px-6 py-8">
-      <View className="h-[120] pt-5 gap-[30]">
+      <View className="h-[120] gap-[30]">
         <TouchableOpacity
           onPress={() => router.replace("/(tabs)/dictionary")}
           className="-ml-2"
         >
-          <Ionicons name="close" size={35} color="white" />
+          <Ionicons name="close" size={35} color="gray" />
         </TouchableOpacity>
       </View>
       <View className="justify-top items-center grow">
@@ -59,7 +59,7 @@ export default function DictionaryDetail() {
         <Text className="text-3xl dark:text-white font-bold my-4">
           {word || "Palabra no disponible"}
         </Text>
-        <Text className="text-lg text-card ">
+        <Text className="text-lg text-title ">
           {description || "Sin descripción disponible."}
         </Text>
       </View>
@@ -67,7 +67,7 @@ export default function DictionaryDetail() {
         onPress={() => router.replace("/(tabs)/dictionary")}
         className="bg-purple  w-full h-12 rounded-lg justify-center items-center mt-8"
       >
-        <Text className="dark:text-white text-2xl font-semibold">Volver</Text>
+        <Text className="text-white text-2xl font-semibold">Volver</Text>
       </TouchableOpacity>
     </View>
   );
