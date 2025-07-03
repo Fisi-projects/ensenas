@@ -343,7 +343,7 @@ export default function Settings() {
 
         <View>
           <TouchableOpacity
-            className="bg-[#EF476F] rounded-lg p-4 flex-row items-center justify-center"
+            className="bg-purple rounded-lg p-4 flex-row items-center justify-center"
             onPress={handleLogout}
           >
             <Ionicons name="log-out" size={20} color="white" />
