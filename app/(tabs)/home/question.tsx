@@ -249,7 +249,7 @@ export default function QuestionnaireScreens() {
                   </Text>
                 </View>
 
-                {/* {currentQuestion.imageUrl && (
+                {currentQuestion.imageUrl && (
                   <View
                     className="items-center mb-4 overflow-hidden w-full max-w-[350] h-[180]"
                   >
@@ -264,7 +264,7 @@ export default function QuestionnaireScreens() {
                       contentFit="contain"  //cambiar a cover, img estandar
                     />
                   </View>
-                )} */}
+                )} 
 
                 <View className="px-5 mb-6 flex-row gap-3">
                   <View className="bg-purple  justify-center rounded-md h-[35] w-[35] items-center">
