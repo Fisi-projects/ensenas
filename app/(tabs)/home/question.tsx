@@ -345,24 +345,18 @@ useEffect(() => {
                           return (
                             <TouchableOpacity
                               key={idx}
-                              onPress={() =>
-                                handleAnswerSelect(currentQuestionIndex, idx)
-                              }
+                              onPress={() => handleAnswerSelect(currentQuestionIndex, idx)}
                               className={`w-[45%] h-[45%] max-h-[190] mb-4 p-4 bg-white dark:bg-black/20 rounded-2xl border-2 border-b-8  ${borderColor}`}
                               disabled={showExplanation}
                             >
-                              {opcion.label || opcion.imageUrl ? (
-                                <Image
-                                  source={{ uri: opcion.imageUrl }}
-                                  className="w-full h-auto"
-                                  style={{
-                                    resizeMode: "cover",
-                                  }}
-                                />
-                              ) : (
-                                <Text className="text-center text-sm text-secondary">
-                                  {opcion.title}
-                                </Text>
+                              {opcion.imageUrl && (
+                                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "100%" }}>
+                                  <Image
+                                    source={{ uri: opcion.imageUrl }}
+                                    style={{ width: "100%", height: 100, resizeMode: "contain" }}
+                                    contentFit="contain"
+                                  />
+                                </View>
                               )}
                             </TouchableOpacity>
                           );
