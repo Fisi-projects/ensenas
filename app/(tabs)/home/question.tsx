@@ -104,12 +104,17 @@ export default function QuestionnaireScreens() {
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  useEffect(() => {
-    if (currentQuestion?.title) {
-      Speech.speak(currentQuestion.title);
-    }
-  }, [currentQuestionIndex, currentQuestion?.title]);
-
+useEffect(() => {
+  if (currentQuestion?.title) {
+    Speech.speak(currentQuestion.title, {
+      onDone: () => {
+        if (currentQuestion?.description) {
+          Speech.speak(currentQuestion.description);
+        }
+      }
+    });
+  }
+}, [currentQuestionIndex, currentQuestion?.title, currentQuestion?.description]);
 
 
   const progress =

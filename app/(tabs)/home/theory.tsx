@@ -12,6 +12,8 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Smartlook from "react-native-smartlook-analytics";
+import * as Speech from 'expo-speech';
+
 /* interface TheoryContent {
   id: string;
   title: string;
@@ -91,6 +93,21 @@ export default function TheoryScreen() {
       });
     }
   };
+
+
+useEffect(() => {
+  if (contents[currentIndex]?.title) {
+    Speech.speak(contents[currentIndex].title, {
+      onDone: () => {
+        if (contents[currentIndex]?.description) {
+          Speech.speak(contents[currentIndex].description);
+        }
+      }
+    });
+  }
+}, [currentIndex, contents[currentIndex]?.title, contents[currentIndex]?.description]);
+
+
 
   return (
     <SafeAreaView style={[{ flex: 1 }, pageBg]}>
